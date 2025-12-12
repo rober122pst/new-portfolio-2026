@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { KeyboardControls, Sky } from '@react-three/drei';
+
+import { Physics } from '@react-three/cannon';
+import { Canvas } from '@react-three/fiber';
+import { Level } from './components/Level';
+import { Player } from './components/Player';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const keyboardMap = [
+        { name: 'forward', keys: ['ArrowUp', 'KeyW'] },
+        { name: 'backward', keys: ['ArrowDown', 'KeyS'] },
+        { name: 'left', keys: ['ArrowLeft', 'KeyA'] },
+        { name: 'right', keys: ['ArrowRight', 'KeyD'] },
+        { name: 'jump', keys: ['Space'] },
+    ];
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <KeyboardControls map={keyboardMap}>
+            <Canvas shadows camera={{ fov: 45 }}>
+                <ambientLight intensity={0.5} />
+                <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+                <Sky sunPosition={[100, 20, 100]} />
+                <Physics gravity={[0, -9.81, 0]}>
+                    <Level />
+                    <Player />
+                </Physics>
+            </Canvas>
+        </KeyboardControls>
+    );
 }
 
-export default App
+export default App;
