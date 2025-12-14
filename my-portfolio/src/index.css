@@ -1,7 +1,9 @@
+@import url(https://db.onlinewebfonts.com/c/0bae535590ffdc6ffb2cfa45b8fb2ae3?family=PxPlus+IBM+VGA8);
 @import "tailwindcss";
 
 * {
 	box-sizing: border-box;
+  font-family: "PxPlus IBM VGA8";
 }
 
 html,
@@ -13,6 +15,7 @@ body,
 	padding: 0;
 	overflow: hidden;
 	background: #000;
+  image-rendering: pixelated;
 }
 
 .crt::before {
@@ -43,6 +46,10 @@ body,
   animation: scan 10s linear infinite;
   pointer-events: none;
   z-index: 9999;
+}
+
+.border-groove {
+  border-style: groove;
 }
 
 @keyframes scan {
