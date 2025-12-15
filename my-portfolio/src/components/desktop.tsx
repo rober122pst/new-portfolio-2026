@@ -9,7 +9,7 @@ export function Desktop() {
     interface Program {
         id: string;
         name: string;
-        icon: React.ComponentType<{ size?: number }>;
+        icon: React.ComponentType<{ className?: string; size?: number }>;
         action: () => void;
     }
 
@@ -55,7 +55,7 @@ export function Desktop() {
             "
             onClick={handleDesktopClick}
         >
-            <div ref={desktopRef} className="absolute -inset-x-56 inset-y-0" />
+            <div ref={desktopRef} className="absolute -inset-x-56 inset-y-0 pointer-events-none" />
             <Window program={programs[0]} desktopRef={desktopRef} />
             {programs.map((p, index) => {
                 const isSelected = selected.includes(p.id);
