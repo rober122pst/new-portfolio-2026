@@ -21,7 +21,7 @@ export function Taskbar() {
                 <img className="size-4" src={soLogo} alt="Logo do SO" />
                 Iniciar
             </TaskbarButton>
-            <div className="border-3 px-3 py-0.5 border-b-zinc-700 border-r-zinc-700 border-l-zinc-900 border-t-zinc-900 bg-zinc-900/30 flex items-center">
+            <div className="border-3 px-3 py-0.5 border-sunk bg-zinc-900/30 flex items-center">
                 <div className="mr-2 p-1.5">
                     <img src={volumeIcon} alt="volume" />
                 </div>

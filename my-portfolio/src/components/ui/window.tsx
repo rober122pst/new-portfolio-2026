@@ -5,5 +5,5 @@ interface WindowProps {
 }
 
 export function Window({ className }: WindowProps) {
-    return <div className={twMerge('fixed top-20 left-20 size-56 bg-red-500', className)}></div>;
+    return <div className={twMerge('fixed top-1/2 left-1/2 -translate-2/3 size-96 bg-zinc-800', className)}></div>;
 }

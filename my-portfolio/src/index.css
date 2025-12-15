@@ -52,6 +52,14 @@ body,
   border-style: groove;
 }
 
+@utility border-elevated {
+  @apply border-t-zinc-700 border-l-zinc-700 border-r-zinc-900 border-b-zinc-900
+}
+
+@utility border-sunk {
+  @apply border-b-zinc-700 border-r-zinc-700 border-l-zinc-900 border-t-zinc-900
+}
+
 @keyframes scan {
   0% {
     top: -10%;
