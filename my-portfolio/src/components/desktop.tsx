@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+
 import { MyComputerIcon } from './ui/icons';
 import { Window } from './ui/window';
 
 export function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);
+    const desktopRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
     interface Program {
         id: string;
         name: string;
@@ -26,36 +28,35 @@ export function Desktop() {
         setSelected([]);
     };
 
-    const handleSelected = (
-        e: React.MouseEvent<HTMLButtonElement>,
-        id: string,
-        isSelected: boolean,
-        action: () => void
-    ) => {
+    const handleSelected = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.stopPropagation();
 
-        if (!isSelected) {
-            setSelected([id]);
-            return;
-        }
+        setSelected([id]);
+    };
 
+    const handleExecProgram = (e: React.MouseEvent<HTMLButtonElement>, action: () => void) => {
+        e.stopPropagation();
         action();
         setSelected([]);
     };
 
     return (
         <main
-            className="h-full w-full bg-zinc-950 grid 
-              grid-flow-col 
-              grid-rows-[repeat(auto-fill,96px)] 
-              auto-cols-[96px] 
-              gap-2 
-              p-4
-              content-start
-              select-none"
+            className="
+                relative 
+                h-full w-full bg-zinc-950 grid 
+                grid-flow-col 
+                grid-rows-[repeat(auto-fill,96px)] 
+                auto-cols-[96px] 
+                gap-2 
+                p-4
+                content-start
+                select-none
+            "
             onClick={handleDesktopClick}
         >
-            <Window program={programs[0]} />
+            <div ref={desktopRef} className="absolute -inset-x-56 inset-y-0" />
+            <Window program={programs[0]} desktopRef={desktopRef} />
             {programs.map((p, index) => {
                 const isSelected = selected.includes(p.id);
 
@@ -73,7 +74,8 @@ export function Desktop() {
                             hover:bg-white/20
                             data-[selected=true]:bg-white/40
                         "
-                        onClick={(e) => handleSelected(e, p.id, isSelected, p.action)}
+                        onClick={(e) => handleSelected(e, p.id)}
+                        onDoubleClick={(e) => handleExecProgram(e, p.action)}
                     >
                         <p.icon size={40} />
                         <span className="text-xs mt-1 text-center">{p.name}</span>

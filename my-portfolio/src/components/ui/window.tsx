@@ -1,5 +1,6 @@
-import { twMerge } from 'tailwind-merge';
 import { Button } from './buttons';
+import { motion } from 'motion/react';
+import { twMerge } from 'tailwind-merge';
 
 interface Program {
     id: string;
@@ -11,15 +12,17 @@ interface Program {
 interface WindowProps {
     className?: string;
     program: Program;
+    desktopRef?: React.RefObject<HTMLElement>;
 }
 
-export function Window({ className, program }: WindowProps) {
+export function Window({ className, program, desktopRef }: WindowProps) {
     return (
-        <div
-            className={twMerge(
-                'fixed top-1/2 left-1/2 -translate-2/3 min-w-80 bg-zinc-800 border-2 border-elevated p-1.5',
-                className
-            )}
+        <motion.div
+            drag
+            dragConstraints={desktopRef ? desktopRef : undefined}
+            dragElastic={0}
+            dragMomentum={false}
+            className={twMerge('absolute min-w-80 bg-zinc-800 border-2 border-elevated p-1.5', className)}
         >
             <div className="flex items-center justify-between h-8 flex-1 bg-linear-to-r from-berry-800 to-berry-700 py-0.5 px-2 box-border">
                 <div className="flex items-center gap-1.5 text-white">
@@ -32,6 +35,6 @@ export function Window({ className, program }: WindowProps) {
                     <Button className="bg-zinc-800 text-white ml-1.5 size-6 text-center px-0">X</Button>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
