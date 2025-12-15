@@ -1,6 +1,48 @@
-import folderIcon from '../assets/icons/folder_icon.ico';
+import { useState } from 'react';
+import { MyComputerIcon } from './ui/icons';
+import { Window } from './ui/window';
 
 export function Desktop() {
+    const [selected, setSelected] = useState<string[]>([]);
+    interface Program {
+        id: string;
+        name: string;
+        icon: React.ComponentType<{ size: number }>;
+        action: () => void;
+    }
+
+    const programs: Program[] = [
+        {
+            id: 'my-computer',
+            name: 'Meu Computador',
+            icon: MyComputerIcon,
+            action: () => {
+                console.log('Funciona');
+            },
+        },
+    ];
+
+    const handleDesktopClick = () => {
+        setSelected([]);
+    };
+
+    const handleSelected = (
+        e: React.MouseEvent<HTMLButtonElement>,
+        id: string,
+        isSelected: boolean,
+        action: () => void
+    ) => {
+        e.stopPropagation();
+
+        if (!isSelected) {
+            setSelected([id]);
+            return;
+        }
+
+        action();
+        setSelected([]);
+    };
+
     return (
         <main
             className="h-full w-full bg-zinc-950 grid 
@@ -10,33 +52,33 @@ export function Desktop() {
               gap-2 
               p-4
               content-start"
+            onClick={handleDesktopClick}
         >
-            <div
-                className="
-                    w-20 h-fit
-                    flex flex-col items-center justify-center
-                    cursor-pointer
-                    text-white
-                    select-none 
-                    hover:bg-white/20
-                "
-            >
-                <img src={folderIcon} className="w-10 h-10" />
-                <span className="text-xs mt-1 text-center">Nova Pasta</span>
-            </div>
-            <div
-                className="
-                    w-20 h-fit
-                    flex flex-col items-center justify-center
-                    cursor-pointer
-                    text-white
-                    select-none 
-                    hover:bg-white/20
-                "
-            >
-                <img src={folderIcon} className="w-10 h-10" />
-                <span className="text-xs mt-1 text-center">Nova Pasta</span>
-            </div>
+            <Window />
+            {programs.map((p, index) => {
+                const isSelected = selected.includes(p.id);
+
+                return (
+                    <button
+                        key={index}
+                        data-selected={isSelected}
+                        className="
+                            w-24 h-fit
+                            flex flex-col items-center justify-center
+                            cursor-pointer
+                            text-white
+                            select-none 
+                            py-1.5
+                            hover:bg-white/20
+                            data-[selected=true]:bg-white/40
+                        "
+                        onClick={(e) => handleSelected(e, p.id, isSelected, p.action)}
+                    >
+                        <p.icon size={40} />
+                        <span className="text-xs mt-1 text-center">{p.name}</span>
+                    </button>
+                );
+            })}
         </main>
     );
 }

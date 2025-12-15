@@ -16,7 +16,7 @@ export function Taskbar() {
     }, []);
 
     return (
-        <footer className="flex justify-between items-center w-full p-1 bg-zinc-800 text-white text-[12px]">
+        <footer className="flex justify-between items-center w-full p-1 bg-zinc-800 text-white text-[12px] select-none">
             <TaskbarButton className="flex items-center gap-1">
                 <img className="size-4" src={soLogo} alt="Logo do SO" />
                 Iniciar
