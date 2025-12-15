@@ -7,7 +7,7 @@ export function Desktop() {
     interface Program {
         id: string;
         name: string;
-        icon: React.ComponentType<{ size: number }>;
+        icon: React.ComponentType<{ size?: number }>;
         action: () => void;
     }
 
@@ -51,10 +51,11 @@ export function Desktop() {
               auto-cols-[96px] 
               gap-2 
               p-4
-              content-start"
+              content-start
+              select-none"
             onClick={handleDesktopClick}
         >
-            <Window />
+            <Window program={programs[0]} />
             {programs.map((p, index) => {
                 const isSelected = selected.includes(p.id);
 

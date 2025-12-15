@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import volumeIcon from '../assets/icons_taskbar/volume.ico';
 import soLogo from '../assets/so_logo.ico';
-import { TaskbarButton } from './ui/buttons';
+import { Button } from './ui/buttons';
 
 export function Taskbar() {
     const [now, setNow] = useState(new Date());
@@ -17,11 +17,11 @@ export function Taskbar() {
 
     return (
         <footer className="flex justify-between items-center w-full p-1 bg-zinc-800 text-white text-[12px] select-none">
-            <TaskbarButton className="flex items-center gap-1">
+            <Button className="flex items-center gap-1">
                 <img className="size-4" src={soLogo} alt="Logo do SO" />
                 Iniciar
-            </TaskbarButton>
-            <div className="border-3 px-3 py-0.5 border-sunk bg-zinc-900/30 flex items-center">
+            </Button>
+            <div className="border-2 px-3 py-0.5 border-sunk bg-zinc-900/30 flex items-center">
                 <div className="mr-2 p-1.5">
                     <img src={volumeIcon} alt="volume" />
                 </div>

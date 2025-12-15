@@ -1,6 +1,12 @@
 @import url(https://db.onlinewebfonts.com/c/0bae535590ffdc6ffb2cfa45b8fb2ae3?family=PxPlus+IBM+VGA8);
 @import "tailwindcss";
 
+@theme {
+  --color-berry-600: #942c4b;
+  --color-berry-700: #621748;
+  --color-berry-800: #3d003d;
+}
+
 * {
 	box-sizing: border-box;
   font-family: "PxPlus IBM VGA8";
@@ -53,11 +59,15 @@ body,
 }
 
 @utility border-elevated {
-  @apply border-t-zinc-700 border-l-zinc-700 border-r-zinc-900 border-b-zinc-900
+  @apply border-t-zinc-800 border-l-zinc-800 border-r-zinc-950 border-b-zinc-950 shadow-[inset_2px_2px_0px_oklch(37%_0.013_285.805),inset_-2px_-2px_0px_oklch(21%_0.006_285.885)]
+}
+
+@utility border-button {
+  @apply border-t-zinc-700 border-l-zinc-700 border-r-zinc-950 border-b-zinc-950 shadow-[inset_-2px_-2px_0px_oklch(21%_0.006_285.885_/0.7)] active:border-none active:shadow-[inset_2px_2px_0px_oklch(14.1%_0.005_285.823),inset_-2px_-2px_0px_oklch(37%_0.013_285.805)]
 }
 
 @utility border-sunk {
-  @apply border-b-zinc-700 border-r-zinc-700 border-l-zinc-900 border-t-zinc-900
+  @apply border-b-zinc-700 border-r-zinc-700 border-l-zinc-950 border-t-zinc-950
 }
 
 @keyframes scan {
