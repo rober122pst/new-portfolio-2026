@@ -44,7 +44,7 @@ export function Desktop() {
         <main
             className="
                 relative 
-                h-full w-full bg-zinc-950 grid 
+                h-full w-full grid 
                 grid-flow-col 
                 grid-rows-[repeat(auto-fill,96px)] 
                 auto-cols-[96px] 
@@ -52,6 +52,8 @@ export function Desktop() {
                 p-4
                 content-start
                 select-none
+                bg-[url(/src/assets/youlooklonely.png)]
+                bg-center bg-auto
             "
             onClick={handleDesktopClick}
         >
