@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
-type Window = {
-    id: number | string;
+export type Window = {
+    id: string;
     pid: string;
     position: { x: number; y: number };
     size: { width: number; height: number };
@@ -17,9 +17,12 @@ type WindowStore = {
     openWindow: (pid: string, size?: { width: number; height: number }) => void;
     closeWindow: (pid: string) => void;
 
-    focusWindow: (pid: string) => void;
+    setFocusWindow: (pid: string, setFocus: boolean) => boolean;
     minimizeWindow: (pid: string) => void;
     maximizeWindow: (pid: string) => void;
+
+    setPosition: (pid: string, position: { x: number; y: number }) => void;
+    setSize: (pid: string, size: { width: number; height: number }) => void;
 };
 
 export const useWindowStore = create<WindowStore>((set) => ({
@@ -52,17 +55,26 @@ export const useWindowStore = create<WindowStore>((set) => ({
             windows: state.windows.filter((w) => w.id !== id),
         })),
 
-    focusWindow: (id) =>
-        set((state) => {
-            const nextZ = state.topZIndex + 1;
+    setFocusWindow: (id, setFocus) => {
+        if (setFocus) {
+            set((state) => {
+                const nextZ = state.topZIndex + 1;
 
-            return {
-                windows: state.windows.map((w) =>
-                    w.id === id ? { ...w, isFocused: true, zIndex: nextZ } : { ...w, isFocused: false }
-                ),
-                topZIndex: nextZ,
-            };
-        }),
+                return {
+                    windows: state.windows.map((w) =>
+                        w.id === id ? { ...w, isFocused: true, zIndex: nextZ } : { ...w, isFocused: false }
+                    ),
+                    topZIndex: nextZ,
+                };
+            });
+            return true;
+        } else {
+            set((state) => ({
+                windows: state.windows.map((w) => (w.id === id ? { ...w, isFocused: false } : w)),
+            }));
+            return false;
+        }
+    },
 
     minimizeWindow: (id) =>
         set((state) => ({
@@ -72,5 +84,15 @@ export const useWindowStore = create<WindowStore>((set) => ({
     maximizeWindow: (id) =>
         set((state) => ({
             windows: state.windows.map((w) => (w.id === id ? { ...w, isMaximized: !w.isMaximized } : w)),
+        })),
+
+    setPosition: (id, position) =>
+        set((state) => ({
+            windows: state.windows.map((w) => (w.id === id ? { ...w, position } : w)),
+        })),
+
+    setSize: (id, size) =>
+        set((state) => ({
+            windows: state.windows.map((w) => (w.id === id ? { ...w, size } : w)),
         })),
 }));

@@ -1,8 +1,9 @@
 import { create } from 'zustand';
+import type { AppId } from '../core/appRegistry';
 
 type Process = {
     pid: string;
-    appId: string;
+    appId: AppId;
     status: 'running' | 'suspended' | 'closed';
     data?: unknown;
 };
@@ -10,7 +11,7 @@ type Process = {
 type ProcessStore = {
     processes: Process[];
 
-    openProcess: (appId: string, data?: unknown) => string;
+    openProcess: (appId: AppId, data?: unknown) => string;
     closeProcess: (pid: string) => void;
     getProcess: (pid: string) => Process | undefined;
 };

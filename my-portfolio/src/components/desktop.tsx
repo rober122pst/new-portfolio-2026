@@ -1,42 +1,28 @@
 import { useRef, useState } from 'react';
 
-import { MyComputerIcon } from './ui/icons';
-import { Window } from './ui/window';
+import { appRegistry, type AppId } from '../core/appRegistry';
+import { useProcessStore } from '../store/processes';
+import { useWindowStore } from '../store/windows';
+import { WindowManager } from './windowManager';
 
 export function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);
     const desktopRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
-    interface Program {
-        id: string;
-        name: string;
-        icon: React.ComponentType<{ className?: string; size?: number }>;
-        action: () => void;
-    }
-
-    const programs: Program[] = [
-        {
-            id: 'my-computer',
-            name: 'Meu Computador',
-            icon: MyComputerIcon,
-            action: () => {
-                console.log('Funciona');
-            },
-        },
-    ];
 
     const handleDesktopClick = () => {
         setSelected([]);
     };
 
-    const handleSelected = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+    const handleSelected = (e: React.MouseEvent<HTMLButtonElement>, id: AppId) => {
         e.stopPropagation();
 
         setSelected([id]);
     };
 
-    const handleExecProgram = (e: React.MouseEvent<HTMLButtonElement>, action: () => void) => {
+    const handleExecProgram = (e: React.MouseEvent<HTMLButtonElement>, id: AppId) => {
         e.stopPropagation();
-        action();
+        const pid = useProcessStore.getState().openProcess(id);
+        useWindowStore.getState().openWindow(pid);
         setSelected([]);
     };
 
@@ -58,13 +44,13 @@ export function Desktop() {
             onClick={handleDesktopClick}
         >
             <div ref={desktopRef} className="absolute -inset-x-56 inset-y-0 pointer-events-none" />
-            <Window program={programs[0]} desktopRef={desktopRef} />
-            {programs.map((p, index) => {
-                const isSelected = selected.includes(p.id);
+            <WindowManager />
+            {Object.entries(appRegistry).map(([appId, app]) => {
+                const isSelected = selected.includes(appId);
 
                 return (
                     <button
-                        key={index}
+                        key={appId}
                         data-selected={isSelected}
                         className="
                             w-24 h-fit
@@ -76,11 +62,11 @@ export function Desktop() {
                             hover:bg-white/20
                             data-[selected=true]:bg-white/40
                         "
-                        onClick={(e) => handleSelected(e, p.id)}
-                        onDoubleClick={(e) => handleExecProgram(e, p.action)}
+                        onClick={(e) => handleSelected(e, appId as AppId)}
+                        onDoubleClick={(e) => handleExecProgram(e, appId as AppId)}
                     >
-                        <p.icon size={40} />
-                        <span className="text-xs mt-1 text-center">{p.name}</span>
+                        <app.icon size={40} />
+                        <span className="text-xs mt-1 text-center">{app.name}</span>
                     </button>
                 );
             })}
