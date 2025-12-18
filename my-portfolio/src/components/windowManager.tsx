@@ -3,7 +3,7 @@ import { useProcessStore } from '../store/processes';
 import { useWindowStore } from '../store/windows';
 import { Window } from './ui/window';
 
-export function WindowManager() {
+export function WindowManager({ desktopRef }: { desktopRef?: React.RefObject<HTMLElement> }) {
     const { windows } = useWindowStore();
     const getProcess = useProcessStore((p) => p.getProcess);
 
@@ -20,7 +20,7 @@ export function WindowManager() {
                 const AppComponent = app.component;
 
                 return (
-                    <Window key={window.id} myWindow={window}>
+                    <Window key={window.id} myWindow={window} desktopRef={desktopRef}>
                         <AppComponent />
                     </Window>
                 );

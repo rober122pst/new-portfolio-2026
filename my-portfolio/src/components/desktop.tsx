@@ -28,6 +28,7 @@ export function Desktop() {
 
     return (
         <main
+            ref={desktopRef}
             className="
                 relative 
                 h-full w-full grid 
@@ -43,8 +44,7 @@ export function Desktop() {
             "
             onClick={handleDesktopClick}
         >
-            <div ref={desktopRef} className="absolute -inset-x-56 inset-y-0 pointer-events-none" />
-            <WindowManager />
+            <WindowManager desktopRef={desktopRef} />
             {Object.entries(appRegistry).map(([appId, app]) => {
                 const isSelected = selected.includes(appId);
 

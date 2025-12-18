@@ -18,11 +18,11 @@ type WindowStore = {
     closeWindow: (pid: string) => void;
 
     setFocusWindow: (pid: string, setFocus: boolean) => boolean;
-    minimizeWindow: (pid: string) => void;
-    maximizeWindow: (pid: string) => void;
+    minimizeWindow: (id: string) => void;
+    maximizeWindow: (id: string) => void;
 
-    setPosition: (pid: string, position: { x: number; y: number }) => void;
-    setSize: (pid: string, size: { width: number; height: number }) => void;
+    setPosition: (id: string, position: { x: number; y: number }) => void;
+    setSize: (id: string, size: { width: number; height: number }) => void;
 };
 
 export const useWindowStore = create<WindowStore>((set) => ({
@@ -38,7 +38,7 @@ export const useWindowStore = create<WindowStore>((set) => ({
                     {
                         id,
                         pid,
-                        position: { x: 150, y: 150 },
+                        position: { x: 0, y: 0 },
                         size: size,
                         isMinimized: false,
                         isMaximized: false,
@@ -50,19 +50,21 @@ export const useWindowStore = create<WindowStore>((set) => ({
             };
         });
     },
-    closeWindow: (id) =>
+    closeWindow: (pid) =>
         set((state) => ({
-            windows: state.windows.filter((w) => w.id !== id),
+            windows: state.windows.filter((w) => w.pid !== pid),
         })),
 
-    setFocusWindow: (id, setFocus) => {
+    setFocusWindow: (pid, setFocus) => {
         if (setFocus) {
             set((state) => {
                 const nextZ = state.topZIndex + 1;
 
                 return {
                     windows: state.windows.map((w) =>
-                        w.id === id ? { ...w, isFocused: true, zIndex: nextZ } : { ...w, isFocused: false }
+                        w.pid === pid
+                            ? { ...w, isFocused: true, zIndex: nextZ, isMinimized: false }
+                            : { ...w, isFocused: false }
                     ),
                     topZIndex: nextZ,
                 };
@@ -70,7 +72,7 @@ export const useWindowStore = create<WindowStore>((set) => ({
             return true;
         } else {
             set((state) => ({
-                windows: state.windows.map((w) => (w.id === id ? { ...w, isFocused: false } : w)),
+                windows: state.windows.map((w) => (w.pid === pid ? { ...w, isFocused: false } : w)),
             }));
             return false;
         }

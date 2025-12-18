@@ -35,7 +35,15 @@ export function Taskbar() {
                     if (!app) return null;
 
                     return (
-                        <Button onClick={() => setFocusWindow(process.pid, true)} key={process.pid} className="mx-0.5">
+                        <Button
+                            data-process-id={process.pid}
+                            onClick={() => {
+                                const isFocused = setFocusWindow(process.pid, true);
+                                console.log(isFocused);
+                            }}
+                            key={process.pid}
+                            className="mx-0.5"
+                        >
                             <app.icon className="pointer-events-none" size={16} />
                             <span className="pointer-events-none">{app.name}</span>
                         </Button>
