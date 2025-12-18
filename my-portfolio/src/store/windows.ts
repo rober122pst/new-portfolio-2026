@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { useDesktopStore } from './desktop';
+import { useProcessStore } from './processes';
 
 export type Window = {
     id: string;
@@ -29,14 +30,19 @@ type WindowStore = {
 
     setPosition: (id: string, position: { x: number; y: number }) => void;
     setSize: (id: string, size: { width: number; height: number }) => void;
+
+    getWindow: (params: { id?: string; pid?: string }) => Window | undefined;
 };
 
-export const useWindowStore = create<WindowStore>((set) => ({
+export const useWindowStore = create<WindowStore>((set, get) => ({
     windows: [],
     topZIndex: 1,
     openWindow: (pid, size = { width: 800, height: 600 }) => {
         set((state) => {
             const id = crypto.randomUUID();
+            const { toggleActive } = useProcessStore.getState();
+
+            toggleActive(pid);
 
             return {
                 windows: [
@@ -62,6 +68,7 @@ export const useWindowStore = create<WindowStore>((set) => ({
         })),
 
     setFocusWindow: (pid, setFocus) => {
+        const { toggleActive } = useProcessStore.getState();
         if (setFocus) {
             set((state) => {
                 const nextZ = state.topZIndex + 1;
@@ -75,19 +82,22 @@ export const useWindowStore = create<WindowStore>((set) => ({
                     topZIndex: nextZ,
                 };
             });
+            toggleActive(pid);
             return true;
         } else {
             set((state) => ({
                 windows: state.windows.map((w) => (w.pid === pid ? { ...w, isFocused: false } : w)),
             }));
+            toggleActive('');
             return false;
         }
     },
 
-    minimizeWindow: (id) =>
+    minimizeWindow: (id) => {
         set((state) => ({
             windows: state.windows.map((w) => (w.id === id ? { ...w, isMinimized: true } : w)),
-        })),
+        }));
+    },
 
     toggleMaximizeWindow: (id) => {
         const { width, height } = useDesktopStore.getState();
@@ -127,4 +137,8 @@ export const useWindowStore = create<WindowStore>((set) => ({
         set((state) => ({
             windows: state.windows.map((w) => (w.id === id ? { ...w, size } : w)),
         })),
+
+    getWindow: ({ id, pid }) => {
+        return get().windows.find((w) => (id ? w.id === id : pid ? w.pid === pid : false));
+    },
 }));

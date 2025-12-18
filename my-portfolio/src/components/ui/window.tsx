@@ -18,7 +18,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
     const windowRef = useRef<HTMLDivElement>(null);
 
     const dragControls = useDragControls();
-    const { getProcess, closeProcess } = useProcessStore();
+    const { getProcess, closeProcess, toggleActive } = useProcessStore();
 
     const process = getProcess(myWindow.pid);
 
@@ -158,6 +158,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
                         onPointerDown={(e) => e.stopPropagation()}
                         onClick={() => {
                             minimizeWindow(myWindow.id);
+                            toggleActive('');
                         }}
                         className="bg-zinc-800 text-white size-6 text-center px-0"
                     >

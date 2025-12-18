@@ -21,7 +21,7 @@ export function WindowManager({ desktopRef }: { desktopRef?: React.RefObject<HTM
 
                 return (
                     <Window key={window.id} myWindow={window} desktopRef={desktopRef}>
-                        <AppComponent />
+                        <AppComponent pid={window.pid} />
                     </Window>
                 );
             })}

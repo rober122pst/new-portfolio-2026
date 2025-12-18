@@ -9,8 +9,8 @@ import { Button } from './ui/buttons';
 
 export function Taskbar() {
     const [now, setNow] = useState(new Date());
-    const { processes } = useProcessStore();
-    const { setFocusWindow } = useWindowStore();
+    const { processes, toggleActive } = useProcessStore();
+    const { setFocusWindow, minimizeWindow, getWindow } = useWindowStore();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -29,20 +29,28 @@ export function Taskbar() {
             </Button>
 
             {/* Programas e janelas abertas */}
-            <div>
+            <div className="flex-1 flex gap-1 px-2 h-full">
                 {processes.map((process) => {
                     const app = appRegistry[process.appId as keyof typeof appRegistry];
                     if (!app) return null;
+
+                    const window = getWindow({ pid: process.pid });
+                    if (!window) return null;
 
                     return (
                         <Button
                             data-process-id={process.pid}
                             onClick={() => {
-                                const isFocused = setFocusWindow(process.pid, true);
-                                console.log(isFocused);
+                                if (process.isActive) {
+                                    minimizeWindow(window.id);
+                                    toggleActive('');
+                                } else {
+                                    setFocusWindow(process.pid, true);
+                                }
                             }}
+                            active={process.isActive}
                             key={process.pid}
-                            className="mx-0.5"
+                            className="flex items-center gap-1 h-full"
                         >
                             <app.icon className="pointer-events-none" size={16} />
                             <span className="pointer-events-none">{app.name}</span>

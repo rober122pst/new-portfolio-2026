@@ -5,6 +5,7 @@ type Process = {
     pid: string;
     appId: AppId;
     status: 'running' | 'suspended' | 'closed';
+    isActive: boolean;
     data?: unknown;
 };
 
@@ -14,6 +15,10 @@ type ProcessStore = {
     openProcess: (appId: AppId, data?: unknown) => string;
     closeProcess: (pid: string) => void;
     getProcess: (pid: string) => Process | undefined;
+
+    updateData: (pid: string, data: unknown) => void;
+
+    toggleActive: (pid: string) => void;
 };
 
 export const useProcessStore = create<ProcessStore>((set, get) => ({
@@ -23,7 +28,10 @@ export const useProcessStore = create<ProcessStore>((set, get) => ({
         const pid = crypto.randomUUID();
         set((state) => {
             return {
-                processes: [...state.processes, { pid, appId, status: 'running', data }],
+                processes: [
+                    ...state.processes.map((p) => ({ ...p, isActive: false })),
+                    { pid, appId, status: 'running', isActive: true, data },
+                ],
             };
         });
 
@@ -38,5 +46,20 @@ export const useProcessStore = create<ProcessStore>((set, get) => ({
 
     getProcess: (pid) => {
         return get().processes.find((p) => p.pid === pid);
+    },
+
+    updateData: (pid, data) => {
+        set((state) => ({
+            processes: state.processes.map((p) => (p.pid === pid ? { ...p, data } : p)),
+        }));
+    },
+
+    toggleActive: (pid) => {
+        set((state) => ({
+            processes: state.processes.map((p) => ({
+                ...p,
+                isActive: p.pid === pid ? true : false,
+            })),
+        }));
     },
 }));

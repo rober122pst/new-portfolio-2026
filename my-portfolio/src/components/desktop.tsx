@@ -61,7 +61,7 @@ export function Desktop() {
                 p-4
                 content-start
                 select-none
-                bg-[url(/src/assets/youlooklonely.png)]
+                bg-teal-700
                 bg-center bg-auto
             "
             onClick={handleDesktopClick}
