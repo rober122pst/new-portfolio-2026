@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useDesktopStore } from './desktop';
 
 export type Window = {
     id: string;
@@ -9,6 +10,11 @@ export type Window = {
     isMaximized: boolean;
     isFocused: boolean;
     zIndex: number;
+
+    restoreBounds?: {
+        position: { x: number; y: number };
+        size: { width: number; height: number };
+    };
 };
 
 type WindowStore = {
@@ -19,7 +25,7 @@ type WindowStore = {
 
     setFocusWindow: (pid: string, setFocus: boolean) => boolean;
     minimizeWindow: (id: string) => void;
-    maximizeWindow: (id: string) => void;
+    toggleMaximizeWindow: (id: string) => void;
 
     setPosition: (id: string, position: { x: number; y: number }) => void;
     setSize: (id: string, size: { width: number; height: number }) => void;
@@ -38,7 +44,7 @@ export const useWindowStore = create<WindowStore>((set) => ({
                     {
                         id,
                         pid,
-                        position: { x: 0, y: 0 },
+                        position: { x: 20 + state.windows.length * 10, y: 20 + state.windows.length * 20 },
                         size: size,
                         isMinimized: false,
                         isMaximized: false,
@@ -83,10 +89,34 @@ export const useWindowStore = create<WindowStore>((set) => ({
             windows: state.windows.map((w) => (w.id === id ? { ...w, isMinimized: true } : w)),
         })),
 
-    maximizeWindow: (id) =>
+    toggleMaximizeWindow: (id) => {
+        const { width, height } = useDesktopStore.getState();
+
         set((state) => ({
-            windows: state.windows.map((w) => (w.id === id ? { ...w, isMaximized: !w.isMaximized } : w)),
-        })),
+            windows: state.windows.map((w) => {
+                if (w.id !== id) return w;
+
+                if (w.isMaximized) {
+                    if (!w.restoreBounds) return w;
+
+                    return {
+                        ...w,
+                        ...w.restoreBounds,
+                        isMaximized: false,
+                    };
+                }
+                return {
+                    ...w,
+                    isMaximized: !w.isMaximized,
+                    isFocused: true,
+                    isMinimized: false,
+                    restoreBounds: { position: w.position, size: w.size },
+                    position: { x: 0, y: 0 },
+                    size: { width, height },
+                };
+            }),
+        }));
+    },
 
     setPosition: (id, position) =>
         set((state) => ({

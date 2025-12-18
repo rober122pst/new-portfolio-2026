@@ -22,7 +22,8 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
 
     const process = getProcess(myWindow.pid);
 
-    const { setFocusWindow, closeWindow, maximizeWindow, minimizeWindow, setPosition, setSize } = useWindowStore();
+    const { setFocusWindow, closeWindow, toggleMaximizeWindow, minimizeWindow, setPosition, setSize } =
+        useWindowStore();
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
@@ -100,7 +101,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
         <motion.div
             ref={windowRef}
             data-window-id={myWindow.id}
-            drag
+            drag={!myWindow.isMaximized}
             dragControls={dragControls}
             dragListener={false}
             dragConstraints={
@@ -117,6 +118,12 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
             dragMomentum={false}
             initial={false}
             transition={{ duration: 0 }}
+            animate={{
+                y: myWindow.position.y,
+                x: myWindow.position.x,
+                width: myWindow.size.width,
+                height: myWindow.size.height,
+            }}
             onDragEnd={() => {
                 const win = windowRef?.current?.getBoundingClientRect();
                 setPosition(myWindow.id, {
@@ -125,10 +132,6 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
                 });
             }}
             style={{
-                y: myWindow.position.y,
-                x: myWindow.position.x,
-                width: myWindow.size.width,
-                height: myWindow.size.height,
                 zIndex: myWindow.zIndex,
             }}
             onMouseDown={(e) => {
@@ -138,7 +141,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
                 }
             }}
             className={twMerge(
-                'absolute flex flex-col min-w-80 min-h-11.5 max-w-full max-h-full bg-zinc-800 border-2 border-elevated p-1.5 resize overflow-hidden',
+                `absolute flex flex-col min-w-80 min-h-11.5 max-w-full max-h-full bg-zinc-800 border-2 border-elevated p-1.5 ${myWindow.isMaximized ? 'resize-none' : 'resize'} overflow-hidden`,
                 className
             )}
         >
@@ -162,10 +165,10 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
                     </Button>
                     <Button
                         onPointerDown={(e) => e.stopPropagation()}
-                        onClick={() => maximizeWindow(myWindow.id)}
+                        onClick={() => toggleMaximizeWindow(myWindow.id)}
                         className="bg-zinc-800 text-white size-6 text-center px-0"
                     >
-                        🗖
+                        {myWindow.isMaximized ? '🗗' : '🗖'}
                     </Button>
                     <Button
                         onPointerDown={(e) => e.stopPropagation()}

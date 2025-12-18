@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { appRegistry, type AppId } from '../core/appRegistry';
+import { useDesktopStore } from '../store/desktop';
 import { useProcessStore } from '../store/processes';
 import { useWindowStore } from '../store/windows';
 import { WindowManager } from './windowManager';
@@ -8,6 +9,8 @@ import { WindowManager } from './windowManager';
 export function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);
     const desktopRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+
+    const { setSize } = useDesktopStore();
 
     const handleDesktopClick = () => {
         setSelected([]);
@@ -25,6 +28,25 @@ export function Desktop() {
         useWindowStore.getState().openWindow(pid);
         setSelected([]);
     };
+
+    useEffect(() => {
+        if (!desktopRef.current) return;
+
+        const resize = () => {
+            const rect = desktopRef.current?.getBoundingClientRect();
+            if (!rect) return;
+
+            setSize(rect.width, rect.height);
+        };
+
+        resize();
+        window.addEventListener('resize', resize);
+
+        return () => {
+            window.removeEventListener('resize', resize);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <main
