@@ -1,32 +1,35 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { getFileIcon, openFile } from '../core/system';
+import { selectItemsInFolder, useFileSystemStore } from '../store/filesystem';
 
-import { appRegistry, type AppId } from '../core/appRegistry';
+import { useShallow } from 'zustand/react/shallow';
 import { useDesktopStore } from '../store/desktop';
-import { useProcessStore } from '../store/processes';
-import { useWindowStore } from '../store/windows';
+import { Button } from './ui/buttons';
 import { WindowManager } from './windowManager';
+
+let count = 0; // TODO tirar dps
 
 export function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);
     const desktopRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+    const createItem = useFileSystemStore((s) => s.createItem);
+    const selectDesktop = useMemo(
+        () => selectItemsInFolder('desktop-id'),
+        [] // ou ['desktop-id'] se for variável
+    );
 
-    const { setSize } = useDesktopStore();
+    const desktopItems = useFileSystemStore(useShallow(selectDesktop));
+
+    const setSize = useDesktopStore((s) => s.setSize);
 
     const handleDesktopClick = () => {
         setSelected([]);
     };
 
-    const handleSelected = (e: React.MouseEvent<HTMLButtonElement>, id: AppId) => {
+    const handleSelected = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.stopPropagation();
 
         setSelected([id]);
-    };
-
-    const handleExecProgram = (e: React.MouseEvent<HTMLButtonElement>, id: AppId) => {
-        e.stopPropagation();
-        const pid = useProcessStore.getState().openProcess(id);
-        useWindowStore.getState().openWindow(pid);
-        setSelected([]);
     };
 
     useEffect(() => {
@@ -67,31 +70,47 @@ export function Desktop() {
             onClick={handleDesktopClick}
         >
             <WindowManager desktopRef={desktopRef} />
-            {Object.entries(appRegistry).map(([appId, app]) => {
-                const isSelected = selected.includes(appId);
+            <Button
+                onClick={() => {
+                    createItem('desktop-id', 'rola_' + count, 'file', 'txt');
+                    count++;
+                }}
+            >
+                Adicionar arquivo
+            </Button>
+            {desktopItems.length > 0 &&
+                desktopItems.map((item) => {
+                    const isSelected = selected.includes(item.id);
+                    const IconComponent = getFileIcon(item);
 
-                return (
-                    <button
-                        key={appId}
-                        data-selected={isSelected}
-                        className="
+                    return (
+                        <button
+                            key={item.id}
+                            data-selected={isSelected}
+                            className="
                             w-24 h-fit
                             flex flex-col items-center justify-center
                             cursor-pointer
                             text-white
                             select-none 
-                            py-1.5
+                            py-1.5 wrap-break-word
                             hover:bg-white/20
                             data-[selected=true]:bg-white/40
                         "
-                        onClick={(e) => handleSelected(e, appId as AppId)}
-                        onDoubleClick={(e) => handleExecProgram(e, appId as AppId)}
-                    >
-                        <app.icon size={40} />
-                        <span className="text-xs mt-1 text-center">{app.name}</span>
-                    </button>
-                );
-            })}
+                            onClick={(e) => handleSelected(e, item.id)}
+                            onDoubleClick={(e) => {
+                                e.stopPropagation();
+                                openFile(item.id);
+                            }}
+                        >
+                            <IconComponent size={40} />
+                            <span className="text-xs mt-1 text-center">
+                                {item.name}
+                                {item.type === 'file' ? `.${item.extension}` : ''}
+                            </span>
+                        </button>
+                    );
+                })}
         </main>
     );
 }

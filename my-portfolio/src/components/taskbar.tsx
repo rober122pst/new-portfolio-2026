@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import volumeIcon from '../assets/icons_taskbar/volume.ico';
 import soLogo from '../assets/so_logo.ico';
 import { appRegistry } from '../core/appRegistry';
+import { useFileSystemStore } from '../store/filesystem';
 import { useProcessStore } from '../store/processes';
 import { useWindowStore } from '../store/windows';
 import { Button } from './ui/buttons';
@@ -31,8 +32,11 @@ export function Taskbar() {
             {/* Programas e janelas abertas */}
             <div className="flex-1 flex gap-1 px-2 h-full">
                 {processes.map((process) => {
-                    const app = appRegistry[process.appId as keyof typeof appRegistry];
-                    if (!app) return null;
+                    const fileId = (process.data as { fileId: string })?.fileId;
+                    const file = useFileSystemStore.getState().getItem(fileId);
+                    if (!file) return;
+
+                    const AppIcon = appRegistry[process.appId].icon;
 
                     const window = getWindow({ pid: process.pid });
                     if (!window) return null;
@@ -52,8 +56,11 @@ export function Taskbar() {
                             key={process.pid}
                             className="flex items-center gap-1 h-full"
                         >
-                            <app.icon className="pointer-events-none" size={16} />
-                            <span className="pointer-events-none">{app.name}</span>
+                            <AppIcon className="pointer-events-none" size={16} />
+                            <span className="pointer-events-none">
+                                {file.name}
+                                {file.type === 'file' ? `.${file.extension}` : ''}
+                            </span>
                         </Button>
                     );
                 })}

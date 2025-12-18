@@ -3,6 +3,7 @@ import { motion, useDragControls } from 'motion/react';
 import { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { appRegistry } from '../../core/appRegistry';
+import { useFileSystemStore } from '../../store/filesystem';
 import { useProcessStore } from '../../store/processes';
 import { useWindowStore, type Window } from '../../store/windows';
 import { Button } from './buttons';
@@ -95,6 +96,9 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
 
     const app = appRegistry[process.appId];
 
+    const fileId = (process.data as { fileId: string })?.fileId;
+    const fileName = useFileSystemStore.getState().getItem(fileId)?.name;
+
     if (myWindow.isMinimized) return;
 
     return (
@@ -151,11 +155,14 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
             >
                 <div className="flex items-center gap-1.5 text-white">
                     <app.icon className="pointer-events-none" size={16} />
-                    <span className={myWindow.isFocused ? 'text-white' : 'text-zinc-400'}>{app.name}</span>
+                    <span className={myWindow.isFocused ? 'text-white' : 'text-zinc-400'}>
+                        {fileName} - {app.name}
+                    </span>
                 </div>
                 <div className="flex items-center">
                     <Button
                         onPointerDown={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
                         onClick={() => {
                             minimizeWindow(myWindow.id);
                             toggleActive('');
@@ -173,6 +180,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
                     </Button>
                     <Button
                         onPointerDown={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
                         onClick={() => {
                             closeWindow(myWindow.id);
                             closeProcess(myWindow.pid);

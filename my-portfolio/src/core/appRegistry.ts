@@ -1,12 +1,15 @@
+import { NotepadIcon, TXTIcon } from '../components/ui/icons';
+
 import { Notepad } from '../apps/notepad/notepad';
-import { FolderIcon } from '../components/ui/icons';
 
 export const appRegistry = {
     notepad: {
         name: 'Bloco de notas',
-        icon: FolderIcon, // TODO: mudar depois
+        fileIcon: TXTIcon, // TODO: mudar depois
+        icon: NotepadIcon,
         component: Notepad,
         singleInstance: false,
+        supportedExtensions: ['txt', 'md', 'json', 'js', 'java'],
     },
 };
 

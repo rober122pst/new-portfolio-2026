@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useFileSystemStore } from '../../store/filesystem';
 import { useProcessStore } from '../../store/processes';
 
 interface NotepadProps {
@@ -6,15 +7,39 @@ interface NotepadProps {
 }
 
 export function Notepad({ pid }: NotepadProps) {
-    const updateData = useProcessStore((s) => s.updateData);
     const process = useProcessStore((s) => s.getProcess(pid));
+    const updateData = useProcessStore((s) => s.updateData);
+    const getItem = useFileSystemStore((s) => s.getItem);
+    const updateFileContent = useFileSystemStore((s) => s.updateFileContent);
 
-    const initialContent = (process?.data as { content?: string })?.content || '';
-    const [text, setText] = useState(initialContent);
+    const fileId = (process?.data as { fileId: string })?.fileId;
+
+    const getInitialState = () => {
+        if (fileId) {
+            const file = getItem(fileId);
+            if (file?.content) {
+                return (file.content as { text: string }).text;
+            }
+        }
+
+        if (process?.data) {
+            return (process.data as { tempContent: string }).tempContent;
+        }
+
+        return '';
+    };
+
+    const [text, setText] = useState<string>(getInitialState);
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setText(e.target.value);
-        updateData(pid, { content: e.target.value });
+        const newValue = e.target.value;
+        setText(newValue);
+
+        if (fileId) {
+            updateFileContent(fileId, { text: newValue });
+        } else {
+            updateData(pid, { ...(process?.data as object), tempContent: newValue });
+        }
     };
 
     return (
