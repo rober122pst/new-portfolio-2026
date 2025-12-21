@@ -3,7 +3,7 @@ import { useProcessStore } from '../store/processes';
 import { useWindowStore } from '../store/windows';
 import { Window } from './ui/window';
 
-export function WindowManager({ desktopRef }: { desktopRef?: React.RefObject<HTMLElement> }) {
+export default function WindowManager({ desktopRef }: { desktopRef?: React.RefObject<HTMLElement> }) {
     const { windows } = useWindowStore();
     const getProcess = useProcessStore((p) => p.getProcess);
 

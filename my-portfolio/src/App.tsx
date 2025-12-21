@@ -1,6 +1,6 @@
-import { Desktop } from './components/desktop';
-import { RetroMonitor } from './components/retroMonitor';
-import { Taskbar } from './components/taskbar';
+import Desktop from './components/desktop';
+import RetroMonitor from './components/retroMonitor';
+import Taskbar from './components/taskbar';
 
 function App() {
     return (

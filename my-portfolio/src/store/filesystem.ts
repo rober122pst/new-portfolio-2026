@@ -1,8 +1,16 @@
 import type { JSX } from 'react';
 import { create } from 'zustand';
-import type { IconsProps } from '../components/ui/icons';
+import { MyComputerIcon, type IconProps } from '../components/ui/icons';
+import type { AppId } from '../core/appRegistry';
 
-export type FileType = 'file' | 'folder';
+export const SYSTEM_IDS = {
+    ROOT: 'root',
+    C_DRIVE: 'disk-c',
+    DESKTOP: 'desktop-id',
+    MY_COMPUTER: 'my-computer-virtual-id',
+};
+
+export type FileType = 'file' | 'folder' | 'shortcut';
 
 export interface FileSystemItem {
     id: string;
@@ -11,8 +19,14 @@ export interface FileSystemItem {
     type: FileType;
     extension?: string;
     content?: unknown; // Apenas para arquivos. Armazena o conteúdo do arquivo. Pode ser string, binary, etc.
-    icon?: ({ className, size }: IconsProps) => JSX.Element;
+    icon?: (props: IconProps) => JSX.Element;
     createdAt: number;
+
+    metadata?: {
+        targetPath?: string;
+        targetId?: string;
+        appId?: AppId;
+    };
 }
 
 interface FileSystemStore {
@@ -26,32 +40,49 @@ interface FileSystemStore {
     updateFileContent: (id: string, content: unknown) => void;
 
     getItem: (id: string) => FileSystemItem | undefined;
-    resolvePath: (path: string) => string;
+    resolvePath: (id: string) => string;
 }
 
-const ROOT_ID = 'root';
 const initialItems: Record<string, FileSystemItem> = {
-    [ROOT_ID]: {
-        id: ROOT_ID,
+    [SYSTEM_IDS.ROOT]: {
+        id: SYSTEM_IDS.ROOT,
         parentId: null,
+        name: 'Meu Computador',
+        type: 'folder',
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.C_DRIVE]: {
+        id: SYSTEM_IDS.C_DRIVE,
+        parentId: SYSTEM_IDS.ROOT,
         name: 'C:',
         type: 'folder',
         createdAt: Date.now(),
     },
-    'desktop-id': {
-        id: 'desktop-id',
-        parentId: ROOT_ID,
-        name: 'Desktop',
+    [SYSTEM_IDS.DESKTOP]: {
+        id: SYSTEM_IDS.DESKTOP,
+        parentId: SYSTEM_IDS.C_DRIVE,
+        name: 'Área de Trabalho',
         type: 'folder',
         createdAt: Date.now(),
     },
     'spider-man': {
         id: 'spider-man',
-        parentId: 'desktop-id',
+        parentId: SYSTEM_IDS.DESKTOP,
         name: 'spider-man',
         type: 'file',
         extension: 'txt',
         content: { text: 'A verdade é que... eu sou o Homem-Aranha.' },
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.MY_COMPUTER]: {
+        id: SYSTEM_IDS.MY_COMPUTER,
+        parentId: SYSTEM_IDS.DESKTOP,
+        name: 'Meu Computador',
+        type: 'shortcut',
+        icon: MyComputerIcon,
+        metadata: {
+            targetId: SYSTEM_IDS.ROOT,
+        },
         createdAt: Date.now(),
     },
 };
@@ -62,7 +93,7 @@ export const selectItemsInFolder = (folderId: string) => (state: FileSystemStore
 
 export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
     items: initialItems,
-    rootId: ROOT_ID,
+    rootId: SYSTEM_IDS.ROOT,
 
     createItem: (parentId, name, type, extension) => {
         const id = crypto.randomUUID();

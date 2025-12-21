@@ -1,18 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { getFileIcon, openFile } from '../core/system';
 import { selectItemsInFolder, useFileSystemStore } from '../store/filesystem';
 
 import { useShallow } from 'zustand/react/shallow';
 import { useDesktopStore } from '../store/desktop';
-import { Button } from './ui/buttons';
-import { WindowManager } from './windowManager';
+import FileItem from './fileItem';
+import WindowManager from './windowManager';
 
-let count = 0; // TODO tirar dps
-
-export function Desktop() {
+export default function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);
     const desktopRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
-    const createItem = useFileSystemStore((s) => s.createItem);
     const selectDesktop = useMemo(
         () => selectItemsInFolder('desktop-id'),
         [] // ou ['desktop-id'] se for variável
@@ -70,45 +66,17 @@ export function Desktop() {
             onClick={handleDesktopClick}
         >
             <WindowManager desktopRef={desktopRef} />
-            <Button
-                onClick={() => {
-                    createItem('desktop-id', 'rola_' + count, 'file', 'txt');
-                    count++;
-                }}
-            >
-                Adicionar arquivo
-            </Button>
             {desktopItems.length > 0 &&
                 desktopItems.map((item) => {
                     const isSelected = selected.includes(item.id);
-                    const IconComponent = getFileIcon(item);
 
                     return (
-                        <button
+                        <FileItem
                             key={item.id}
-                            data-selected={isSelected}
-                            className="
-                            w-24 h-fit
-                            flex flex-col items-center justify-center
-                            cursor-pointer
-                            text-white
-                            select-none 
-                            py-1.5 wrap-break-word
-                            hover:bg-white/20
-                            data-[selected=true]:bg-white/40
-                        "
+                            item={item}
+                            isSelected={isSelected}
                             onClick={(e) => handleSelected(e, item.id)}
-                            onDoubleClick={(e) => {
-                                e.stopPropagation();
-                                openFile(item.id);
-                            }}
-                        >
-                            <IconComponent size={40} />
-                            <span className="text-xs mt-1 text-center">
-                                {item.name}
-                                {item.type === 'file' ? `.${item.extension}` : ''}
-                            </span>
-                        </button>
+                        />
                     );
                 })}
         </main>

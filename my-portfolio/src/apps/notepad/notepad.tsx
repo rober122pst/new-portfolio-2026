@@ -6,7 +6,7 @@ interface NotepadProps {
     pid: string;
 }
 
-export function Notepad({ pid }: NotepadProps) {
+export default function Notepad({ pid }: NotepadProps) {
     const process = useProcessStore((s) => s.getProcess(pid));
     const updateData = useProcessStore((s) => s.updateData);
     const getItem = useFileSystemStore((s) => s.getItem);

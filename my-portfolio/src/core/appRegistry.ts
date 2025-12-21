@@ -1,8 +1,19 @@
-import { NotepadIcon, TXTIcon } from '../components/ui/icons';
+import { ExplorerIcon, NotepadIcon, TXTIcon, type IconProps } from '../components/ui/icons';
 
-import { Notepad } from '../apps/notepad/notepad';
+import type { JSX } from 'react';
+import Explorer from '../apps/notepad/explorer';
+import Notepad from '../apps/notepad/notepad';
 
-export const appRegistry = {
+interface App {
+    name: string;
+    fileIcon?: (props: IconProps) => JSX.Element;
+    icon: (props: IconProps) => JSX.Element;
+    component: ({ pid }: { pid: string }) => JSX.Element;
+    singleInstance: boolean;
+    supportedExtensions?: string[];
+}
+
+export const appRegistry: Record<string, App> = {
     notepad: {
         name: 'Bloco de notas',
         fileIcon: TXTIcon, // TODO: mudar depois
@@ -10,6 +21,12 @@ export const appRegistry = {
         component: Notepad,
         singleInstance: false,
         supportedExtensions: ['txt', 'md', 'json', 'js', 'java'],
+    },
+    explorer: {
+        name: 'Explorador de Arquivos',
+        icon: ExplorerIcon,
+        component: Explorer,
+        singleInstance: false,
     },
 };
 

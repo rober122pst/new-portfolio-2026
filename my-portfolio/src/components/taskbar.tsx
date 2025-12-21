@@ -8,7 +8,7 @@ import { useProcessStore } from '../store/processes';
 import { useWindowStore } from '../store/windows';
 import { Button } from './ui/buttons';
 
-export function Taskbar() {
+export default function Taskbar() {
     const [now, setNow] = useState(new Date());
     const { processes, toggleActive } = useProcessStore();
     const { setFocusWindow, minimizeWindow, getWindow } = useWindowStore();

@@ -4,7 +4,7 @@ interface RetroMonitorProps {
     children: ReactNode;
 }
 
-export function RetroMonitor({ children }: RetroMonitorProps) {
+export default function RetroMonitor({ children }: RetroMonitorProps) {
     return (
         <div className="relative aspect-4/3 max-w-360 h-screen overflow-hidden m-auto">
             <div className="crt grid grid-rows-[1fr_auto] h-screen m-auto">{children}</div>
