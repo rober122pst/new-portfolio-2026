@@ -96,7 +96,8 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
 
     const app = appRegistry[process.appId];
 
-    const fileId = (process.data as { fileId: string })?.fileId;
+    const fileId =
+        (process.data as { fileId: string })?.fileId || (process.data as { currentFolderId: string })?.currentFolderId;
     const fileName = useFileSystemStore.getState().getItem(fileId)?.name;
 
     if (myWindow.isMinimized) return;
@@ -153,9 +154,11 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
                 onPointerDown={(e) => dragControls.start(e)}
                 className={`flex items-center justify-between w-full h-8 bg-linear-to-r ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} py-0.5 px-2`}
             >
-                <div className="flex items-center gap-1.5 text-white">
+                <div className="flex items-center gap-1.5 text-white flex-1 min-w-0">
                     <app.icon className="pointer-events-none" size={16} />
-                    <span className={myWindow.isFocused ? 'text-white' : 'text-zinc-400'}>
+                    <span
+                        className={`${myWindow.isFocused ? 'text-white' : 'text-zinc-400'} whitespace-nowrap w-full overflow-hidden truncate pr-1`}
+                    >
                         {fileName} - {app.name}
                     </span>
                 </div>

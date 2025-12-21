@@ -1,7 +1,7 @@
 import { ExplorerIcon, NotepadIcon, TXTIcon, type IconProps } from '../components/ui/icons';
 
 import type { JSX } from 'react';
-import Explorer from '../apps/notepad/explorer';
+import FileExplorer from '../apps/file-explorer/fileExplorer';
 import Notepad from '../apps/notepad/notepad';
 
 interface App {
@@ -22,10 +22,10 @@ export const appRegistry: Record<string, App> = {
         singleInstance: false,
         supportedExtensions: ['txt', 'md', 'json', 'js', 'java'],
     },
-    explorer: {
+    fileExplorer: {
         name: 'Explorador de Arquivos',
         icon: ExplorerIcon,
-        component: Explorer,
+        component: FileExplorer,
         singleInstance: false,
     },
 };

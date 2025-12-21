@@ -9,10 +9,7 @@ import WindowManager from './windowManager';
 export default function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);
     const desktopRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
-    const selectDesktop = useMemo(
-        () => selectItemsInFolder('desktop-id'),
-        [] // ou ['desktop-id'] se for variável
-    );
+    const selectDesktop = useMemo(() => selectItemsInFolder('desktop-id'), []);
 
     const desktopItems = useFileSystemStore(useShallow(selectDesktop));
 

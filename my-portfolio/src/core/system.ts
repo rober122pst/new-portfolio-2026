@@ -27,6 +27,11 @@ export function openFile(fileId: string) {
 
     if (file.type === 'folder') {
         console.log('Abrir pasta:', resolvePath(file.id));
+        const pid = useProcessStore.getState().openProcess('fileExplorer', {
+            currentFolderId: file.id,
+        });
+
+        useWindowStore.getState().openWindow(pid);
         return;
     }
 

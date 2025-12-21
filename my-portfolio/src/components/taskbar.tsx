@@ -8,11 +8,8 @@ import { useProcessStore } from '../store/processes';
 import { useWindowStore } from '../store/windows';
 import { Button } from './ui/buttons';
 
-export default function Taskbar() {
+function Clock() {
     const [now, setNow] = useState(new Date());
-    const { processes, toggleActive } = useProcessStore();
-    const { setFocusWindow, minimizeWindow, getWindow } = useWindowStore();
-
     useEffect(() => {
         const interval = setInterval(() => {
             setNow(new Date());
@@ -20,6 +17,26 @@ export default function Taskbar() {
 
         return () => clearInterval(interval);
     }, []);
+
+    return (
+        <>
+            <p>
+                {now.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                })}
+            </p>
+            <p>{now.toLocaleDateString()}</p>
+        </>
+    );
+}
+
+export default function Taskbar() {
+    const processes = useProcessStore((s) => s.processes);
+    const toggleActive = useProcessStore((s) => s.toggleActive);
+    const setFocusWindow = useWindowStore((s) => s.setFocusWindow);
+    const minimizeWindow = useWindowStore((s) => s.minimizeWindow);
+    const getWindow = useWindowStore((s) => s.getWindow);
 
     return (
         <footer className="relative flex justify-between items-center w-full p-1 bg-zinc-800 text-white text-[12px] select-none z-50">
@@ -32,7 +49,9 @@ export default function Taskbar() {
             {/* Programas e janelas abertas */}
             <div className="flex-1 flex gap-1 px-2 h-full">
                 {processes.map((process) => {
-                    const fileId = (process.data as { fileId: string })?.fileId;
+                    const fileId =
+                        (process.data as { fileId: string })?.fileId ||
+                        (process.data as { currentFolderId: string })?.currentFolderId;
                     const file = useFileSystemStore.getState().getItem(fileId);
                     if (!file) return;
 
@@ -72,13 +91,7 @@ export default function Taskbar() {
                     <img src={volumeIcon} alt="volume" />
                 </div>
                 <div className="flex flex-col justify-center h-full text-right pointer-events-none">
-                    <p>
-                        {now.toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })}
-                    </p>
-                    <p>{now.toLocaleDateString()}</p>
+                    <Clock />
                 </div>
             </div>
         </footer>

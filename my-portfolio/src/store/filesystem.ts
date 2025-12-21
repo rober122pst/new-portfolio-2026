@@ -8,6 +8,7 @@ export const SYSTEM_IDS = {
     C_DRIVE: 'disk-c',
     DESKTOP: 'desktop-id',
     MY_COMPUTER: 'my-computer-virtual-id',
+    DOCUMENTS: 'documents-id',
 };
 
 export type FileType = 'file' | 'folder' | 'shortcut';
@@ -65,15 +66,6 @@ const initialItems: Record<string, FileSystemItem> = {
         type: 'folder',
         createdAt: Date.now(),
     },
-    'spider-man': {
-        id: 'spider-man',
-        parentId: SYSTEM_IDS.DESKTOP,
-        name: 'spider-man',
-        type: 'file',
-        extension: 'txt',
-        content: { text: 'A verdade é que... eu sou o Homem-Aranha.' },
-        createdAt: Date.now(),
-    },
     [SYSTEM_IDS.MY_COMPUTER]: {
         id: SYSTEM_IDS.MY_COMPUTER,
         parentId: SYSTEM_IDS.DESKTOP,
@@ -83,6 +75,13 @@ const initialItems: Record<string, FileSystemItem> = {
         metadata: {
             targetId: SYSTEM_IDS.ROOT,
         },
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.DOCUMENTS]: {
+        id: SYSTEM_IDS.DOCUMENTS,
+        parentId: SYSTEM_IDS.C_DRIVE,
+        name: 'Documentos',
+        type: 'folder',
         createdAt: Date.now(),
     },
 };
