@@ -1,0 +1,16 @@
+{
+    "translation": {
+        "boot": {
+            "bios": {
+                "hero": {
+                    "title": "rbx BIOS Modular v1.22, Sistema Central RB//r",
+                    "subtitle": "Copyright (C) 1998-{{year}}, rbx Software Group"
+                },
+                "version": "Versão RB//r-J122",
+                "firstSection": {
+                    "plataform": "{{plataform}} Encontrado"
+                }
+            }
+        }
+    }
+}

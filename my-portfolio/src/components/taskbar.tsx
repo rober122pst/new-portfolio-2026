@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import volumeIcon from '../assets/icons_taskbar/volume.ico';
-import soLogo from '../assets/so_logo.ico';
+import soLogo from '../assets/logos/logo_16x.webp';
 import { appRegistry } from '../core/appRegistry';
 import { useFileSystemStore } from '../store/filesystem';
 import { useProcessStore } from '../store/processes';
