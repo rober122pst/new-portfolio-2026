@@ -1,14 +1,59 @@
 {
     "translation": {
+        "unknown": "Unknown",
+        "pressAnyKey": "Press Any Key To Boot",
         "boot": {
             "bios": {
                 "hero": {
-                    "title": "rbx Modular BIOS v1.22, RB//r Core System",
-                    "subtitle": "Copyright (C) 1998-{{year}}, rbx Software Group"
+                    "title": "EquipiadaBIOS 8.0 Release 1.22",
+                    "subtitle": "Copyright (C) 1998-{{year}} Equipiada Studio Ltd.",
+                    "allRights": "All Rights Reserved",
+                    "reactEngine": "React Engine v{{version}} Initialized",
+                    "vite": "Vite HMR (Hot Module Replacement) Active"
                 },
-                "version": "Version RB//r-J122",
-                "firstSection": {
-                    "plataform": "{{plataform}} Found"
+                "version": "RB//r Dimension Portfolio T122",
+                "hardware": {
+                    "kernel": {
+                        "label": "Kernel",
+                        "value": "React-Fiber"
+                    },
+                    "processor": {
+                        "label": "Processor",
+                        "value": "{{cores}} Cores Detected"
+                    },
+                    "memory": {
+                        "label": "Memory",
+                        "value": "{{deviceMemory}}MB System RAM Passed"
+                    },
+                    "browser": {
+                        "label": "Browser",
+                        "value": "{{browserName}} Engine"
+                    }
+                },
+                "peripherals": {
+                    "keyboard": {
+                        "label": "Keyboard",
+                        "status": "Detected"
+                    },
+                    "mouse": {
+                        "label": "Mouse",
+                        "status": "Detected"
+                    }
+                },
+                "infos": {
+                    "disk": {
+                        "label": "Fixed Disk 0",
+                        "value": "LocalStorage - 5MB (PM)"
+                    },
+                    "network": {
+                        "label": "Network",
+                        "connected": "Connected",
+                        "offline": "Offline"
+                    }
+                },
+                "footer": {
+                    "devTools": "Press <1>F12</1> to enter INSPECT MODE",
+                    "start": "Iniciando rbxSO 122 via Nuvem..."
                 }
             }
         }

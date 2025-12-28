@@ -1,14 +1,59 @@
 {
     "translation": {
+        "unknown": "Desconhecido",
+        "pressAnyKey": "Pressione Qualquer Tecla Para Dar Boot",
         "boot": {
             "bios": {
                 "hero": {
-                    "title": "rbx BIOS Modular v1.22, Sistema Central RB//r",
-                    "subtitle": "Copyright (C) 1998-{{year}}, rbx Software Group"
+                    "title": "EquipiadaBIOS 8.0 Lançamento 1.22",
+                    "subtitle": "Copyright (C) 1998-{{year}} Equipiada Studio Ltda.",
+                    "allRights": "Todos os Direitos Reservados",
+                    "reactEngine": "React Engine v{{version}} Inicializado",
+                    "vite": "Vite HMR (Hot Module Replacement) Ativo"
                 },
-                "version": "Versão RB//r-J122",
-                "firstSection": {
-                    "plataform": "{{plataform}} Encontrado"
+                "version": "RB//r Portfólio Modelo T122",
+                "hardware": {
+                    "kernel": {
+                        "label": "Kernel",
+                        "value": "React-Fiber"
+                    },
+                    "processor": {
+                        "label": "Processador",
+                        "value": "{{cores}} Núcleos Detectados"
+                    },
+                    "memory": {
+                        "label": "Memória",
+                        "value": "{{deviceMemory}}MB RAM do Sistema OK"
+                    },
+                    "browser": {
+                        "label": "Navegador",
+                        "value": "Motor {{browserName}}"
+                    }
+                },
+                "peripherals": {
+                    "keyboard": {
+                        "label": "Teclado",
+                        "status": "Detectado"
+                    },
+                    "mouse": {
+                        "label": "Mouse",
+                        "status": "Detectado"
+                    }
+                },
+                "infos": {
+                    "disk": {
+                        "label": "Disco Local 0",
+                        "value": "LocalStorage - 5MB (Ativo)"
+                    },
+                    "network": {
+                        "label": "Rede",
+                        "connected": "Conectado",
+                        "offline": "Desconectado"
+                    }
+                },
+                "footer": {
+                    "devTools": "Pressione <1>F12</1> para o MODO INSPEÇÃO",
+                    "start": "Iniciando rbxSO 122 via Nuvem..."
                 }
             }
         }
