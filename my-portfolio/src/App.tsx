@@ -13,12 +13,9 @@ function App() {
 
     const [initialBoot, setInitialBoot] = useState(() => {
         if (!sessionStorage.getItem('ligado')) {
-            sessionStorage.setItem('ligado', 'true');
-            console.log('PC ligando...');
             return true;
         } else {
-            console.log('PC ligado');
-            return true;
+            return false;
         }
     });
 
@@ -42,6 +39,7 @@ function App() {
     const bootSystem = () => {
         setStartupSystem(false);
         setInitialBoot(false);
+        sessionStorage.setItem('ligado', 'true');
     };
 
     useKeydown({ onKeyPressed: handleKeyPress });
