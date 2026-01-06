@@ -56,6 +56,11 @@
                     "start": "Iniciando rbxSO 122 via Nuvem..."
                 }
             }
+        },
+        "lookScreen": {
+            "username": "Nome de usuário",
+            "password": "Senha",
+            "signIn": "Entrar"
         }
     }
 }

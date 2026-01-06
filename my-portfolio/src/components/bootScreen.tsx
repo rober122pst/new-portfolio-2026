@@ -1,11 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import beep from '../assets/audios/beep.mp3';
-import pcFans from '../assets/audios/pc_fans.mp3';
 import BiosStartupScreen from './biosStartupScreen';
 import LoadingStartupScreen from './loadingStartupScreen';
+import beep from '../assets/audios/beep.mp3';
+import pcFans from '../assets/audios/pc_fans.mp3';
+import { useKernelStore } from '../store/kernel';
+import { useUserStore } from '../store/user';
 
-export default function BootScreen({ onBoot }: { onBoot: () => void }) {
+export default function BootScreen() {
+    const setScreen = useKernelStore((s) => s.setScreen);
+    const user = useUserStore((s) => s.user);
+
     const [biosScreen, setBiosScreen] = useState(true);
     const playBeep = () => {
         const audio = new Audio(beep);
@@ -26,9 +31,14 @@ export default function BootScreen({ onBoot }: { onBoot: () => void }) {
 
     const handlerOnBoot = useCallback(() => {
         setTimeout(() => {
-            onBoot();
+            if (user) {
+                setScreen('DESKTOP');
+            } else {
+                setScreen('LOOK');
+            }
+            sessionStorage.setItem('ligado', 'true');
         }, 9000);
-    }, [onBoot]);
+    }, [setScreen, user]);
 
     useEffect(() => {
         const timer = setTimeout(() => {

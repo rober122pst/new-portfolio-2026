@@ -1,16 +1,19 @@
-import { Activity, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import { useTranslation } from 'react-i18next';
-import startupAudio from './assets/audios/button_startup.mp3';
-import BootScreen from './components/bootScreen';
-import Desktop from './components/desktop';
+import OSKernel from './components/kernel';
 import RetroMonitor from './components/retroMonitor';
-import Taskbar from './components/taskbar';
+import startupAudio from './assets/audios/button_startup.mp3';
 import { useKeydown } from './hooks/useKeydown';
+import { useTranslation } from 'react-i18next';
+
+// import Desktop from './components/desktop';
+
+// import Taskbar from './components/taskbar';
 
 function App() {
     const { t } = useTranslation();
 
+    // Verifica se é o boot inicial (primeira vez que abre o site no navegador)
     const [initialBoot, setInitialBoot] = useState(() => {
         if (!sessionStorage.getItem('ligado')) {
             return true;
@@ -19,7 +22,9 @@ function App() {
         }
     });
 
+    // Ta ligando o sistema
     const [startupSystem, setStartupSystem] = useState(false);
+
     const wakeUp = !initialBoot && !startupSystem;
 
     const handleKeyPress = useCallback(
@@ -36,12 +41,6 @@ function App() {
         [startupSystem, wakeUp]
     );
 
-    const bootSystem = () => {
-        setStartupSystem(false);
-        setInitialBoot(false);
-        sessionStorage.setItem('ligado', 'true');
-    };
-
     useKeydown({ onKeyPressed: handleKeyPress });
 
     if (initialBoot) {
@@ -54,13 +53,7 @@ function App() {
 
     return (
         <RetroMonitor>
-            <Activity mode={startupSystem ? 'visible' : 'hidden'}>
-                <BootScreen onBoot={bootSystem} />
-            </Activity>
-            <Activity mode={wakeUp ? 'visible' : 'hidden'}>
-                <Desktop />
-                <Taskbar />
-            </Activity>
+            <OSKernel />
         </RetroMonitor>
     );
 }

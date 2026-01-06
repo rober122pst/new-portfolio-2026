@@ -11,7 +11,7 @@ export default function RetroMonitor({ children }: RetroMonitorProps) {
     return (
         <div className="flex items-center justify-center h-screen bg-black overflow-hidden">
             <div style={{ scale }} className="relative aspect-4/3 h-150 overflow-hidden mx-auto origin-center">
-                <div className="grid grid-rows-[1fr_auto] h-full m-auto">{children}</div>
+                <div className="w-full h-full m-auto">{children}</div>
             </div>
             <CRTOverlays />
         </div>
