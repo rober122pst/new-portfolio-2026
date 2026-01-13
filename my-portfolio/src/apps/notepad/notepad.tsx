@@ -1,16 +1,16 @@
+import { useFileSystemActions } from '../../store/filesystem';
+import { useProcessActions } from '../../store/processes';
+
 import { useState } from 'react';
-import { useFileSystemStore } from '../../store/filesystem';
-import { useProcessStore } from '../../store/processes';
 
 interface NotepadProps {
     pid: string;
 }
 
 export default function Notepad({ pid }: NotepadProps) {
-    const process = useProcessStore((s) => s.getProcess(pid));
-    const updateData = useProcessStore((s) => s.updateData);
-    const getItem = useFileSystemStore((s) => s.getItem);
-    const updateFileContent = useFileSystemStore((s) => s.updateFileContent);
+    const { updateData, getProcess } = useProcessActions();
+    const process = getProcess(pid);
+    const { updateFileContent, getItem } = useFileSystemActions();
 
     const fileId = (process?.data as { fileId: string })?.fileId;
 

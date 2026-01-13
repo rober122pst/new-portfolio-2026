@@ -4,17 +4,17 @@ import { useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import FileItem from '../../components/fileItem';
 import { useOpenFile } from '../../hooks/useOpenItem';
-import { useProcessStore } from '../../store/processes';
+import { useProcessActions } from '../../store/processes';
 
 export default function FileExplorer({ pid }: { pid: string }) {
     const [selected, setSelected] = useState<string[]>([]);
-    const process = useProcessStore((s) => s.getProcess(pid));
-    const updateProcessData = useProcessStore((s) => s.updateData);
+    const { updateData: updateProcessData, getProcess } = useProcessActions();
+    const process = getProcess(pid);
     const currentFolderId = (process?.data as { currentFolderId: string }).currentFolderId || SYSTEM_IDS.MY_COMPUTER;
 
     const items = useFileSystemStore(useShallow(selectItemsInFolder(currentFolderId)));
 
-    const currentFolderItem = useFileSystemStore((s) => s.getItem(currentFolderId));
+    // const currentFolderItem = useFileSystemActions().getItem(currentFolderId);
 
     const openFile = useOpenFile();
 
@@ -28,11 +28,11 @@ export default function FileExplorer({ pid }: { pid: string }) {
         }
     };
 
-    const handleBack = () => {
-        if (currentFolderItem && currentFolderItem.parentId) {
-            updateProcessData(pid, { currentFolderId: currentFolderItem.parentId });
-        }
-    };
+    // const handleBack = () => {
+    //     if (currentFolderItem && currentFolderItem.parentId) {
+    //         updateProcessData(pid, { currentFolderId: currentFolderItem.parentId });
+    //     }
+    // };
 
     const handleSelected = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.stopPropagation();

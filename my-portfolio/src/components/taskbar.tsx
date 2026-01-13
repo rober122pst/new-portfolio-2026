@@ -50,7 +50,7 @@ export default function Taskbar() {
                     const fileId =
                         (process.data as { fileId: string })?.fileId ||
                         (process.data as { currentFolderId: string })?.currentFolderId;
-                    const file = useFileSystemStore.getState().getItem(fileId);
+                    const file = useFileSystemStore.getState().actions.getItem(fileId);
 
                     const AppIcon = appRegistry[process.appId].icon;
 

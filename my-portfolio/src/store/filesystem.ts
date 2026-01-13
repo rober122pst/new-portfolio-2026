@@ -16,7 +16,7 @@ export const SYSTEM_IDS = {
 
 export type FileType = 'file' | 'folder' | 'shortcut';
 
-export interface FileSystemItem {
+export type FileSystemItem = {
     id: string;
     parentId: string | null;
     name: string;
@@ -31,12 +31,9 @@ export interface FileSystemItem {
         targetId?: string;
         appId?: AppId;
     };
-}
+};
 
-interface FileSystemStore {
-    items: Record<string, FileSystemItem>; // Mapeamento de ID para FileSystemItem
-    rootId: string;
-
+type FileSystemActions = {
     createItem: (parentId: string, name: string, type: FileType, extension?: string) => string;
     deleteItem: (id: string) => void;
     renameItem: (id: string, newName: string) => void;
@@ -45,6 +42,12 @@ interface FileSystemStore {
 
     getItem: (id: string) => FileSystemItem | undefined;
     resolvePath: (id: string) => string;
+};
+
+interface FileSystemStore {
+    items: Record<string, FileSystemItem>; // Mapeamento de ID para FileSystemItem
+    rootId: string;
+    actions: FileSystemActions;
 }
 
 const initialItems: Record<string, FileSystemItem> = {
@@ -136,70 +139,76 @@ export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
     items: initialItems,
     rootId: SYSTEM_IDS.ROOT,
 
-    createItem: (parentId, name, type, extension) => {
-        const id = crypto.randomUUID();
-        const newItem: FileSystemItem = {
-            id,
-            parentId,
-            name,
-            type,
-            extension: type === 'file' ? extension : undefined,
-            createdAt: Date.now(),
-        };
-
-        set((state) => ({
-            items: { ...state.items, [id]: newItem },
-        }));
-
-        return id;
-    },
-    deleteItem: (id) => {
-        set((state) => {
-            const newItems = { ...state.items };
-
-            const deleteRecursive = (itemId: string) => {
-                const children = Object.values(newItems).filter((item) => item.parentId === itemId);
-                children.forEach((children) => deleteRecursive(children.id));
-                delete newItems[itemId];
+    actions: {
+        createItem: (parentId, name, type, extension) => {
+            const id = crypto.randomUUID();
+            const newItem: FileSystemItem = {
+                id,
+                parentId,
+                name,
+                type,
+                extension: type === 'file' ? extension : undefined,
+                createdAt: Date.now(),
             };
 
-            deleteRecursive(id);
-            return { items: newItems };
-        });
-    },
-    renameItem: (id, newName) => {
-        set((state) => ({
-            items: {
-                ...state.items,
-                [id]: { ...state.items[id], name: newName },
-            },
-        }));
-    },
+            set((state) => ({
+                items: { ...state.items, [id]: newItem },
+            }));
 
-    updateFileContent: (id, content) => {
-        set((state) => ({
-            items: {
-                ...state.items,
-                [id]: { ...state.items[id], content },
-            },
-        }));
-    },
+            return id;
+        },
+        deleteItem: (id) => {
+            set((state) => {
+                const newItems = { ...state.items };
 
-    getItem: (id) => {
-        return get().items[id];
-    },
+                const deleteRecursive = (itemId: string) => {
+                    const children = Object.values(newItems).filter((item) => item.parentId === itemId);
+                    children.forEach((children) => deleteRecursive(children.id));
+                    delete newItems[itemId];
+                };
 
-    resolvePath: (id) => {
-        const state = get();
-        let currentItem = state.items[id];
-        const pathParts: string[] = [];
+                deleteRecursive(id);
+                return { items: newItems };
+            });
+        },
+        renameItem: (id, newName) => {
+            set((state) => ({
+                items: {
+                    ...state.items,
+                    [id]: { ...state.items[id], name: newName },
+                },
+            }));
+        },
 
-        while (currentItem) {
-            pathParts.unshift(currentItem.name);
-            if (!currentItem.parentId) break;
-            currentItem = state.items[currentItem.parentId];
-        }
+        updateFileContent: (id, content) => {
+            set((state) => ({
+                items: {
+                    ...state.items,
+                    [id]: { ...state.items[id], content },
+                },
+            }));
+        },
 
-        return pathParts.join('/');
+        getItem: (id) => {
+            return get().items[id];
+        },
+
+        resolvePath: (id) => {
+            const state = get();
+            let currentItem = state.items[id];
+            const pathParts: string[] = [];
+
+            while (currentItem) {
+                pathParts.unshift(currentItem.name);
+                if (!currentItem.parentId) break;
+                currentItem = state.items[currentItem.parentId];
+            }
+
+            return pathParts.join('/');
+        },
     },
 }));
+
+export const useItems = () => useFileSystemStore((s) => s.items);
+export const useSystemRootId = () => useFileSystemStore((s) => s.rootId);
+export const useFileSystemActions = () => useFileSystemStore((s) => s.actions);

@@ -1,11 +1,8 @@
-// useDesktopStore.ts
-
 import { create } from 'zustand';
 
 interface DesktopStore {
     width: number;
     height: number;
-    // eslint-disable-next-line no-unused-vars
     setSize: (w: number, h: number) => void;
 }
 
