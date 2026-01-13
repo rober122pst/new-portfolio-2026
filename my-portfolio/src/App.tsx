@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
 
+import { ErrorBoundary } from 'react-error-boundary';
+import { useTranslation } from 'react-i18next';
+import startupAudio from './assets/audios/button_startup.mp3';
+import BlueScreen from './components/blueScreen';
 import OSKernel from './components/kernel';
 import RetroMonitor from './components/retroMonitor';
-import startupAudio from './assets/audios/button_startup.mp3';
 import { useKeydown } from './hooks/useKeydown';
-import { useTranslation } from 'react-i18next';
 
 // import Desktop from './components/desktop';
 
@@ -53,7 +55,9 @@ function App() {
 
     return (
         <RetroMonitor>
-            <OSKernel />
+            <ErrorBoundary fallbackRender={({ error }) => <BlueScreen message={`${error.name}: ${error.message}`} />}>
+                <OSKernel />
+            </ErrorBoundary>
         </RetroMonitor>
     );
 }

@@ -1,7 +1,7 @@
-import { getFileIcon, openFile } from '../core/system';
-
 import type { ButtonHTMLAttributes } from 'react';
 import { useMemo } from 'react';
+import { getFileIcon } from '../core/system';
+import { useOpenFile } from '../hooks/useOpenItem';
 import type { FileSystemItem } from '../store/filesystem';
 
 interface FileItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,6 +13,8 @@ export default function FileItem({ item, isSelected, ...props }: FileItemProps) 
     const IconComponent = useMemo(() => {
         return getFileIcon(item);
     }, [item]);
+
+    const openFile = useOpenFile();
 
     return (
         <button

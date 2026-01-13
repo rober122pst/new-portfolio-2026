@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { selectItemsInFolder, useFileSystemStore } from '../store/filesystem';
 
+import { ErrorBoundary } from 'react-error-boundary';
 import { useShallow } from 'zustand/react/shallow';
 import { useDesktopStore } from '../store/desktop';
 import FileItem from './fileItem';
@@ -68,12 +69,14 @@ export default function Desktop() {
                     const isSelected = selected.includes(item.id);
 
                     return (
-                        <FileItem
-                            key={item.id}
-                            item={item}
-                            isSelected={isSelected}
-                            onClick={(e) => handleSelected(e, item.id)}
-                        />
+                        <ErrorBoundary fallbackRender={({ error }) => <div>Error loading item: {error.message}</div>}>
+                            <FileItem
+                                key={item.id}
+                                item={item}
+                                isSelected={isSelected}
+                                onClick={(e) => handleSelected(e, item.id)}
+                            />
+                        </ErrorBoundary>
                     );
                 })}
         </main>

@@ -9,9 +9,7 @@ type Process = {
     data?: unknown;
 };
 
-type ProcessStore = {
-    processes: Process[];
-
+type ProccesActions = {
     openProcess: (appId: AppId, data?: unknown) => string;
     closeProcess: (pid: string) => void;
     getProcess: (pid: string) => Process | undefined;
@@ -21,45 +19,55 @@ type ProcessStore = {
     toggleActive: (pid: string) => void;
 };
 
+type ProcessStore = {
+    processes: Process[];
+    actions: ProccesActions;
+};
+
 export const useProcessStore = create<ProcessStore>((set, get) => ({
     processes: [],
 
-    openProcess: (appId, data) => {
-        const pid = crypto.randomUUID();
-        set((state) => {
-            return {
-                processes: [
-                    ...state.processes.map((p) => ({ ...p, isActive: false })),
-                    { pid, appId, status: 'running', isActive: true, data },
-                ],
-            };
-        });
+    actions: {
+        openProcess: (appId, data) => {
+            const pid = crypto.randomUUID();
+            set((state) => {
+                return {
+                    processes: [
+                        ...state.processes.map((p) => ({ ...p, isActive: false })),
+                        { pid, appId, status: 'running', isActive: true, data },
+                    ],
+                };
+            });
 
-        return pid;
-    },
+            return pid;
+        },
 
-    closeProcess: (pid) => {
-        set((state) => ({
-            processes: state.processes.filter((p) => p.pid !== pid),
-        }));
-    },
+        closeProcess: (pid) => {
+            set((state) => ({
+                processes: state.processes.filter((p) => p.pid !== pid),
+            }));
+        },
 
-    getProcess: (pid) => {
-        return get().processes.find((p) => p.pid === pid);
-    },
+        getProcess: (pid) => {
+            return get().processes.find((p) => p.pid === pid);
+        },
 
-    updateData: (pid, data) => {
-        set((state) => ({
-            processes: state.processes.map((p) => (p.pid === pid ? { ...p, data } : p)),
-        }));
-    },
+        updateData: (pid, data) => {
+            set((state) => ({
+                processes: state.processes.map((p) => (p.pid === pid ? { ...p, data } : p)),
+            }));
+        },
 
-    toggleActive: (pid) => {
-        set((state) => ({
-            processes: state.processes.map((p) => ({
-                ...p,
-                isActive: p.pid === pid ? true : false,
-            })),
-        }));
+        toggleActive: (pid) => {
+            set((state) => ({
+                processes: state.processes.map((p) => ({
+                    ...p,
+                    isActive: p.pid === pid ? true : false,
+                })),
+            }));
+        },
     },
 }));
+
+export const useProcesses = () => useProcessStore((s) => s.processes);
+export const useProcessActions = () => useProcessStore((s) => s.actions);

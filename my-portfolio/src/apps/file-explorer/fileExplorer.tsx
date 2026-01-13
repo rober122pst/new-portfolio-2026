@@ -3,7 +3,7 @@ import { SYSTEM_IDS, selectItemsInFolder, useFileSystemStore } from '../../store
 import { useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import FileItem from '../../components/fileItem';
-import { openFile } from '../../core/system';
+import { useOpenFile } from '../../hooks/useOpenItem';
 import { useProcessStore } from '../../store/processes';
 
 export default function FileExplorer({ pid }: { pid: string }) {
@@ -15,6 +15,8 @@ export default function FileExplorer({ pid }: { pid: string }) {
     const items = useFileSystemStore(useShallow(selectItemsInFolder(currentFolderId)));
 
     const currentFolderItem = useFileSystemStore((s) => s.getItem(currentFolderId));
+
+    const openFile = useOpenFile();
 
     const handleNavigate = (id: string, type: string) => {
         if (type === 'folder') {

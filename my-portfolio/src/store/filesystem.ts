@@ -9,6 +9,9 @@ export const SYSTEM_IDS = {
     DESKTOP: 'desktop-id',
     MY_COMPUTER: 'my-computer-virtual-id',
     DOCUMENTS: 'documents-id',
+    USERS: 'users-id',
+    USER: 'user-id',
+    SYSTEM: 'rbxOS-id',
 };
 
 export type FileType = 'file' | 'folder' | 'shortcut';
@@ -59,9 +62,30 @@ const initialItems: Record<string, FileSystemItem> = {
         type: 'folder',
         createdAt: Date.now(),
     },
+    [SYSTEM_IDS.USERS]: {
+        id: SYSTEM_IDS.USERS,
+        parentId: SYSTEM_IDS.C_DRIVE,
+        name: 'Usuários',
+        type: 'folder',
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.USER]: {
+        id: SYSTEM_IDS.USER,
+        parentId: SYSTEM_IDS.USERS,
+        name: localStorage.getItem('user') ?? 'User',
+        type: 'folder',
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.SYSTEM]: {
+        id: SYSTEM_IDS.SYSTEM,
+        parentId: SYSTEM_IDS.C_DRIVE,
+        name: 'rbx',
+        type: 'folder',
+        createdAt: Date.now(),
+    },
     [SYSTEM_IDS.DESKTOP]: {
         id: SYSTEM_IDS.DESKTOP,
-        parentId: SYSTEM_IDS.C_DRIVE,
+        parentId: SYSTEM_IDS.USER,
         name: 'Área de Trabalho',
         type: 'folder',
         createdAt: Date.now(),
@@ -79,9 +103,27 @@ const initialItems: Record<string, FileSystemItem> = {
     },
     [SYSTEM_IDS.DOCUMENTS]: {
         id: SYSTEM_IDS.DOCUMENTS,
-        parentId: SYSTEM_IDS.C_DRIVE,
+        parentId: SYSTEM_IDS.USER,
         name: 'Documentos',
         type: 'folder',
+        createdAt: Date.now(),
+    },
+    'window-error': {
+        id: 'window-error',
+        parentId: SYSTEM_IDS.SYSTEM,
+        name: 'ErrorWindow',
+        type: 'file',
+        extension: 'exe',
+        metadata: {},
+        createdAt: Date.now(),
+    },
+    'window-': {
+        id: 'window-',
+        parentId: SYSTEM_IDS.DESKTOP,
+        name: 'ErrorWindow',
+        type: 'file',
+        extension: 'exe',
+        metadata: {},
         createdAt: Date.now(),
     },
 };

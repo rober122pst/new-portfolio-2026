@@ -44,7 +44,15 @@ export default defineConfig([
           bracketSameLine: false,
           endOfLine: 'crlf',
         },
-    ],
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_"
+        }
+      ]
     },
   },
 ])

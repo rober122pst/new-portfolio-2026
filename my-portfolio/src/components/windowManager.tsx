@@ -1,11 +1,12 @@
+import { useProcessActions } from '../store/processes';
+import { useWindows } from '../store/windows';
+
 import { appRegistry } from '../core/appRegistry';
-import { useProcessStore } from '../store/processes';
-import { useWindowStore } from '../store/windows';
 import { Window } from './ui/window';
 
 export default function WindowManager({ desktopRef }: { desktopRef?: React.RefObject<HTMLElement> }) {
-    const { windows } = useWindowStore();
-    const getProcess = useProcessStore((p) => p.getProcess);
+    const windows = useWindows();
+    const { getProcess } = useProcessActions();
 
     return (
         <>

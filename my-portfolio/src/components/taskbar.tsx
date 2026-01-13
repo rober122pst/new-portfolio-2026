@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useProcessActions, useProcesses } from '../store/processes';
 
 import volumeIcon from '../assets/icons_taskbar/volume.ico';
 import soLogo from '../assets/logos/logo_16x.webp';
 import { appRegistry } from '../core/appRegistry';
 import { useFileSystemStore } from '../store/filesystem';
-import { useProcessStore } from '../store/processes';
-import { useWindowStore } from '../store/windows';
+import { useWindowActions } from '../store/windows';
 import { Button } from './ui/buttons';
 
 function Clock() {
@@ -32,11 +32,9 @@ function Clock() {
 }
 
 export default function Taskbar() {
-    const processes = useProcessStore((s) => s.processes);
-    const toggleActive = useProcessStore((s) => s.toggleActive);
-    const setFocusWindow = useWindowStore((s) => s.setFocusWindow);
-    const minimizeWindow = useWindowStore((s) => s.minimizeWindow);
-    const getWindow = useWindowStore((s) => s.getWindow);
+    const processes = useProcesses();
+    const { toggleActive } = useProcessActions();
+    const { setFocusWindow, minimizeWindow, getWindow } = useWindowActions();
 
     return (
         <footer className="relative flex justify-between items-center w-full p-1 bg-zinc-800 text-white text-[12px] select-none z-50">
@@ -53,7 +51,6 @@ export default function Taskbar() {
                         (process.data as { fileId: string })?.fileId ||
                         (process.data as { currentFolderId: string })?.currentFolderId;
                     const file = useFileSystemStore.getState().getItem(fileId);
-                    if (!file) return;
 
                     const AppIcon = appRegistry[process.appId].icon;
 
@@ -77,8 +74,8 @@ export default function Taskbar() {
                         >
                             <AppIcon className="pointer-events-none" size={16} />
                             <span className="pointer-events-none">
-                                {file.name}
-                                {file.type === 'file' ? `.${file.extension}` : ''}
+                                {file?.name || (process.data as { name: string }).name}
+                                {file?.type === 'file' ? `.${file.extension}` : ''}
                             </span>
                         </Button>
                     );

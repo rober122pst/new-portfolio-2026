@@ -1,6 +1,7 @@
-import { ExplorerIcon, NotepadIcon, TXTIcon, type IconProps } from '../components/ui/icons';
+import { ErrorIcon, ExplorerIcon, NotepadIcon, TXTIcon, type IconProps } from '../components/ui/icons';
 
 import type { JSX } from 'react';
+import DialogBox from '../apps/error-window/dialogBox';
 import FileExplorer from '../apps/file-explorer/fileExplorer';
 import Notepad from '../apps/notepad/notepad';
 
@@ -27,6 +28,12 @@ export const appRegistry: Record<string, App> = {
         icon: ExplorerIcon,
         component: FileExplorer,
         singleInstance: false,
+    },
+    dialogBox: {
+        name: 'Error',
+        icon: ErrorIcon,
+        component: DialogBox,
+        singleInstance: true,
     },
 };
 

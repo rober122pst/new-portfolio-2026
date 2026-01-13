@@ -4,8 +4,8 @@ import { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { appRegistry } from '../../core/appRegistry';
 import { useFileSystemStore } from '../../store/filesystem';
-import { useProcessStore } from '../../store/processes';
-import { useWindowStore, type Window } from '../../store/windows';
+import { useProcessActions } from '../../store/processes';
+import { useWindowActions, type Window } from '../../store/windows';
 import { Button } from './buttons';
 
 interface WindowProps {
@@ -19,12 +19,12 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
     const windowRef = useRef<HTMLDivElement>(null);
 
     const dragControls = useDragControls();
-    const { getProcess, closeProcess, toggleActive } = useProcessStore();
+    const { getProcess, closeProcess, toggleActive } = useProcessActions();
 
     const process = getProcess(myWindow.pid);
 
     const { setFocusWindow, closeWindow, toggleMaximizeWindow, minimizeWindow, setPosition, setSize } =
-        useWindowStore();
+        useWindowActions();
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
@@ -98,7 +98,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
 
     const fileId =
         (process.data as { fileId: string })?.fileId || (process.data as { currentFolderId: string })?.currentFolderId;
-    const fileName = useFileSystemStore.getState().getItem(fileId)?.name;
+    const fileName = useFileSystemStore.getState().getItem(fileId)?.name || (process.data as { name: string }).name;
 
     if (myWindow.isMinimized) return;
 
@@ -185,7 +185,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
                         onPointerDown={(e) => e.stopPropagation()}
                         onMouseDown={(e) => e.stopPropagation()}
                         onClick={() => {
-                            closeWindow(myWindow.id);
+                            closeWindow(myWindow.pid);
                             closeProcess(myWindow.pid);
                         }}
                         className="bg-zinc-800 text-white ml-1.5 size-6 text-center px-0"

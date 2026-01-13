@@ -1,4 +1,5 @@
 import type { ImgHTMLAttributes } from 'react';
+import errorIcon from '../../assets/icons/error.webp';
 import explorerIcon from '../../assets/icons/explorer.ico';
 import folderIcon from '../../assets/icons/folder_icon.ico';
 import myComputerIcon from '../../assets/icons/my_computer.gif';
@@ -53,4 +54,8 @@ export function MyComputerIcon(props: IconProps) {
 
 export function ExplorerIcon(props: IconProps) {
     return <BaseIcon src={explorerIcon} alt="Explorador de Arquivos" {...props} />;
+}
+
+export function ErrorIcon(props: IconProps) {
+    return <BaseIcon src={errorIcon} alt="Erro" {...props} />;
 }
