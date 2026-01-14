@@ -1,5 +1,6 @@
 import type { JSX } from 'react';
 import { create } from 'zustand';
+import { useShallow } from 'zustand/shallow';
 import { MyComputerIcon, type IconProps } from '../components/ui/icons';
 import type { AppId } from '../core/appRegistry';
 
@@ -40,7 +41,6 @@ type FileSystemActions = {
 
     updateFileContent: (id: string, content: unknown) => void;
 
-    getItem: (id: string) => FileSystemItem | undefined;
     resolvePath: (id: string) => string;
 };
 
@@ -111,28 +111,6 @@ const initialItems: Record<string, FileSystemItem> = {
         type: 'folder',
         createdAt: Date.now(),
     },
-    'window-error': {
-        id: 'window-error',
-        parentId: SYSTEM_IDS.SYSTEM,
-        name: 'ErrorWindow',
-        type: 'file',
-        extension: 'exe',
-        metadata: {},
-        createdAt: Date.now(),
-    },
-    'window-': {
-        id: 'window-',
-        parentId: SYSTEM_IDS.DESKTOP,
-        name: 'ErrorWindow',
-        type: 'file',
-        extension: 'exe',
-        metadata: {},
-        createdAt: Date.now(),
-    },
-};
-
-export const selectItemsInFolder = (folderId: string) => (state: FileSystemStore) => {
-    return Object.values(state.items).filter((item) => item.parentId === folderId);
 };
 
 export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
@@ -189,10 +167,6 @@ export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
             }));
         },
 
-        getItem: (id) => {
-            return get().items[id];
-        },
-
         resolvePath: (id) => {
             const state = get();
             let currentItem = state.items[id];
@@ -210,5 +184,9 @@ export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
 }));
 
 export const useItems = () => useFileSystemStore((s) => s.items);
+export const useFileSystemItem = (id: string) => useFileSystemStore((s) => s.items[id]);
 export const useSystemRootId = () => useFileSystemStore((s) => s.rootId);
+export const useFolderItems = (folderId: string) => {
+    return useFileSystemStore(useShallow((s) => Object.values(s.items).filter((item) => item.parentId === folderId)));
+};
 export const useFileSystemActions = () => useFileSystemStore((s) => s.actions);

@@ -1,18 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { selectItemsInFolder, useFileSystemStore } from '../store/filesystem';
+import { useEffect, useRef, useState } from 'react';
+import { SYSTEM_IDS, useFolderItems } from '../store/filesystem';
 
 import { ErrorBoundary } from 'react-error-boundary';
-import { useShallow } from 'zustand/react/shallow';
 import { useDesktopStore } from '../store/desktop';
-import FileItem from './fileItem';
+import FileItem from './ui/fileItem';
 import WindowManager from './windowManager';
 
 export default function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);
     const desktopRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
-    const selectDesktop = useMemo(() => selectItemsInFolder('desktop-id'), []);
 
-    const desktopItems = useFileSystemStore(useShallow(selectDesktop));
+    const desktopItems = useFolderItems(SYSTEM_IDS.DESKTOP);
 
     const setSize = useDesktopStore((s) => s.setSize);
 
@@ -69,13 +67,11 @@ export default function Desktop() {
                     const isSelected = selected.includes(item.id);
 
                     return (
-                        <ErrorBoundary fallbackRender={({ error }) => <div>Error loading item: {error.message}</div>}>
-                            <FileItem
-                                key={item.id}
-                                item={item}
-                                isSelected={isSelected}
-                                onClick={(e) => handleSelected(e, item.id)}
-                            />
+                        <ErrorBoundary
+                            key={item.id}
+                            fallbackRender={({ error }) => <div>Error loading item: {error.message}</div>}
+                        >
+                            <FileItem item={item} isSelected={isSelected} onClick={(e) => handleSelected(e, item.id)} />
                         </ErrorBoundary>
                     );
                 })}

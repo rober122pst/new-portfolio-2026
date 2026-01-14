@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes } from 'react';
 import { useMemo } from 'react';
-import { getFileIcon } from '../core/system';
-import { useOpenFile } from '../hooks/useOpenItem';
-import type { FileSystemItem } from '../store/filesystem';
+import { getFileIcon } from '../../core/system';
+import { useOpenFile } from '../../hooks/useOpenItem';
+import type { FileSystemItem } from '../../store/filesystem';
 
 interface FileItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     item: FileSystemItem;
@@ -18,7 +18,6 @@ export default function FileItem({ item, isSelected, ...props }: FileItemProps) 
 
     return (
         <button
-            key={item.id}
             data-selected={isSelected}
             className="
                             relative

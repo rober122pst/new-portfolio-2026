@@ -1,4 +1,4 @@
-import { useFileSystemStore } from '../store/filesystem';
+import { useFileSystemItem } from '../store/filesystem';
 import { appRegistry } from './appRegistry';
 
 import type { JSX } from 'react';
@@ -7,6 +7,8 @@ import type { FileSystemItem } from '../store/filesystem';
 
 // Esta função devolve o Componente do ícone correto
 export function getFileIcon(file: FileSystemItem): (props: IconProps) => JSX.Element {
+    const getItem = useFileSystemItem;
+
     if (file.icon) {
         return file.icon;
     }
@@ -18,7 +20,7 @@ export function getFileIcon(file: FileSystemItem): (props: IconProps) => JSX.Ele
         }
 
         if (file.metadata.targetId) {
-            const targetItem = useFileSystemStore.getState().getItem(file.metadata.targetId);
+            const targetItem = getItem(file.metadata.targetId);
             if (targetItem) {
                 return getFileIcon(targetItem);
             }

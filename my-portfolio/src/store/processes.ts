@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { AppId } from '../core/appRegistry';
 
-type Process = {
+export type Process = {
     pid: string;
     appId: AppId;
     status: 'running' | 'suspended' | 'closed';
@@ -12,7 +12,6 @@ type Process = {
 type ProccesActions = {
     openProcess: (appId: AppId, data?: unknown) => string;
     closeProcess: (pid: string) => void;
-    getProcess: (pid: string) => Process | undefined;
 
     updateData: (pid: string, data: unknown) => void;
 
@@ -24,7 +23,7 @@ type ProcessStore = {
     actions: ProccesActions;
 };
 
-export const useProcessStore = create<ProcessStore>((set, get) => ({
+export const useProcessStore = create<ProcessStore>((set) => ({
     processes: [],
 
     actions: {
@@ -48,10 +47,6 @@ export const useProcessStore = create<ProcessStore>((set, get) => ({
             }));
         },
 
-        getProcess: (pid) => {
-            return get().processes.find((p) => p.pid === pid);
-        },
-
         updateData: (pid, data) => {
             set((state) => ({
                 processes: state.processes.map((p) => (p.pid === pid ? { ...p, data } : p)),
@@ -70,4 +65,5 @@ export const useProcessStore = create<ProcessStore>((set, get) => ({
 }));
 
 export const useProcesses = () => useProcessStore((s) => s.processes);
+export const useProcess = (pid: string) => useProcessStore((state) => state.processes.find((p) => p.pid === pid));
 export const useProcessActions = () => useProcessStore((s) => s.actions);

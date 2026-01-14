@@ -28,8 +28,6 @@ type WindowActions = {
 
     setPosition: (id: string, position: { x: number; y: number }) => void;
     setSize: (id: string, size: { width: number; height: number }) => void;
-
-    getWindow: (params: { id?: string; pid?: string }) => Window | undefined;
 };
 
 type WindowStore = {
@@ -38,7 +36,7 @@ type WindowStore = {
     actions: WindowActions;
 };
 
-export const useWindowStore = create<WindowStore>((set, get) => ({
+export const useWindowStore = create<WindowStore>((set) => ({
     windows: [],
     topZIndex: 1,
     actions: {
@@ -142,12 +140,10 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
             set((state) => ({
                 windows: state.windows.map((w) => (w.id === id ? { ...w, size } : w)),
             })),
-
-        getWindow: ({ id, pid }) => {
-            return get().windows.find((w) => (id ? w.id === id : pid ? w.pid === pid : false));
-        },
     },
 }));
 
 export const useWindows = () => useWindowStore((s) => s.windows);
+export const useWindow = ({ id, pid }: { id?: string; pid?: string }) =>
+    useWindowStore((s) => s.windows.find((w) => (id ? w.id === id : pid ? w.pid === pid : false)));
 export const useWindowActions = () => useWindowStore((s) => s.actions);

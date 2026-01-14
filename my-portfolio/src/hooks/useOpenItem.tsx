@@ -1,11 +1,12 @@
 import { appRegistry, type AppId } from '../core/appRegistry';
-import { useFileSystemStore } from '../store/filesystem';
-import { useProcessStore } from '../store/processes';
-import { useWindowStore } from '../store/windows';
+import { useFileSystemActions, useFileSystemStore } from '../store/filesystem';
+import { useProcessActions, useProcessStore } from '../store/processes';
+import { useWindowActions } from '../store/windows';
 
 export function useOpenFile() {
-    const openProcess = useProcessStore.getState().actions.openProcess;
-    const openWindow = useWindowStore.getState().actions.openWindow;
+    const { openProcess } = useProcessActions();
+    const { openWindow } = useWindowActions();
+    const { resolvePath } = useFileSystemActions();
 
     const launchErrorDialog = (name: string, message: string) => {
         try {
@@ -33,8 +34,7 @@ export function useOpenFile() {
     };
 
     const openFile = (fileId: string) => {
-        const file = useFileSystemStore.getState().getItem(fileId);
-        const resolvePath = useFileSystemStore.getState().resolvePath;
+        const file = useFileSystemStore.getState().items[fileId];
         if (!file) return;
 
         if (file.type === 'shortcut' && file.metadata) {

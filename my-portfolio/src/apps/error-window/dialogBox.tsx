@@ -1,12 +1,13 @@
+import { useProcess, useProcessActions } from '../../store/processes';
+
 import { Button } from '../../components/ui/buttons';
 import { ErrorIcon } from '../../components/ui/icons';
-import { useProcessActions } from '../../store/processes';
 import { useWindowActions } from '../../store/windows';
 
 export default function DialogBox({ pid }: { pid: string }) {
-    const { getProcess, closeProcess } = useProcessActions();
+    const { closeProcess } = useProcessActions();
     const { closeWindow } = useWindowActions();
-    const process = getProcess(pid);
+    const process = useProcess(pid);
 
     return (
         <div className="flex flex-col justify-center items-center w-full h-full gap-3">

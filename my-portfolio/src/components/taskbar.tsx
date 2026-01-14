@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useProcessActions, useProcesses } from '../store/processes';
+import { useFileSystemItem } from '../store/filesystem';
+import { useProcessActions, useProcesses, type Process } from '../store/processes';
+import { useWindow, useWindowActions } from '../store/windows';
 
 import volumeIcon from '../assets/icons_taskbar/volume.ico';
 import soLogo from '../assets/logos/logo_16x.webp';
 import { appRegistry } from '../core/appRegistry';
-import { useFileSystemStore } from '../store/filesystem';
-import { useWindowActions } from '../store/windows';
 import { Button } from './ui/buttons';
 
 function Clock() {
@@ -31,10 +31,44 @@ function Clock() {
     );
 }
 
+function TaskbarItems({ process }: { process: Process }) {
+    const { toggleActive } = useProcessActions();
+    const { setFocusWindow, minimizeWindow } = useWindowActions();
+
+    const fileId =
+        (process.data as { fileId: string })?.fileId || (process.data as { currentFolderId: string })?.currentFolderId;
+    const file = useFileSystemItem(fileId);
+
+    const AppIcon = appRegistry[process.appId].icon;
+
+    const window = useWindow({ pid: process.pid });
+    if (!window) return null;
+
+    return (
+        <Button
+            data-process-id={process.pid}
+            onClick={() => {
+                if (process.isActive) {
+                    minimizeWindow(window.id);
+                    toggleActive('');
+                } else {
+                    setFocusWindow(process.pid, true);
+                }
+            }}
+            active={process.isActive}
+            className="flex items-center gap-1 h-full"
+        >
+            <AppIcon className="pointer-events-none" size={16} />
+            <span className="pointer-events-none">
+                {file?.name || (process.data as { name: string }).name}
+                {file?.type === 'file' ? `.${file.extension}` : ''}
+            </span>
+        </Button>
+    );
+}
+
 export default function Taskbar() {
     const processes = useProcesses();
-    const { toggleActive } = useProcessActions();
-    const { setFocusWindow, minimizeWindow, getWindow } = useWindowActions();
 
     return (
         <footer className="relative flex justify-between items-center w-full p-1 bg-zinc-800 text-white text-[12px] select-none z-50">
@@ -46,40 +80,9 @@ export default function Taskbar() {
 
             {/* Programas e janelas abertas */}
             <div className="flex-1 flex gap-1 px-2 h-full">
-                {processes.map((process) => {
-                    const fileId =
-                        (process.data as { fileId: string })?.fileId ||
-                        (process.data as { currentFolderId: string })?.currentFolderId;
-                    const file = useFileSystemStore.getState().actions.getItem(fileId);
-
-                    const AppIcon = appRegistry[process.appId].icon;
-
-                    const window = getWindow({ pid: process.pid });
-                    if (!window) return null;
-
-                    return (
-                        <Button
-                            data-process-id={process.pid}
-                            onClick={() => {
-                                if (process.isActive) {
-                                    minimizeWindow(window.id);
-                                    toggleActive('');
-                                } else {
-                                    setFocusWindow(process.pid, true);
-                                }
-                            }}
-                            active={process.isActive}
-                            key={process.pid}
-                            className="flex items-center gap-1 h-full"
-                        >
-                            <AppIcon className="pointer-events-none" size={16} />
-                            <span className="pointer-events-none">
-                                {file?.name || (process.data as { name: string }).name}
-                                {file?.type === 'file' ? `.${file.extension}` : ''}
-                            </span>
-                        </Button>
-                    );
-                })}
+                {processes.map((process) => (
+                    <TaskbarItems key={process.pid} process={process} />
+                ))}
             </div>
 
             {/* Área de horario e processos */}

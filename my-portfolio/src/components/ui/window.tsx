@@ -3,8 +3,8 @@ import { motion, useDragControls } from 'motion/react';
 import { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { appRegistry } from '../../core/appRegistry';
-import { useFileSystemStore } from '../../store/filesystem';
-import { useProcessActions } from '../../store/processes';
+import { useFileSystemItem } from '../../store/filesystem';
+import { useProcess, useProcessActions } from '../../store/processes';
 import { useWindowActions, type Window } from '../../store/windows';
 import { Button } from './buttons';
 
@@ -19,9 +19,13 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
     const windowRef = useRef<HTMLDivElement>(null);
 
     const dragControls = useDragControls();
-    const { getProcess, closeProcess, toggleActive } = useProcessActions();
+    const { closeProcess, toggleActive } = useProcessActions();
 
-    const process = getProcess(myWindow.pid);
+    const process = useProcess(myWindow.pid);
+    const fileId =
+        (process?.data as { fileId: string })?.fileId ||
+        (process?.data as { currentFolderId: string })?.currentFolderId;
+    const fileName = useFileSystemItem(fileId).name || (process?.data as { name: string }).name;
 
     const { setFocusWindow, closeWindow, toggleMaximizeWindow, minimizeWindow, setPosition, setSize } =
         useWindowActions();
@@ -93,12 +97,7 @@ export function Window({ className, myWindow, desktopRef, children }: WindowProp
     }, [myWindow.position]);
 
     if (!process) return; // Checagem segura caso o processo não seja encontrado
-
     const app = appRegistry[process.appId];
-
-    const fileId =
-        (process.data as { fileId: string })?.fileId || (process.data as { currentFolderId: string })?.currentFolderId;
-    const fileName = useFileSystemStore.getState().getItem(fileId)?.name || (process.data as { name: string }).name;
 
     if (myWindow.isMinimized) return;
 
