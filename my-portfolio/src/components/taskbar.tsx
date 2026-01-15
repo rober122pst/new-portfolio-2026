@@ -26,7 +26,6 @@ function Clock() {
                     minute: '2-digit',
                 })}
             </p>
-            <p>{now.toLocaleDateString()}</p>
         </>
     );
 }
@@ -87,7 +86,7 @@ export default function Taskbar() {
 
             {/* Área de horario e processos */}
             <div className="border-2 px-3 py-0.5 border-sunk bg-zinc-900/30 flex items-center">
-                <div className="mr-2 p-1.5">
+                <div className="mr-2 py-0.5 px-1.5">
                     <img src={volumeIcon} alt="volume" />
                 </div>
                 <div className="flex flex-col justify-center h-full text-right pointer-events-none">

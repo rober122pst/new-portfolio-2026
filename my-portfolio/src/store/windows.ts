@@ -40,7 +40,7 @@ export const useWindowStore = create<WindowStore>((set) => ({
     windows: [],
     topZIndex: 1,
     actions: {
-        openWindow: (pid, size = { width: 800, height: 600 }) => {
+        openWindow: (pid, size = { width: 600, height: 400 }) => {
             set((state) => {
                 const id = crypto.randomUUID();
                 const toggleActive = useProcessStore.getState().actions.toggleActive;

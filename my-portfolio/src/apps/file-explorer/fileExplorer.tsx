@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { SYSTEM_IDS, useFileSystemActions, useFileSystemItem, useFolderItems } from '../../store/filesystem';
 import { useProcess, useProcessActions } from '../../store/processes';
 
+import { useState } from 'react';
 import FileItem from '../../components/ui/fileItem';
 import { useOpenFile } from '../../hooks/useOpenItem';
 
@@ -18,13 +18,7 @@ export default function FileExplorer({ pid }: { pid: string }) {
 
     const openFile = useOpenFile();
 
-    // ! Debug
-    useEffect(() => {
-        console.log(process);
-    }, [process]);
-
     const handleNavigate = (id: string, type: string) => {
-        console.log('apertou');
         if (type === 'folder') {
             // SE FOR PASTA: Não abre janela! Atualiza o processo atual.
             updateProcessData(pid, { currentFolderId: id });
@@ -48,21 +42,23 @@ export default function FileExplorer({ pid }: { pid: string }) {
     };
 
     return (
-        <div className="relative w-full h-full bg-zinc-500 flex flex-wrap px-5 py-2">
-            {items.length > 0 &&
-                items.map((item) => {
-                    const isSelected = selected.includes(item.id);
+        <div className="relative w-full h-full overflow-hidden">
+            <div className="absolute h-full w-full min-h-0 bg-zinc-500 flex flex-wrap px-5 py-2 overflow-hidden">
+                {items.length > 0 &&
+                    items.map((item) => {
+                        const isSelected = selected.includes(item.id);
 
-                    return (
-                        <FileItem
-                            key={item.id}
-                            item={item}
-                            isSelected={isSelected}
-                            onClick={(e) => handleSelected(e, item.id)}
-                            onDoubleClick={() => handleNavigate(item.id, item.type)}
-                        />
-                    );
-                })}
+                        return (
+                            <FileItem
+                                key={item.id}
+                                item={item}
+                                isSelected={isSelected}
+                                onClick={(e) => handleSelected(e, item.id)}
+                                onDoubleClick={() => handleNavigate(item.id, item.type)}
+                            />
+                        );
+                    })}
+            </div>
         </div>
     );
 }

@@ -13,3 +13,5 @@ export const useMonitorStore = create<Monitor>((set) => ({
 window.addEventListener('resize', () => {
     useMonitorStore.getState().updateScale();
 });
+
+export const useScale = () => useMonitorStore((s) => s.scale);

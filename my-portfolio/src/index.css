@@ -66,8 +66,15 @@ body,
   z-index: 9999;
 }
 
-.border-groove {
-  border-style: groove;
+.react-draggable-dragging, 
+.react-draggable-dragging * {
+    transition: none !important;
+}
+
+.window-container {
+  will-change: transform, width, height;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 @utility border-elevated {

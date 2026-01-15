@@ -1,201 +1,198 @@
-import { motion, useDragControls } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
+import { Rnd } from 'react-rnd';
 import { twMerge } from 'tailwind-merge';
 import { appRegistry } from '../../core/appRegistry';
+import { useDesktopPosition, useDesktopScale } from '../../store/desktop';
 import { useFileSystemItem } from '../../store/filesystem';
+import { useScale } from '../../store/monitor';
 import { useProcess, useProcessActions } from '../../store/processes';
-import { useWindowActions, type Window } from '../../store/windows';
+import { useWindowActions, type Window as WindowType } from '../../store/windows';
 import { Button } from './buttons';
 
 interface WindowProps {
     className?: string;
-    myWindow: Window;
-    desktopRef?: React.RefObject<HTMLElement>;
+    myWindow: WindowType;
     children?: React.ReactNode;
 }
 
-export function Window({ className, myWindow, desktopRef, children }: WindowProps) {
-    const windowRef = useRef<HTMLDivElement>(null);
+export const Window = memo(
+    ({ className, myWindow, children }: WindowProps) => {
+        const windowRef = useRef<HTMLDivElement>(null);
+        const scale = useScale();
+        const desktop = { size: useDesktopScale(), pos: useDesktopPosition() };
 
-    const dragControls = useDragControls();
-    const { closeProcess, toggleActive } = useProcessActions();
+        const { closeProcess, toggleActive } = useProcessActions();
 
-    const process = useProcess(myWindow.pid);
-    const fileId =
-        (process?.data as { fileId: string })?.fileId ||
-        (process?.data as { currentFolderId: string })?.currentFolderId;
-    const fileName = useFileSystemItem(fileId).name || (process?.data as { name: string }).name;
+        const process = useProcess(myWindow.pid);
+        const fileId =
+            (process?.data as { fileId: string })?.fileId ||
+            (process?.data as { currentFolderId: string })?.currentFolderId;
+        const fileName = useFileSystemItem(fileId).name || (process?.data as { name: string }).name;
 
-    const { setFocusWindow, closeWindow, toggleMaximizeWindow, minimizeWindow, setPosition, setSize } =
-        useWindowActions();
+        const { setFocusWindow, closeWindow, toggleMaximizeWindow, minimizeWindow, setPosition, setSize } =
+            useWindowActions();
 
-    useEffect(() => {
-        function handleClickOutside(e: MouseEvent) {
-            const target = e.target as HTMLElement;
+        useEffect(() => {
+            function handleClickOutside(e: MouseEvent) {
+                const target = e.target as HTMLElement;
 
-            if (target.closest(`[data-process-id="${myWindow.pid}"]`)) {
-                return;
-            }
-            setFocusWindow(myWindow.pid, false);
-        }
-        window.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            window.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [windowRef, myWindow.pid, setFocusWindow]);
-
-    useEffect(() => {
-        if (!windowRef.current) return;
-
-        const element = windowRef.current;
-
-        const observer = new ResizeObserver((entries) => {
-            const entry = entries[0];
-            const { width, height } = entry.contentRect;
-
-            if (width === 0 || height === 0) return;
-
-            if (width !== myWindow.size.width || height !== myWindow.size.height) {
-                setSize(myWindow.id, {
-                    width: width + 8 * 2, // Ajuste para bordas/padding
-                    height: height + 8 * 2,
-                });
-            }
-        });
-
-        observer.observe(element);
-
-        return () => observer.disconnect();
-    }, [myWindow.id, setSize, myWindow.size.width, myWindow.size.height, myWindow.isMinimized]);
-
-    // "Colisão" com bordas para não arrastar a janela para fora da área visível
-    useEffect(() => {
-        if (!desktopRef?.current || !windowRef.current) return;
-
-        const rect = desktopRef.current.getBoundingClientRect();
-        const win = windowRef.current.getBoundingClientRect();
-
-        if (win.left + 100 > rect.right) {
-            console.log('Colidindo na direita');
-            setPosition(myWindow.id, { x: rect.right - 101, y: myWindow.position.y });
-            windowRef.current.style.translate = `translateX(${rect.right - 101}px)`;
-        }
-        if (rect.top < 0) {
-            setPosition(myWindow.id, { x: myWindow.position.x, y: 0 });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [windowRef?.current?.getBoundingClientRect().right]);
-
-    // Debug logs
-    useEffect(() => {
-        console.log('Window size changed:', myWindow.size);
-    }, [myWindow.size]);
-
-    useEffect(() => {
-        console.log('Window position:', myWindow.position);
-    }, [myWindow.position]);
-
-    if (!process) return; // Checagem segura caso o processo não seja encontrado
-    const app = appRegistry[process.appId];
-
-    if (myWindow.isMinimized) return;
-
-    return (
-        <motion.div
-            ref={windowRef}
-            data-window-id={myWindow.id}
-            drag={!myWindow.isMaximized}
-            dragControls={dragControls}
-            dragListener={false}
-            dragConstraints={
-                desktopRef
-                    ? {
-                          top: 0,
-                          left: 0 - myWindow.size.width + 60,
-                          right: desktopRef.current ? desktopRef.current.clientWidth - 40 : 0,
-                          bottom: desktopRef.current ? desktopRef.current.clientHeight - 40 : 0,
-                      }
-                    : undefined
-            }
-            dragElastic={0}
-            dragMomentum={false}
-            initial={false}
-            transition={{ duration: 0 }}
-            animate={{
-                y: myWindow.position.y,
-                x: myWindow.position.x,
-                width: myWindow.size.width,
-                height: myWindow.size.height,
-            }}
-            onDragEnd={() => {
-                const win = windowRef?.current?.getBoundingClientRect();
-                setPosition(myWindow.id, {
-                    x: win ? win.left - (desktopRef?.current?.getBoundingClientRect().left || 0) : myWindow.position.x,
-                    y: win ? win.top - (desktopRef?.current?.getBoundingClientRect().top || 0) : myWindow.position.y,
-                });
-            }}
-            style={{
-                zIndex: myWindow.zIndex,
-            }}
-            onMouseDown={(e) => {
-                e.stopPropagation();
-                if (!myWindow.isFocused) {
-                    setFocusWindow(myWindow.pid, true);
+                if (target.closest(`[data-process-id="${myWindow.pid}"]`)) {
+                    return;
                 }
-            }}
-            className={twMerge(
-                `absolute flex flex-col min-w-80 min-h-11.5 max-w-full max-h-full bg-zinc-800 border-2 border-elevated p-1.5 ${myWindow.isMaximized ? 'resize-none' : 'resize'} overflow-hidden`,
-                className
-            )}
-        >
-            <div
-                onPointerDown={(e) => dragControls.start(e)}
-                className={`flex items-center justify-between w-full h-8 bg-linear-to-r ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} py-0.5 px-2`}
-            >
-                <div className="flex items-center gap-1.5 text-white flex-1 min-w-0">
-                    <app.icon className="pointer-events-none" size={16} />
-                    <span
-                        className={`${myWindow.isFocused ? 'text-white' : 'text-zinc-400'} whitespace-nowrap w-full overflow-hidden truncate pr-1`}
-                    >
-                        {fileName} - {app.name}
-                    </span>
-                </div>
-                <div className="flex items-center">
-                    <Button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={() => {
-                            minimizeWindow(myWindow.id);
-                            toggleActive('');
-                        }}
-                        className="bg-zinc-800 text-white size-6 text-center px-0"
-                    >
-                        _
-                    </Button>
-                    <Button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onClick={() => toggleMaximizeWindow(myWindow.id)}
-                        className="bg-zinc-800 text-white size-6 text-center px-0"
-                    >
-                        {myWindow.isMaximized ? '🗗' : '🗖'}
-                    </Button>
-                    <Button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={() => {
-                            closeWindow(myWindow.pid);
-                            closeProcess(myWindow.pid);
-                        }}
-                        className="bg-zinc-800 text-white ml-1.5 size-6 text-center px-0"
-                    >
-                        X
-                    </Button>
-                </div>
-            </div>
-            <div className="mt-1.5 flex-1 border-b-zinc-700 border-r-zinc-700 border-l-zinc-900 border-t-zinc-900 shadow-[inset_2px_2px_0px_oklch(14.1%_0.005_285.823),inset_-2px_-2px_0px_oklch(27.4%_0.006_286.033)]">
-                {children}
-            </div>
-        </motion.div>
-    );
-}
+                setFocusWindow(myWindow.pid, false);
+            }
+            window.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                window.removeEventListener('mousedown', handleClickOutside);
+            };
+        }, [windowRef, myWindow.pid, setFocusWindow]);
+
+        // ! Debug logs
+
+        useEffect(() => {
+            console.log('Window size changed:', myWindow.size);
+            console.log(myWindow.isMaximized);
+        }, [myWindow.size]);
+
+        // useEffect(() => {
+        //     console.log('Window position:', myWindow.position);
+        // }, [myWindow.position]);
+
+        if (!process) return; // Checagem segura caso o processo não seja encontrado
+        const app = appRegistry[process.appId];
+
+        return (
+            <AnimatePresence mode="wait">
+                {!myWindow.isMinimized && (
+                    <>
+                        {!myWindow.isMaximized && (
+                            <div
+                                id={`window-bounds-${myWindow.id}`}
+                                className="absolute -z-10 invisible pointer-events-none"
+                                style={{
+                                    top: desktop.pos.y,
+                                    left: 60 - myWindow.size.width,
+                                    width: desktop.size.width - 60 + myWindow.size.width * 2 - 40,
+                                    height: desktop.size.height + myWindow.size.height - 40,
+                                }}
+                            />
+                        )}
+                        <Rnd
+                            className="window-container"
+                            cancel=".no-drag"
+                            dragHandleClassName="window-header"
+                            scale={scale}
+                            position={{ x: myWindow.position.x, y: myWindow.position.y }}
+                            size={{ width: myWindow.size.width, height: myWindow.size.height }}
+                            bounds={`#window-bounds-${myWindow.id}`}
+                            onDragStop={(_, d) => {
+                                setPosition(myWindow.id, { x: d.x, y: d.y });
+                            }}
+                            onMouseDown={(e) => {
+                                e.stopPropagation();
+                                if (!myWindow.isFocused) {
+                                    setFocusWindow(myWindow.pid, true);
+                                }
+                            }}
+                            onResizeStop={(_, __, ref, ___, position) => {
+                                setSize(myWindow.id, {
+                                    width: parseInt(ref.style.width),
+                                    height: parseInt(ref.style.height),
+                                });
+
+                                setPosition(myWindow.id, position);
+                            }}
+                            resizeHandleStyles={{
+                                top: { cursor: 'ns-resize' },
+                                bottom: { cursor: 'ns-resize' },
+                                left: { cursor: 'ew-resize' },
+                                right: { cursor: 'ew-resize' },
+                            }}
+                            style={{ zIndex: myWindow.zIndex }}
+                            maxWidth={desktop.size.width}
+                            maxHeight={desktop.size.height}
+                            minWidth={320}
+                            minHeight={44}
+                            enableResizing={!myWindow.isMaximized}
+                            disableDragging={myWindow.isMaximized}
+                        >
+                            <motion.div
+                                ref={windowRef}
+                                data-window-id={myWindow.id}
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                exit={{ scale: 0 }}
+                                transition={{ ease: 'easeIn', type: 'tween', duration: 0.25 }}
+                                className={twMerge(
+                                    'absolute flex flex-col w-full h-full origin-bottom bg-zinc-800 border-2 border-elevated p-1.5 overflow-hidden',
+                                    className
+                                )}
+                            >
+                                <div
+                                    className={`window-header flex items-center justify-between w-full h-8 bg-linear-to-r ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} py-0.5 px-2`}
+                                >
+                                    <div className="flex items-center gap-1.5 text-white flex-1 min-w-0">
+                                        <app.icon className="pointer-events-none" size={16} />
+                                        <span
+                                            className={`${myWindow.isFocused ? 'text-white' : 'text-zinc-400'} whitespace-nowrap w-full overflow-hidden truncate pr-1`}
+                                        >
+                                            {fileName} - {app.name}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <Button
+                                            onPointerDown={(e) => e.stopPropagation()}
+                                            onMouseDown={(e) => e.stopPropagation()}
+                                            onClick={() => {
+                                                minimizeWindow(myWindow.id);
+                                                toggleActive('');
+                                            }}
+                                            className="no-drag bg-zinc-800 text-white size-6 text-center px-0"
+                                        >
+                                            _
+                                        </Button>
+                                        <Button
+                                            onPointerDown={(e) => e.stopPropagation()}
+                                            onClick={() => toggleMaximizeWindow(myWindow.id)}
+                                            className="no-drag bg-zinc-800 text-white size-6 text-center px-0"
+                                        >
+                                            {myWindow.isMaximized ? '🗗' : '🗖'}
+                                        </Button>
+                                        <Button
+                                            onPointerDown={(e) => e.stopPropagation()}
+                                            onMouseDown={(e) => e.stopPropagation()}
+                                            onClick={() => {
+                                                closeWindow(myWindow.pid);
+                                                closeProcess(myWindow.pid);
+                                            }}
+                                            className="no-drag bg-zinc-800 text-white ml-1.5 size-6 text-center px-0"
+                                        >
+                                            X
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="mt-1.5 flex-1 border-b-zinc-700 border-r-zinc-700 border-l-zinc-900 border-t-zinc-900 shadow-[inset_2px_2px_0px_oklch(14.1%_0.005_285.823),inset_-2px_-2px_0px_oklch(27.4%_0.006_286.033)]">
+                                    {children}
+                                </div>
+                            </motion.div>
+                        </Rnd>
+                    </>
+                )}
+            </AnimatePresence>
+        );
+    },
+    (prevProps, nextProps) => {
+        return (
+            prevProps.myWindow.position.x === nextProps.myWindow.position.x &&
+            prevProps.myWindow.position.y === nextProps.myWindow.position.y &&
+            prevProps.myWindow.size.width === nextProps.myWindow.size.width &&
+            prevProps.myWindow.size.height === nextProps.myWindow.size.height &&
+            prevProps.myWindow.isMinimized === nextProps.myWindow.isMinimized &&
+            prevProps.myWindow.isMaximized === nextProps.myWindow.isMaximized &&
+            prevProps.myWindow.isFocused === nextProps.myWindow.isFocused &&
+            prevProps.myWindow.zIndex === nextProps.myWindow.zIndex
+        );
+    }
+);

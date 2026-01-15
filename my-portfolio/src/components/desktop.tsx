@@ -13,6 +13,7 @@ export default function Desktop() {
     const desktopItems = useFolderItems(SYSTEM_IDS.DESKTOP);
 
     const setSize = useDesktopStore((s) => s.setSize);
+    const setPosition = useDesktopStore((s) => s.setPosition);
 
     const handleDesktopClick = () => {
         setSelected([]);
@@ -27,19 +28,20 @@ export default function Desktop() {
     useEffect(() => {
         if (!desktopRef.current) return;
 
-        const resize = () => {
-            const rect = desktopRef.current?.getBoundingClientRect();
-            if (!rect) return;
+        const rect = desktopRef.current;
 
-            setSize(rect.width, rect.height);
-        };
+        setSize(rect.clientWidth, rect.clientHeight);
 
-        resize();
-        window.addEventListener('resize', resize);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-        return () => {
-            window.removeEventListener('resize', resize);
-        };
+    useEffect(() => {
+        if (!desktopRef.current) return;
+
+        const rect = desktopRef.current.getBoundingClientRect();
+
+        setPosition(rect.x, rect.y);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -61,7 +63,7 @@ export default function Desktop() {
             "
             onClick={handleDesktopClick}
         >
-            <WindowManager desktopRef={desktopRef} />
+            <WindowManager />
             {desktopItems.length > 0 &&
                 desktopItems.map((item) => {
                     const isSelected = selected.includes(item.id);
