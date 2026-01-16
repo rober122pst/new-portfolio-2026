@@ -1,6 +1,7 @@
 import type { ImgHTMLAttributes } from 'react';
 import errorIcon from '../../assets/icons/error.webp';
 import explorerIcon from '../../assets/icons/explorer.ico';
+import fileIcon from '../../assets/icons/file.webp';
 import folderIcon from '../../assets/icons/folder_icon.ico';
 import myComputerIcon from '../../assets/icons/my_computer.gif';
 import notepadIcon from '../../assets/icons/notepad_icon.ico';
@@ -29,7 +30,7 @@ function BaseIcon({ src, className, size = 40, style, alt = '', isShortcut = fal
                 }}
                 {...props}
             />
-            {isShortcut && <img className="absolute left-0 bottom-0 size-3" src={shortcutIcon} />}
+            {isShortcut && <img className="absolute bottom-0 left-0 size-3" src={shortcutIcon} />}
         </div>
     );
 }
@@ -58,4 +59,8 @@ export function ExplorerIcon(props: IconProps) {
 
 export function ErrorIcon(props: IconProps) {
     return <BaseIcon src={errorIcon} alt="Erro" {...props} />;
+}
+
+export function FileIcon(props: IconProps) {
+    return <BaseIcon src={fileIcon} alt="Arquivo" {...props} />;
 }

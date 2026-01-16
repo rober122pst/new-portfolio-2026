@@ -1,5 +1,5 @@
-import { useFileSystemActions, useFileSystemItem } from '../../store/filesystem';
-import { useProcess, useProcessActions } from '../../store/processes';
+import { useFileSystemActions, useFileSystemItem } from '../../../store/filesystem';
+import { useProcess, useProcessActions } from '../../../store/processes';
 
 import { useState } from 'react';
 
@@ -46,7 +46,7 @@ export default function Notepad({ pid }: NotepadProps) {
     return (
         <div className="relative h-full w-full bg-white">
             <textarea
-                className="absolute h-full w-full min-h-0 p-2 resize-none border-0 outline-none"
+                className="absolute h-full min-h-0 w-full resize-none border-0 p-2 outline-none"
                 value={text}
                 onChange={handleChange}
             />

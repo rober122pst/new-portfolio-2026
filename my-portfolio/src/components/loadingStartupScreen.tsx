@@ -8,7 +8,7 @@ export default function LoadingStartupScreen() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2, delay: 0.5 }}
-            className="flex flex-col justify-center gap-16 items-center w-full h-full bg-black"
+            className="flex h-full w-full flex-col items-center justify-center gap-16 bg-black"
         >
             <img src={logo} />
             <motion.img

@@ -1,9 +1,11 @@
-import { SYSTEM_IDS, useFileSystemActions, useFileSystemItem, useFolderItems } from '../../store/filesystem';
-import { useProcess, useProcessActions } from '../../store/processes';
+import { SYSTEM_IDS, useFileSystemActions, useFileSystemItem, useFolderItems } from '../../../store/filesystem';
+import { useProcess, useProcessActions } from '../../../store/processes';
 
 import { useState } from 'react';
-import FileItem from '../../components/ui/fileItem';
-import { useOpenFile } from '../../hooks/useOpenItem';
+import { useOpenFile } from '../../../hooks/useOpenItem';
+import FileItem from '../../ui/fileItem';
+import AppContent from '../appContent';
+import FileExplorerSidebar from './sidebar';
 
 export default function FileExplorer({ pid }: { pid: string }) {
     const [selected, setSelected] = useState<string[]>([]);
@@ -42,23 +44,27 @@ export default function FileExplorer({ pid }: { pid: string }) {
     };
 
     return (
-        <div className="relative w-full h-full overflow-hidden">
-            <div className="absolute h-full w-full min-h-0 bg-zinc-500 flex flex-wrap px-5 py-2 overflow-hidden">
-                {items.length > 0 &&
-                    items.map((item) => {
-                        const isSelected = selected.includes(item.id);
+        <AppContent>
+            <div className="flex h-full w-full overflow-hidden bg-zinc-900 px-3 py-2">
+                <FileExplorerSidebar onNavigate={handleNavigate} />
 
-                        return (
-                            <FileItem
-                                key={item.id}
-                                item={item}
-                                isSelected={isSelected}
-                                onClick={(e) => handleSelected(e, item.id)}
-                                onDoubleClick={() => handleNavigate(item.id, item.type)}
-                            />
-                        );
-                    })}
+                <div className="flex flex-wrap">
+                    {items.length > 0 &&
+                        items.map((item) => {
+                            const isSelected = selected.includes(item.id);
+
+                            return (
+                                <FileItem
+                                    key={item.id}
+                                    item={item}
+                                    isSelected={isSelected}
+                                    onClick={(e) => handleSelected(e, item.id)}
+                                    onDoubleClick={() => handleNavigate(item.id, item.type)}
+                                />
+                            );
+                        })}
+                </div>
             </div>
-        </div>
+        </AppContent>
     );
 }

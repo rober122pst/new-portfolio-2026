@@ -1,8 +1,8 @@
-import { useProcess, useProcessActions } from '../../store/processes';
+import { useProcess, useProcessActions } from '../../../store/processes';
 
-import { Button } from '../../components/ui/buttons';
-import { ErrorIcon } from '../../components/ui/icons';
-import { useWindowActions } from '../../store/windows';
+import { useWindowActions } from '../../../store/windows';
+import { Button } from '../../ui/buttons';
+import { ErrorIcon } from '../../ui/icons';
 
 export default function DialogBox({ pid }: { pid: string }) {
     const { closeProcess } = useProcessActions();
@@ -10,7 +10,7 @@ export default function DialogBox({ pid }: { pid: string }) {
     const process = useProcess(pid);
 
     return (
-        <div className="flex flex-col justify-center items-center w-full h-full gap-3">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-3">
             <div className="flex items-center gap-5">
                 <ErrorIcon size={48} />
                 <span className="text-white">{(process?.data as { message: string }).message}</span>
@@ -20,7 +20,7 @@ export default function DialogBox({ pid }: { pid: string }) {
                     closeProcess(pid);
                     closeWindow(pid);
                 }}
-                className="w-16 h-6 text-white"
+                className="h-6 w-16 text-white"
             >
                 Ok
             </Button>

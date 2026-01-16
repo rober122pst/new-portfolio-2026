@@ -9,9 +9,9 @@ interface RetroMonitorProps {
 export default function RetroMonitor({ children }: RetroMonitorProps) {
     const scale = useScale();
     return (
-        <div className="flex items-center justify-center h-screen bg-black overflow-hidden">
-            <div style={{ scale }} className="relative aspect-4/3 h-150 overflow-hidden mx-auto origin-center">
-                <div className="w-full h-full m-auto">{children}</div>
+        <div className="flex h-screen items-center justify-center overflow-hidden bg-black">
+            <div style={{ scale }} className="relative mx-auto aspect-4/3 h-150 origin-center overflow-hidden">
+                <div className="m-auto h-full w-full">{children}</div>
             </div>
             <CRTOverlays />
         </div>

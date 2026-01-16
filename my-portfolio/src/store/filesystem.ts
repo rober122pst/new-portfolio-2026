@@ -51,10 +51,18 @@ interface FileSystemStore {
 }
 
 const initialItems: Record<string, FileSystemItem> = {
+    [SYSTEM_IDS.DESKTOP]: {
+        id: SYSTEM_IDS.DESKTOP,
+        parentId: null,
+        name: 'Área de Trabalho',
+        type: 'folder',
+        createdAt: Date.now(),
+    },
     [SYSTEM_IDS.ROOT]: {
         id: SYSTEM_IDS.ROOT,
-        parentId: null,
+        parentId: SYSTEM_IDS.DESKTOP,
         name: 'Meu Computador',
+        icon: MyComputerIcon,
         type: 'folder',
         createdAt: Date.now(),
     },
@@ -65,16 +73,9 @@ const initialItems: Record<string, FileSystemItem> = {
         type: 'folder',
         createdAt: Date.now(),
     },
-    [SYSTEM_IDS.USERS]: {
-        id: SYSTEM_IDS.USERS,
-        parentId: SYSTEM_IDS.C_DRIVE,
-        name: 'Usuários',
-        type: 'folder',
-        createdAt: Date.now(),
-    },
     [SYSTEM_IDS.USER]: {
         id: SYSTEM_IDS.USER,
-        parentId: SYSTEM_IDS.USERS,
+        parentId: SYSTEM_IDS.C_DRIVE,
         name: localStorage.getItem('user') ?? 'User',
         type: 'folder',
         createdAt: Date.now(),
@@ -86,29 +87,19 @@ const initialItems: Record<string, FileSystemItem> = {
         type: 'folder',
         createdAt: Date.now(),
     },
-    [SYSTEM_IDS.DESKTOP]: {
-        id: SYSTEM_IDS.DESKTOP,
-        parentId: SYSTEM_IDS.USER,
-        name: 'Área de Trabalho',
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    [SYSTEM_IDS.MY_COMPUTER]: {
-        id: SYSTEM_IDS.MY_COMPUTER,
-        parentId: SYSTEM_IDS.DESKTOP,
-        name: 'Meu Computador',
-        type: 'shortcut',
-        icon: MyComputerIcon,
-        metadata: {
-            targetId: SYSTEM_IDS.ROOT,
-        },
-        createdAt: Date.now(),
-    },
     [SYSTEM_IDS.DOCUMENTS]: {
         id: SYSTEM_IDS.DOCUMENTS,
-        parentId: SYSTEM_IDS.USER,
-        name: 'Documentos',
+        parentId: SYSTEM_IDS.DESKTOP,
+        name: 'Meus Documentos',
         type: 'folder',
+        createdAt: Date.now(),
+    },
+    corn: {
+        id: 'corn',
+        parentId: SYSTEM_IDS.USER,
+        name: 'toy chica nude',
+        type: 'file',
+        extension: 'jpg',
         createdAt: Date.now(),
     },
 };

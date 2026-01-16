@@ -55,7 +55,7 @@ function TaskbarItems({ process }: { process: Process }) {
                 }
             }}
             active={process.isActive}
-            className="flex items-center gap-1 h-full"
+            className="flex h-full items-center gap-1"
         >
             <AppIcon className="pointer-events-none" size={16} />
             <span className="pointer-events-none">
@@ -70,7 +70,7 @@ export default function Taskbar() {
     const processes = useProcesses();
 
     return (
-        <footer className="relative flex justify-between items-center w-full p-1 bg-zinc-800 text-white text-[12px] select-none z-50">
+        <footer className="relative z-50 flex w-full items-center justify-between bg-zinc-800 p-1 text-[12px] text-white select-none">
             {/* Botão iniciar */}
             <Button className="flex items-center gap-1">
                 <img className="size-4" src={soLogo} alt="Logo do SO" />
@@ -78,18 +78,18 @@ export default function Taskbar() {
             </Button>
 
             {/* Programas e janelas abertas */}
-            <div className="flex-1 flex gap-1 px-2 h-full">
+            <div className="flex h-full flex-1 gap-1 px-2">
                 {processes.map((process) => (
                     <TaskbarItems key={process.pid} process={process} />
                 ))}
             </div>
 
             {/* Área de horario e processos */}
-            <div className="border-2 px-3 py-0.5 border-sunk bg-zinc-900/30 flex items-center">
-                <div className="mr-2 py-0.5 px-1.5">
+            <div className="border-sunk flex items-center border-2 bg-zinc-900/30 px-3 py-0.5">
+                <div className="mr-2 px-1.5 py-0.5">
                     <img src={volumeIcon} alt="volume" />
                 </div>
-                <div className="flex flex-col justify-center h-full text-right pointer-events-none">
+                <div className="pointer-events-none flex h-full flex-col justify-center text-right">
                     <Clock />
                 </div>
             </div>

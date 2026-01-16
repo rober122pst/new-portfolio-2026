@@ -31,11 +31,11 @@ export default function LookScreen() {
 
     return (
         <div
-            className="relative flex items-center justify-center text-white bg-cover bg-center after:absolute after:inset-0 after:bg-black/50 after:pointer-events-none"
+            className="relative flex items-center justify-center bg-cover bg-center text-white after:pointer-events-none after:absolute after:inset-0 after:bg-black/50"
             style={{ backgroundImage: `url(${wallpaper})` }}
         >
-            <div className="space-y-5 z-10 bg-zinc-600 border border-elevated p-8">
-                <div className="flex justify-center w-full">
+            <div className="border-elevated z-10 space-y-5 border bg-zinc-600 p-8">
+                <div className="flex w-full justify-center">
                     <img className="rounded-full" src={avatar} alt="Foto de perfil" />
                 </div>
                 <table className="border-separate border-spacing-x-12 border-spacing-y-3">
@@ -50,7 +50,7 @@ export default function LookScreen() {
                                     autoComplete="off"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="border-2 border-sunk h-6 px-1 bg-white text-black outline-0"
+                                    className="border-sunk h-6 border-2 bg-white px-1 text-black outline-0"
                                     id="username"
                                 />
                             </td>
@@ -65,7 +65,7 @@ export default function LookScreen() {
                                     autoComplete="new-password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="border-2 border-sunk h-6 px-1 bg-white text-black outline-0"
+                                    className="border-sunk h-6 border-2 bg-white px-1 text-black outline-0"
                                     id="password"
                                 />
                             </td>

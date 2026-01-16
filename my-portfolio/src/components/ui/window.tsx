@@ -51,10 +51,10 @@ export const Window = memo(
 
         // ! Debug logs
 
-        useEffect(() => {
-            console.log('Window size changed:', myWindow.size);
-            console.log(myWindow.isMaximized);
-        }, [myWindow.size]);
+        // useEffect(() => {
+        //     console.log('Window size changed:', myWindow.size);
+        //     console.log(myWindow.isMaximized);
+        // }, [myWindow.size]);
 
         // useEffect(() => {
         //     console.log('Window position:', myWindow.position);
@@ -70,7 +70,7 @@ export const Window = memo(
                         {!myWindow.isMaximized && (
                             <div
                                 id={`window-bounds-${myWindow.id}`}
-                                className="absolute -z-10 invisible pointer-events-none"
+                                className="pointer-events-none invisible absolute -z-10"
                                 style={{
                                     top: desktop.pos.y,
                                     left: 60 - myWindow.size.width,
@@ -85,7 +85,10 @@ export const Window = memo(
                             dragHandleClassName="window-header"
                             scale={scale}
                             position={{ x: myWindow.position.x, y: myWindow.position.y }}
-                            size={{ width: myWindow.size.width, height: myWindow.size.height }}
+                            size={{
+                                width: myWindow.size.width,
+                                height: myWindow.size.height,
+                            }}
                             bounds={`#window-bounds-${myWindow.id}`}
                             onDragStop={(_, d) => {
                                 setPosition(myWindow.id, { x: d.x, y: d.y });
@@ -114,7 +117,7 @@ export const Window = memo(
                             maxWidth={desktop.size.width}
                             maxHeight={desktop.size.height}
                             minWidth={320}
-                            minHeight={44}
+                            minHeight={42}
                             enableResizing={!myWindow.isMaximized}
                             disableDragging={myWindow.isMaximized}
                         >
@@ -126,17 +129,17 @@ export const Window = memo(
                                 exit={{ scale: 0 }}
                                 transition={{ ease: 'easeIn', type: 'tween', duration: 0.25 }}
                                 className={twMerge(
-                                    'absolute flex flex-col w-full h-full origin-bottom bg-zinc-800 border-2 border-elevated p-1.5 overflow-hidden',
+                                    'border-elevated absolute flex h-full w-full origin-bottom flex-col overflow-hidden border bg-zinc-800 p-1.5',
                                     className
                                 )}
                             >
                                 <div
-                                    className={`window-header flex items-center justify-between w-full h-8 bg-linear-to-r ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} py-0.5 px-2`}
+                                    className={`window-header flex h-8 w-full items-center justify-between bg-linear-to-r ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} px-2 py-0.5`}
                                 >
-                                    <div className="flex items-center gap-1.5 text-white flex-1 min-w-0">
+                                    <div className="flex min-w-0 flex-1 items-center gap-1.5 text-white">
                                         <app.icon className="pointer-events-none" size={16} />
                                         <span
-                                            className={`${myWindow.isFocused ? 'text-white' : 'text-zinc-400'} whitespace-nowrap w-full overflow-hidden truncate pr-1`}
+                                            className={`${myWindow.isFocused ? 'text-white' : 'text-zinc-400'} w-full truncate overflow-hidden pr-1 whitespace-nowrap`}
                                         >
                                             {fileName} - {app.name}
                                         </span>
@@ -149,14 +152,14 @@ export const Window = memo(
                                                 minimizeWindow(myWindow.id);
                                                 toggleActive('');
                                             }}
-                                            className="no-drag bg-zinc-800 text-white size-6 text-center px-0"
+                                            className="no-drag size-6 bg-zinc-800 px-0 text-center text-white"
                                         >
                                             _
                                         </Button>
                                         <Button
                                             onPointerDown={(e) => e.stopPropagation()}
                                             onClick={() => toggleMaximizeWindow(myWindow.id)}
-                                            className="no-drag bg-zinc-800 text-white size-6 text-center px-0"
+                                            className="no-drag size-6 bg-zinc-800 px-0 text-center text-white"
                                         >
                                             {myWindow.isMaximized ? '🗗' : '🗖'}
                                         </Button>
@@ -167,13 +170,13 @@ export const Window = memo(
                                                 closeWindow(myWindow.pid);
                                                 closeProcess(myWindow.pid);
                                             }}
-                                            className="no-drag bg-zinc-800 text-white ml-1.5 size-6 text-center px-0"
+                                            className="no-drag ml-1.5 size-6 bg-zinc-800 px-0 text-center text-white"
                                         >
                                             X
                                         </Button>
                                     </div>
                                 </div>
-                                <div className="mt-1.5 flex-1 border-b-zinc-700 border-r-zinc-700 border-l-zinc-900 border-t-zinc-900 shadow-[inset_2px_2px_0px_oklch(14.1%_0.005_285.823),inset_-2px_-2px_0px_oklch(27.4%_0.006_286.033)]">
+                                <div className="mt-1.5 flex-1 border-t-zinc-900 border-r-zinc-700 border-b-zinc-700 border-l-zinc-900 shadow-[inset_2px_2px_0px_oklch(14.1%_0.005_285.823),inset_-2px_-2px_0px_oklch(27.4%_0.006_286.033)]">
                                     {children}
                                 </div>
                             </motion.div>

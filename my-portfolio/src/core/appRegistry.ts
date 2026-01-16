@@ -1,9 +1,9 @@
 import { ErrorIcon, ExplorerIcon, NotepadIcon, TXTIcon, type IconProps } from '../components/ui/icons';
 
 import type { JSX } from 'react';
-import DialogBox from '../apps/error-window/dialogBox';
-import FileExplorer from '../apps/file-explorer/fileExplorer';
-import Notepad from '../apps/notepad/notepad';
+import DialogBox from '../components/apps/error-window/dialogBox';
+import FileExplorer from '../components/apps/file-explorer/fileExplorer';
+import Notepad from '../components/apps/notepad/notepad';
 
 interface App {
     name: string;

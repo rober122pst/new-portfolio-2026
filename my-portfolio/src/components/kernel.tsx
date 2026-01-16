@@ -33,7 +33,7 @@ export default function OSKernel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="grid grid-rows-[1fr_auto] h-full"
+            className="grid h-full grid-rows-[1fr_auto]"
         >
             {renderScreen()}
         </motion.div>

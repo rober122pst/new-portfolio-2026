@@ -2,7 +2,7 @@ import { useFileSystemItem } from '../store/filesystem';
 import { appRegistry } from './appRegistry';
 
 import type { JSX } from 'react';
-import { FolderIcon, type IconProps } from '../components/ui/icons';
+import { FileIcon, FolderIcon, type IconProps } from '../components/ui/icons';
 import type { FileSystemItem } from '../store/filesystem';
 
 // Esta função devolve o Componente do ícone correto
@@ -16,7 +16,7 @@ export function getFileIcon(file: FileSystemItem): (props: IconProps) => JSX.Ele
     if (file.type === 'shortcut' && file.metadata) {
         if (file.metadata.appId) {
             const app = appRegistry[file.metadata.appId];
-            return app ? app.icon : FolderIcon; // TODO muda aqui né
+            return app ? app.icon : FileIcon;
         }
 
         if (file.metadata.targetId) {
@@ -41,5 +41,5 @@ export function getFileIcon(file: FileSystemItem): (props: IconProps) => JSX.Ele
         return appEntry.fileIcon;
     }
 
-    return FolderIcon;
+    return FileIcon;
 }

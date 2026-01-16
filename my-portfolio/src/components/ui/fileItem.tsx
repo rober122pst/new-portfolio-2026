@@ -19,17 +19,7 @@ export default function FileItem({ item, isSelected, ...props }: FileItemProps) 
     return (
         <button
             data-selected={isSelected}
-            className="
-                            relative
-                            w-24 h-fit
-                            flex flex-col items-center justify-center
-                            cursor-pointer
-                            text-white
-                            select-none 
-                            py-1.5 wrap-break-word
-                            hover:bg-white/20
-                            data-[selected=true]:bg-white/40
-                        "
+            className="relative flex h-fit w-24 cursor-pointer flex-col items-center justify-center py-1.5 wrap-break-word text-white select-none hover:bg-white/20 data-[selected=true]:bg-white/40"
             onDoubleClick={(e) => {
                 e.stopPropagation();
                 openFile(item.id);
@@ -38,7 +28,7 @@ export default function FileItem({ item, isSelected, ...props }: FileItemProps) 
         >
             {/* eslint-disable-next-line react-hooks/static-components */}
             <IconComponent isShortcut={item.type === 'shortcut'} size={40} />
-            <span className="text-xs mt-1 text-center">
+            <span className="mt-1 text-center text-xs">
                 {item.name}
                 {item.type === 'file' ? `.${item.extension}` : ''}
             </span>

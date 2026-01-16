@@ -23,9 +23,9 @@ export default function BiosStartupScreen() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1.5 }}
-            className="flex w-full h-full p-8"
+            className="flex h-full w-full p-8"
         >
-            <div className="flex flex-col flex-1 text-neutral-400 select-none space-y-6 text-lg leading-tight">
+            <div className="flex flex-1 flex-col space-y-6 text-lg leading-tight text-neutral-400 select-none">
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
                     <p>{t('boot.bios.hero.title')}</p>
                     <p>{t('boot.bios.hero.subtitle', { year: new Date().getFullYear() })}</p>
@@ -53,14 +53,20 @@ export default function BiosStartupScreen() {
                         <tr>
                             <td>{t('boot.bios.hardware.processor.label')}</td>
                             <td>:</td>
-                            <td>{t('boot.bios.hardware.processor.value', { cores: navigator.hardwareConcurrency })}</td>
+                            <td>
+                                {t('boot.bios.hardware.processor.value', {
+                                    cores: navigator.hardwareConcurrency,
+                                })}
+                            </td>
                         </tr>
                         <tr>
                             <td>{t('boot.bios.hardware.memory.label')}</td>
                             <td>:</td>
                             <td>
                                 {memory
-                                    ? t('boot.bios.hardware.memory.value', { deviceMemory: memory * 1024 })
+                                    ? t('boot.bios.hardware.memory.value', {
+                                          deviceMemory: memory * 1024,
+                                      })
                                     : t('unknown')}
                             </td>
                         </tr>
@@ -69,16 +75,16 @@ export default function BiosStartupScreen() {
 
                 {/* Peripherals Section */}
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0, delay: 4.5 }}>
-                    <div className="flex items-baseline w-64">
+                    <div className="flex w-64 items-baseline">
                         <span className="flex-none">{t('boot.bios.peripherals.keyboard.label')}</span>
-                        <span className="grow overflow-hidden mx-2 whitespace-nowrap">
+                        <span className="mx-2 grow overflow-hidden whitespace-nowrap">
                             ......................................................................
                         </span>
                         <span className="flex-none">{t('boot.bios.peripherals.keyboard.status')}</span>
                     </div>
-                    <div className="flex items-baseline w-64">
+                    <div className="flex w-64 items-baseline">
                         <span className="flex-none">{t('boot.bios.peripherals.mouse.label')}</span>
-                        <span className="grow overflow-hidden mx-2 whitespace-nowrap">
+                        <span className="mx-2 grow overflow-hidden whitespace-nowrap">
                             ......................................................................
                         </span>
                         <span className="flex-none">{t('boot.bios.peripherals.mouse.status')}</span>
@@ -111,14 +117,14 @@ export default function BiosStartupScreen() {
                 <footer className="mt-auto">
                     <div>
                         <Trans i18nKey="boot.bios.footer.devTools">
-                            Pressione <strong className="text-white uppercase font-bold">F12</strong> para o MODO
+                            Pressione <strong className="font-bold text-white uppercase">F12</strong> para o MODO
                             INSPEÇÃO
                         </Trans>
                     </div>
                     <div>{t('boot.bios.footer.start')}</div>
                 </footer>
             </div>
-            <div className="flex items-start pointer-events-none select-none">
+            <div className="pointer-events-none flex items-start select-none">
                 <img src={rbr} />
             </div>
         </motion.div>

@@ -53,7 +53,10 @@ export const useWindowStore = create<WindowStore>((set) => ({
                         {
                             id,
                             pid,
-                            position: { x: 20 + state.windows.length * 10, y: 20 + state.windows.length * 20 },
+                            position: {
+                                x: 20 + state.windows.length * 10,
+                                y: 20 + state.windows.length * 20,
+                            },
                             size: size,
                             isMinimized: false,
                             isMaximized: false,

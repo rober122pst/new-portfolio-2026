@@ -48,19 +48,7 @@ export default function Desktop() {
     return (
         <main
             ref={desktopRef}
-            className="
-                relative 
-                h-full w-full grid 
-                grid-flow-col 
-                grid-rows-[repeat(auto-fill,96px)] 
-                auto-cols-[96px] 
-                gap-2 
-                p-4
-                content-start
-                select-none
-                bg-teal-700
-                bg-center bg-auto
-            "
+            className="relative grid h-full w-full auto-cols-[96px] grid-flow-col grid-rows-[repeat(auto-fill,96px)] content-start gap-2 bg-teal-700 bg-auto bg-center p-4 select-none"
             onClick={handleDesktopClick}
         >
             <WindowManager />
