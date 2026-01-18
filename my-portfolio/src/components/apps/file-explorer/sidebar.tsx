@@ -35,11 +35,11 @@ function File({ item, open, isLast, onNavigate }: FileProps) {
                 >
                     {isOpen ? '-' : '+'}
                 </button>
-                <div className="flex items-center gap-0.5">
+                <div className="flex min-w-0 flex-1 items-center gap-0.5">
                     <span>
                         <IconComponent size={16} />
                     </span>
-                    <span className="px-1 whitespace-nowrap">{item.name}</span>
+                    <span className="w-full overflow-hidden px-1 pr-1 whitespace-nowrap">{item.name}</span>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@ function File({ item, open, isLast, onNavigate }: FileProps) {
 export default function FileExplorerSidebar({ onNavigate }: { onNavigate: (id: string, type: string) => void }) {
     const items = useItems();
     return (
-        <div className="h-full w-48 overflow-auto">
+        <div className="h-full w-fit min-w-24 border-t border-t-zinc-950 px-2 py-3">
             <File item={items['desktop-id']} open isLast onNavigate={onNavigate} />
         </div>
     );

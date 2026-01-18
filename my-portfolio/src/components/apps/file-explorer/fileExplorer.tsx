@@ -2,6 +2,7 @@ import { SYSTEM_IDS, useFileSystemActions, useFileSystemItem, useFolderItems } f
 import { useProcess, useProcessActions } from '../../../store/processes';
 
 import { useState } from 'react';
+import Split from 'react-split';
 import { useOpenFile } from '../../../hooks/useOpenItem';
 import FileItem from '../../ui/fileItem';
 import AppContent from '../appContent';
@@ -45,9 +46,15 @@ export default function FileExplorer({ pid }: { pid: string }) {
 
     return (
         <AppContent>
-            <div className="flex h-full w-full overflow-hidden bg-zinc-900 px-3 py-2">
-                <FileExplorerSidebar onNavigate={handleNavigate} />
-
+            <Split
+                className="flex h-full w-full overflow-hidden bg-zinc-900"
+                sizes={[25, 75]}
+                gutterSize={6}
+                direction="horizontal"
+            >
+                <div className="overflow-auto">
+                    <FileExplorerSidebar onNavigate={handleNavigate} />
+                </div>
                 <div className="flex flex-wrap">
                     {items.length > 0 &&
                         items.map((item) => {
@@ -64,7 +71,7 @@ export default function FileExplorer({ pid }: { pid: string }) {
                             );
                         })}
                 </div>
-            </div>
+            </Split>
         </AppContent>
     );
 }

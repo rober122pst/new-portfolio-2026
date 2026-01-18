@@ -24,6 +24,8 @@ function BaseIcon({ src, className, size = 40, style, alt = '', isShortcut = fal
                 style={{
                     width: size,
                     height: size,
+                    minWidth: size,
+                    minHeight: size,
                     objectFit: 'contain',
                     imageRendering: 'pixelated',
                     ...style,
