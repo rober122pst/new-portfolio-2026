@@ -26,9 +26,9 @@ function FileExplorerOptions() {
 }
 
 // TODO desenhar icones
-function FileExplorerButtons() {
-    return <div></div>;
-}
+// function FileExplorerButtons() {
+//     return <div></div>;
+// }
 
 function FileExplorerAdressBar({ path }: { path: string }) {
     return (

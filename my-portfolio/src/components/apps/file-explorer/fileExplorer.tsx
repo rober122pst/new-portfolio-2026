@@ -1,4 +1,4 @@
-import { SYSTEM_IDS, useFileSystemActions, useFileSystemItem, useFolderItems } from '../../../store/filesystem';
+import { SYSTEM_IDS, useFileSystemActions, useFolderItems } from '../../../store/filesystem';
 import { useProcess, useProcessActions } from '../../../store/processes';
 import { AppContent, AppHeader } from '../appContent';
 
@@ -18,8 +18,6 @@ export default function FileExplorer({ pid }: { pid: string }) {
 
     const items = useFolderItems(currentFolderId);
 
-    const currentFolderItem = useFileSystemItem(currentFolderId);
-
     const openFile = useOpenFile();
 
     const handleNavigate = (id: string, type: string) => {
@@ -29,12 +27,6 @@ export default function FileExplorer({ pid }: { pid: string }) {
         } else {
             // SE FOR ARQUIVO: Chama o lançador global (que abre o Notepad, etc.)
             openFile(id);
-        }
-    };
-
-    const handleBack = () => {
-        if (currentFolderItem && currentFolderItem.parentId) {
-            updateProcessData(pid, { currentFolderId: currentFolderItem.parentId });
         }
     };
 
@@ -58,7 +50,7 @@ export default function FileExplorer({ pid }: { pid: string }) {
                     gutterSize={6}
                     direction="horizontal"
                 >
-                    <div className="h-full min-w-24 overflow-auto border-t border-t-zinc-950">
+                    <div className="custom-scrollbar h-full min-w-24 overflow-auto border-t border-t-zinc-950">
                         <FileExplorerSidebar onNavigate={handleNavigate} />
                     </div>
                     <div className="flex flex-wrap">

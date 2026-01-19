@@ -120,6 +120,10 @@ body,
   backface-visibility: hidden;
 }
 
+@utility custom-scrollbar {
+  @apply [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:border [&::-webkit-scrollbar-thumb]:border-t-zinc-700 [&::-webkit-scrollbar-thumb]:border-l-zinc-700 [&::-webkit-scrollbar-thumb]:border-b-zinc-950 [&::-webkit-scrollbar-thumb]:border-r-zinc-950 [&::-webkit-scrollbar-thumb]:shadow-[inset_1px_1px_0px_oklch(44.2%_0.017_285.786)] [&::-webkit-scrollbar-track]:bg-zinc-700/40;
+}
+
 @utility border-elevated {
   @apply border-t-zinc-800 border-r-zinc-950 border-b-zinc-950 border-l-zinc-800 shadow-[inset_2px_2px_0px_oklch(37%_0.013_285.805),inset_-2px_-2px_0px_oklch(21%_0.006_285.885)];
 }
