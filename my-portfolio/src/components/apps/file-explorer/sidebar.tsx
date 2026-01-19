@@ -39,7 +39,7 @@ function File({ item, open, isLast, onNavigate }: FileProps) {
                     <span>
                         <IconComponent size={16} />
                     </span>
-                    <span className="w-full overflow-hidden px-1 pr-1 whitespace-nowrap">{item.name}</span>
+                    <span className="w-full overflow-hidden px-1 pr-1 text-[10px] whitespace-nowrap">{item.name}</span>
                 </div>
             </div>
 

@@ -134,7 +134,7 @@ export const Window = memo(
                                 )}
                             >
                                 <div
-                                    className={`window-header flex h-8 w-full items-center justify-between bg-linear-to-r ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} px-2 py-0.5`}
+                                    className={`window-header font-bold- flex h-8 w-full items-center justify-between bg-linear-to-r text-xs ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} px-2 py-0.5`}
                                 >
                                     <div className="flex min-w-0 flex-1 items-center gap-1.5 text-white">
                                         <app.icon className="pointer-events-none" size={16} />
