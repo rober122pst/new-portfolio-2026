@@ -160,7 +160,9 @@ export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
 
         resolvePath: (id) => {
             const state = get();
+            const firstItem = state.items[id];
             let currentItem = state.items[id];
+
             const pathParts: string[] = [];
 
             while (currentItem) {
@@ -168,6 +170,12 @@ export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
                 if (!currentItem.parentId) break;
                 currentItem = state.items[currentItem.parentId];
             }
+
+            if (pathParts.length < 3) {
+                return firstItem.name;
+            }
+
+            pathParts.splice(0, 2); // Remove os dois primeiros elementos (Desktop e Meu Computador)
 
             return pathParts.join('/');
         },

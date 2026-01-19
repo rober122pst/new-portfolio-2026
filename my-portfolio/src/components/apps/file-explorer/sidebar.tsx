@@ -61,7 +61,7 @@ function File({ item, open, isLast, onNavigate }: FileProps) {
 export default function FileExplorerSidebar({ onNavigate }: { onNavigate: (id: string, type: string) => void }) {
     const items = useItems();
     return (
-        <div className="h-full w-fit min-w-24 border-t border-t-zinc-950 px-2 py-3">
+        <div className="h-full w-fit px-2 py-3">
             <File item={items['desktop-id']} open isLast onNavigate={onNavigate} />
         </div>
     );

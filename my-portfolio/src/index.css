@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+@import url(https://db.onlinewebfonts.com/c/a65eadc3de4c26265833b1b891033c5f?family=MS+Sans+Serif+1);
 @import "tailwindcss";
 
 @font-face {
@@ -11,29 +12,27 @@
   font-style: normal;
 }
 
+@font-face {
+    font-family: 'Pixel-Operator-8';
+    src:url('./assets/fonts/Pixel-Operator-8.ttf.woff') format('woff'),
+        url('./assets/fonts/Pixel-Operator-8.ttf.svg#Pixel-Operator-8') format('svg'),
+        url('./assets/fonts/Pixel-Operator-8.ttf.eot'),
+        url('./assets/fonts/Pixel-Operator-8.ttf.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
 @theme {
   --color-berry-600: #942c4b;
   --color-berry-700: #621748;
   --color-berry-800: #3d003d;
+  --font-sans: "MS Sans Serif 1", "Pixel-Operator-8", sans-serif;
+  --font-terminal: "VT323", "IBM VGA9", monospace;
 }
 
 * {
   box-sizing: border-box;
-  font-family:
-    "VT323",
-    "IBM VGA9",
-    monospace,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    "Open Sans",
-    "Helvetica Neue",
-    sans-serif;
+  -webkit-font-smoothing: none;
 }
 
 html,
@@ -45,9 +44,6 @@ body,
   margin: 0;
   padding: 0;
   image-rendering: pixelated;
-}
-
-.monitor {
 }
 
 .crt::before {

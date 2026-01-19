@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import BiosStartupScreen from './biosStartupScreen';
-import LoadingStartupScreen from './loadingStartupScreen';
 import beep from '../assets/audios/beep.mp3';
 import pcFans from '../assets/audios/pc_fans.mp3';
 import { useKernelStore } from '../store/kernel';
 import { useUserStore } from '../store/user';
+import BiosStartupScreen from './biosStartupScreen';
+import LoadingStartupScreen from './loadingStartupScreen';
 
 export default function BootScreen() {
     const setScreen = useKernelStore((s) => s.setScreen);
@@ -54,5 +54,9 @@ export default function BootScreen() {
         return <BiosStartupScreen />;
     }
 
-    return <LoadingStartupScreen />;
+    return (
+        <div className="font-terminal">
+            <LoadingStartupScreen />
+        </div>
+    );
 }

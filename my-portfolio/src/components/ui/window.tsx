@@ -176,7 +176,7 @@ export const Window = memo(
                                         </Button>
                                     </div>
                                 </div>
-                                <div className="mt-1.5 flex-1 border-t-zinc-900 border-r-zinc-700 border-b-zinc-700 border-l-zinc-900 shadow-[inset_2px_2px_0px_oklch(14.1%_0.005_285.823),inset_-2px_-2px_0px_oklch(27.4%_0.006_286.033)]">
+                                <div className="mt-1.5 flex h-full w-full flex-col border-t-zinc-900 border-r-zinc-700 border-b-zinc-700 border-l-zinc-900 shadow-[inset_2px_2px_0px_oklch(14.1%_0.005_285.823),inset_-2px_-2px_0px_oklch(27.4%_0.006_286.033)]">
                                     {children}
                                 </div>
                             </motion.div>
