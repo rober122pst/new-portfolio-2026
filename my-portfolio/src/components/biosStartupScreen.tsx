@@ -25,7 +25,7 @@ export default function BiosStartupScreen() {
             transition={{ duration: 1, delay: 1.5 }}
             className="flex h-full w-full p-8"
         >
-            <div className="flex flex-1 flex-col space-y-6 text-lg leading-tight text-neutral-400 select-none">
+            <div className="font-terminal flex flex-1 flex-col space-y-6 text-lg leading-tight text-neutral-400 select-none">
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
                     <p>{t('boot.bios.hero.title')}</p>
                     <p>{t('boot.bios.hero.subtitle', { year: new Date().getFullYear() })}</p>

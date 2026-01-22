@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SYSTEM_IDS, useFolderItems } from '../store/filesystem';
 
 import { ErrorBoundary } from 'react-error-boundary';
+import wallpaper from '../assets/red_gotham.png';
 import { useDesktopStore } from '../store/desktop';
 import FileItem from './ui/fileItem';
 import WindowManager from './windowManager';
@@ -48,7 +49,8 @@ export default function Desktop() {
     return (
         <main
             ref={desktopRef}
-            className="relative grid h-full w-full auto-cols-[96px] grid-flow-col grid-rows-[repeat(auto-fill,96px)] content-start gap-2 bg-teal-700 bg-auto bg-center p-4 select-none"
+            className="relative grid h-full w-full auto-cols-[96px] grid-flow-col grid-rows-[repeat(auto-fill,96px)] content-start gap-2 bg-cover bg-center p-4 select-none"
+            style={{ backgroundImage: `url(${wallpaper})` }}
             onClick={handleDesktopClick}
         >
             <WindowManager />

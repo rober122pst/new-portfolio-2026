@@ -1,7 +1,14 @@
 import type { JSX } from 'react';
 import { create } from 'zustand';
 import { useShallow } from 'zustand/shallow';
-import { MyComputerIcon, type IconProps } from '../components/ui/icons';
+import {
+    DesktopIcon,
+    DiskCIcon,
+    DocumentsIcon,
+    MyComputerIcon,
+    RecycleBinCIcon,
+    type IconProps,
+} from '../components/ui/icons';
 import type { AppId } from '../core/appRegistry';
 
 export const SYSTEM_IDS = {
@@ -13,6 +20,7 @@ export const SYSTEM_IDS = {
     USERS: 'users-id',
     USER: 'user-id',
     SYSTEM: 'rbxOS-id',
+    RECYCLE: 'recycle-bin',
 };
 
 export type FileType = 'file' | 'folder' | 'shortcut';
@@ -54,6 +62,7 @@ const initialItems: Record<string, FileSystemItem> = {
     [SYSTEM_IDS.DESKTOP]: {
         id: SYSTEM_IDS.DESKTOP,
         parentId: null,
+        icon: DesktopIcon,
         name: 'Área de Trabalho',
         type: 'folder',
         createdAt: Date.now(),
@@ -69,6 +78,7 @@ const initialItems: Record<string, FileSystemItem> = {
     [SYSTEM_IDS.C_DRIVE]: {
         id: SYSTEM_IDS.C_DRIVE,
         parentId: SYSTEM_IDS.ROOT,
+        icon: DiskCIcon,
         name: 'C:',
         type: 'folder',
         createdAt: Date.now(),
@@ -91,6 +101,15 @@ const initialItems: Record<string, FileSystemItem> = {
         id: SYSTEM_IDS.DOCUMENTS,
         parentId: SYSTEM_IDS.DESKTOP,
         name: 'Meus Documentos',
+        icon: DocumentsIcon,
+        type: 'folder',
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.RECYCLE]: {
+        id: SYSTEM_IDS.RECYCLE,
+        parentId: SYSTEM_IDS.DESKTOP,
+        name: 'Lixeira',
+        icon: RecycleBinCIcon,
         type: 'folder',
         createdAt: Date.now(),
     },

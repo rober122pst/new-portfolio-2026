@@ -27,7 +27,7 @@ export default function FileItem({ item, isSelected, ...props }: FileItemProps) 
             {...props}
         >
             {/* eslint-disable-next-line react-hooks/static-components */}
-            <IconComponent isShortcut={item.type === 'shortcut'} size={40} />
+            <IconComponent isShortcut={item.type === 'shortcut'} />
             <span className="mt-1 text-center text-xs">
                 {item.name}
                 {item.type === 'file' ? `.${item.extension}` : ''}

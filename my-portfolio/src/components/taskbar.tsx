@@ -3,7 +3,7 @@ import { useFileSystemItem } from '../store/filesystem';
 import { useProcessActions, useProcesses, type Process } from '../store/processes';
 import { useWindow, useWindowActions } from '../store/windows';
 
-import volumeIcon from '../assets/icons_taskbar/volume.ico';
+import volumeIcon from '../assets/icons_taskbar/volume.webp';
 import soLogo from '../assets/logos/logo_16x.webp';
 import { appRegistry } from '../core/appRegistry';
 import { Button } from './ui/buttons';
