@@ -10,6 +10,7 @@ import { useScale } from '../../store/monitor';
 import { useProcess, useProcessActions } from '../../store/processes';
 import { useWindowActions, type Window as WindowType } from '../../store/windows';
 import { Button } from './buttons';
+import { BaseIcon } from './icons';
 
 interface WindowProps {
     className?: string;
@@ -29,7 +30,7 @@ export const Window = memo(
         const fileId =
             (process?.data as { fileId: string })?.fileId ||
             (process?.data as { currentFolderId: string })?.currentFolderId;
-        const fileName = useFileSystemItem(fileId).name || (process?.data as { name: string }).name;
+        const fileName = useFileSystemItem(fileId).name || (process?.data as { name: string }).name || '';
 
         const { setFocusWindow, closeWindow, toggleMaximizeWindow, minimizeWindow, setPosition, setSize } =
             useWindowActions();
@@ -137,7 +138,7 @@ export const Window = memo(
                                     className={`window-header font-bold- flex h-8 w-full items-center justify-between bg-linear-to-r text-xs ${myWindow.isFocused ? 'from-berry-800 to-berry-700' : 'from-zinc-600 to-zinc-500'} px-2 py-0.5`}
                                 >
                                     <div className="flex min-w-0 flex-1 items-center gap-1.5 text-white">
-                                        <app.icon className="pointer-events-none" size={16} />
+                                        <BaseIcon src={app.icon} className="pointer-events-none" size={16} />
                                         <span
                                             className={`${myWindow.isFocused ? 'text-white' : 'text-zinc-400'} w-full truncate overflow-hidden pr-1 whitespace-nowrap`}
                                         >

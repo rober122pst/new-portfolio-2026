@@ -7,6 +7,7 @@ import volumeIcon from '../assets/icons_taskbar/volume.webp';
 import soLogo from '../assets/logos/logo_16x.webp';
 import { appRegistry } from '../core/appRegistry';
 import { Button } from './ui/buttons';
+import { BaseIcon } from './ui/icons';
 
 function Clock() {
     const [now, setNow] = useState(new Date());
@@ -38,7 +39,7 @@ function TaskbarItems({ process }: { process: Process }) {
         (process.data as { fileId: string })?.fileId || (process.data as { currentFolderId: string })?.currentFolderId;
     const file = useFileSystemItem(fileId);
 
-    const AppIcon = appRegistry[process.appId].icon;
+    const appIcon = appRegistry[process.appId].icon;
 
     const window = useWindow({ pid: process.pid });
     if (!window) return null;
@@ -57,7 +58,7 @@ function TaskbarItems({ process }: { process: Process }) {
             active={process.isActive}
             className="flex h-full items-center gap-1"
         >
-            <AppIcon className="pointer-events-none" size={16} />
+            <BaseIcon src={appIcon} className="pointer-events-none" size={16} />
             <span className="pointer-events-none">
                 {file?.name || (process.data as { name: string }).name}
                 {file?.type === 'file' ? `.${file.extension}` : ''}

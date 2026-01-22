@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes } from 'react';
-import { useMemo } from 'react';
-import { getFileIcon } from '../../core/system';
+import { useFileIcon } from '../../hooks/useFileIcon';
 import { useOpenFile } from '../../hooks/useOpenItem';
 import type { FileSystemItem } from '../../store/filesystem';
+import { BaseIcon } from './icons';
 
 interface FileItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     item: FileSystemItem;
@@ -10,11 +10,11 @@ interface FileItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function FileItem({ item, isSelected, ...props }: FileItemProps) {
-    const IconComponent = useMemo(() => {
-        return getFileIcon(item);
-    }, [item]);
+    const icon = useFileIcon(item);
 
     const openFile = useOpenFile();
+
+    console.log(icon);
 
     return (
         <button
@@ -26,8 +26,7 @@ export default function FileItem({ item, isSelected, ...props }: FileItemProps) 
             }}
             {...props}
         >
-            {/* eslint-disable-next-line react-hooks/static-components */}
-            <IconComponent isShortcut={item.type === 'shortcut'} />
+            <BaseIcon src={icon} isShortcut={item.type === 'shortcut'} />
             <span className="mt-1 text-center text-xs">
                 {item.name}
                 {item.type === 'file' ? `.${item.extension}` : ''}

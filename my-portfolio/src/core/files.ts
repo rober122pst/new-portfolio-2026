@@ -1,4 +1,4 @@
-import { DesktopIcon, DiskCIcon, DocumentsIcon, MyComputerIcon, RecycleBinCIcon } from '../components/ui/icons';
+import { desktopIcon, diskCIcon, documentsIcon, myComputerIcon, recycleBinIcon } from '../utils/iconsSrc';
 
 import type { FileSystemItem } from '../store/filesystem';
 
@@ -18,7 +18,7 @@ export const initialItems: Record<string, FileSystemItem> = {
     [SYSTEM_IDS.DESKTOP]: {
         id: SYSTEM_IDS.DESKTOP,
         parentId: null,
-        icon: DesktopIcon,
+        icon: desktopIcon,
         name: 'Área de Trabalho',
         type: 'folder',
         createdAt: Date.now(),
@@ -27,14 +27,14 @@ export const initialItems: Record<string, FileSystemItem> = {
         id: SYSTEM_IDS.ROOT,
         parentId: SYSTEM_IDS.DESKTOP,
         name: 'Meu Computador',
-        icon: MyComputerIcon,
+        icon: myComputerIcon,
         type: 'folder',
         createdAt: Date.now(),
     },
     [SYSTEM_IDS.C_DRIVE]: {
         id: SYSTEM_IDS.C_DRIVE,
         parentId: SYSTEM_IDS.ROOT,
-        icon: DiskCIcon,
+        icon: diskCIcon,
         name: 'C:',
         type: 'folder',
         createdAt: Date.now(),
@@ -57,7 +57,7 @@ export const initialItems: Record<string, FileSystemItem> = {
         id: SYSTEM_IDS.DOCUMENTS,
         parentId: SYSTEM_IDS.DESKTOP,
         name: 'Meus Documentos',
-        icon: DocumentsIcon,
+        icon: documentsIcon,
         type: 'folder',
         createdAt: Date.now(),
     },
@@ -65,8 +65,17 @@ export const initialItems: Record<string, FileSystemItem> = {
         id: SYSTEM_IDS.RECYCLE,
         parentId: SYSTEM_IDS.DESKTOP,
         name: 'Lixeira',
-        icon: RecycleBinCIcon,
+        icon: recycleBinIcon,
         type: 'folder',
+        createdAt: Date.now(),
+    },
+    'chica-img': {
+        id: 'chica-img',
+        parentId: SYSTEM_IDS.USER,
+        name: 'toy chica',
+        type: 'file',
+        extension: 'png',
+        content: 'src/assets/chica.webp',
         createdAt: Date.now(),
     },
 
@@ -254,6 +263,15 @@ export const initialItems: Record<string, FileSystemItem> = {
         extension: 'ico',
         type: 'file',
         createdAt: Date.now(),
-        content: 'src/assets/icons/desktop.webp',
+        content: desktopIcon,
+    },
+    'background-one': {
+        id: 'background-one',
+        parentId: 'wallpapers-folder',
+        name: 'background1',
+        extension: 'png',
+        type: 'file',
+        createdAt: Date.now(),
+        content: 'src/assets/red_gotham.png',
     },
 };

@@ -1,9 +1,7 @@
 import { SYSTEM_IDS, initialItems } from '../core/files';
 
-import type { JSX } from 'react';
 import { create } from 'zustand';
 import { useShallow } from 'zustand/shallow';
-import type { IconProps } from '../components/ui/icons';
 import type { AppId } from '../core/appRegistry';
 
 export type FileType = 'file' | 'folder' | 'shortcut';
@@ -15,7 +13,7 @@ export type FileSystemItem = {
     type: FileType;
     extension?: string;
     content?: unknown; // Apenas para arquivos. Armazena o conteúdo do arquivo. Pode ser string, binary, etc.
-    icon?: (props: IconProps) => JSX.Element;
+    icon?: string;
     createdAt: number;
 
     metadata?: {

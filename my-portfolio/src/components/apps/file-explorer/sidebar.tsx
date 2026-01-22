@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { getFileIcon } from '../../../core/system';
+import { useFileIcon } from '../../../hooks/useFileIcon';
 import { useFolderItems, useItems, type FileSystemItem } from '../../../store/filesystem';
+import { BaseIcon } from '../../ui/icons';
 
 interface FileProps {
     item: FileSystemItem;
@@ -13,14 +14,14 @@ function File({ item, open, isLast, onNavigate }: FileProps) {
     const [isOpen, setOpen] = useState(open);
     const contentFolder = useFolderItems(item.id);
 
-    const IconComponent = getFileIcon(item);
+    const icon = useFileIcon(item);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         setOpen(!isOpen);
     };
 
-    if (item.type !== 'folder') return;
+    if (item.type !== 'folder') return null;
     return (
         <div className="relative ml-4 flex flex-col text-xs text-white">
             <div
@@ -37,7 +38,7 @@ function File({ item, open, isLast, onNavigate }: FileProps) {
                 </button>
                 <div className="flex min-w-0 flex-1 items-center gap-0.5">
                     <span>
-                        <IconComponent size={16} />
+                        <BaseIcon src={icon} size={16} />
                     </span>
                     <span className="w-full overflow-hidden px-1 pr-1 text-[10px] whitespace-nowrap">{item.name}</span>
                 </div>
