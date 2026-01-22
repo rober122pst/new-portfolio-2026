@@ -1,27 +1,10 @@
+import { SYSTEM_IDS, initialItems } from '../core/files';
+
 import type { JSX } from 'react';
 import { create } from 'zustand';
 import { useShallow } from 'zustand/shallow';
-import {
-    DesktopIcon,
-    DiskCIcon,
-    DocumentsIcon,
-    MyComputerIcon,
-    RecycleBinCIcon,
-    type IconProps,
-} from '../components/ui/icons';
+import type { IconProps } from '../components/ui/icons';
 import type { AppId } from '../core/appRegistry';
-
-export const SYSTEM_IDS = {
-    ROOT: 'root',
-    C_DRIVE: 'disk-c',
-    DESKTOP: 'desktop-id',
-    MY_COMPUTER: 'my-computer-virtual-id',
-    DOCUMENTS: 'documents-id',
-    USERS: 'users-id',
-    USER: 'user-id',
-    SYSTEM: 'rbxOS-id',
-    RECYCLE: 'recycle-bin',
-};
 
 export type FileType = 'file' | 'folder' | 'shortcut';
 
@@ -57,71 +40,6 @@ interface FileSystemStore {
     rootId: string;
     actions: FileSystemActions;
 }
-
-const initialItems: Record<string, FileSystemItem> = {
-    [SYSTEM_IDS.DESKTOP]: {
-        id: SYSTEM_IDS.DESKTOP,
-        parentId: null,
-        icon: DesktopIcon,
-        name: 'Área de Trabalho',
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    [SYSTEM_IDS.ROOT]: {
-        id: SYSTEM_IDS.ROOT,
-        parentId: SYSTEM_IDS.DESKTOP,
-        name: 'Meu Computador',
-        icon: MyComputerIcon,
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    [SYSTEM_IDS.C_DRIVE]: {
-        id: SYSTEM_IDS.C_DRIVE,
-        parentId: SYSTEM_IDS.ROOT,
-        icon: DiskCIcon,
-        name: 'C:',
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    [SYSTEM_IDS.USER]: {
-        id: SYSTEM_IDS.USER,
-        parentId: SYSTEM_IDS.C_DRIVE,
-        name: localStorage.getItem('user') ?? 'User',
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    [SYSTEM_IDS.SYSTEM]: {
-        id: SYSTEM_IDS.SYSTEM,
-        parentId: SYSTEM_IDS.C_DRIVE,
-        name: 'rbx',
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    [SYSTEM_IDS.DOCUMENTS]: {
-        id: SYSTEM_IDS.DOCUMENTS,
-        parentId: SYSTEM_IDS.DESKTOP,
-        name: 'Meus Documentos',
-        icon: DocumentsIcon,
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    [SYSTEM_IDS.RECYCLE]: {
-        id: SYSTEM_IDS.RECYCLE,
-        parentId: SYSTEM_IDS.DESKTOP,
-        name: 'Lixeira',
-        icon: RecycleBinCIcon,
-        type: 'folder',
-        createdAt: Date.now(),
-    },
-    corn: {
-        id: 'corn',
-        parentId: SYSTEM_IDS.USER,
-        name: 'toy chica nude',
-        type: 'file',
-        extension: 'jpg',
-        createdAt: Date.now(),
-    },
-};
 
 export const useFileSystemStore = create<FileSystemStore>((set, get) => ({
     items: initialItems,

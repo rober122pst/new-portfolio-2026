@@ -1,9 +1,10 @@
-import { SYSTEM_IDS, useFileSystemActions, useFolderItems } from '../../../store/filesystem';
+import { useFileSystemActions, useFolderItems } from '../../../store/filesystem';
 import { useProcess, useProcessActions } from '../../../store/processes';
 import { AppContent, AppHeader } from '../appContent';
 
 import { useState } from 'react';
 import Split from 'react-split';
+import { SYSTEM_IDS } from '../../../core/files';
 import { useOpenFile } from '../../../hooks/useOpenItem';
 import FileItem from '../../ui/fileItem';
 import FileExplorerHeader from './header';

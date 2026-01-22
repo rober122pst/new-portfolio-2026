@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { SYSTEM_IDS, useFolderItems } from '../store/filesystem';
 
 import { ErrorBoundary } from 'react-error-boundary';
 import wallpaper from '../assets/red_gotham.png';
+import { SYSTEM_IDS } from '../core/files';
 import { useDesktopStore } from '../store/desktop';
+import { useFolderItems } from '../store/filesystem';
 import FileItem from './ui/fileItem';
 import WindowManager from './windowManager';
 
