@@ -69,15 +69,6 @@ export const initialItems: Record<string, FileSystemItem> = {
         type: 'folder',
         createdAt: Date.now(),
     },
-    'chica-img': {
-        id: 'chica-img',
-        parentId: SYSTEM_IDS.USER,
-        name: 'toy chica',
-        type: 'file',
-        extension: 'png',
-        content: 'src/assets/chica.webp',
-        createdAt: Date.now(),
-    },
 
     // rbxOS folder
     // system32
