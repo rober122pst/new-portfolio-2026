@@ -10,10 +10,10 @@ export default function DialogBox({ pid }: { pid: string }) {
     const process = useProcess(pid);
 
     return (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-            <div className="flex items-center gap-5">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-zinc-800">
+            <div className="flex items-center justify-center gap-5">
                 <ErrorIcon size={48} />
-                <span className="text-white">{(process?.data as { message: string }).message}</span>
+                <span className="w-2/3 text-sm text-white">{(process?.data as { message: string }).message}</span>
             </div>
             <Button
                 onClick={() => {

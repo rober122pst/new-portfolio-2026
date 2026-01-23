@@ -14,7 +14,7 @@ function WindowInstance({ myWindow }: { myWindow: WindowType }) {
     const AppComponent = app.component;
 
     return (
-        <Window myWindow={myWindow}>
+        <Window myWindow={myWindow} variant={myWindow.variant}>
             <AppComponent pid={myWindow.pid} />
         </Window>
     );

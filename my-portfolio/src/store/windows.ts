@@ -11,6 +11,7 @@ export type Window = {
     isMaximized: boolean;
     isFocused: boolean;
     zIndex: number;
+    variant?: 'normal' | 'unresizable';
 
     restoreBounds?: {
         position: { x: number; y: number };
@@ -19,7 +20,7 @@ export type Window = {
 };
 
 type WindowActions = {
-    openWindow: (pid: string, size?: { width: number; height: number }) => void;
+    openWindow: (pid: string, size?: { width: number; height: number }, variant?: 'normal' | 'unresizable') => void;
     closeWindow: (pid: string) => void;
 
     setFocusWindow: (pid: string, setFocus: boolean) => boolean;
@@ -40,7 +41,7 @@ export const useWindowStore = create<WindowStore>((set) => ({
     windows: [],
     topZIndex: 1,
     actions: {
-        openWindow: (pid, size = { width: 600, height: 400 }) => {
+        openWindow: (pid, size = { width: 600, height: 400 }, variant = 'normal') => {
             set((state) => {
                 const id = crypto.randomUUID();
                 const toggleActive = useProcessStore.getState().actions.toggleActive;
@@ -57,11 +58,12 @@ export const useWindowStore = create<WindowStore>((set) => ({
                                 x: 20 + state.windows.length * 10,
                                 y: 20 + state.windows.length * 20,
                             },
-                            size: size,
+                            size,
                             isMinimized: false,
                             isMaximized: false,
                             isFocused: true,
                             zIndex: state.topZIndex + 1,
+                            variant,
                         },
                     ],
                     topZIndex: state.topZIndex + 1,

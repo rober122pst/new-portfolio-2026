@@ -16,10 +16,11 @@ interface WindowProps {
     className?: string;
     myWindow: WindowType;
     children?: React.ReactNode;
+    variant?: 'normal' | 'unresizable';
 }
 
 export const Window = memo(
-    ({ className, myWindow, children }: WindowProps) => {
+    ({ className, myWindow, children, variant = 'normal' }: WindowProps) => {
         const windowRef = useRef<HTMLDivElement>(null);
         const scale = useScale();
         const desktop = { size: useDesktopScale(), pos: useDesktopPosition() };
@@ -30,7 +31,7 @@ export const Window = memo(
         const fileId =
             (process?.data as { fileId: string })?.fileId ||
             (process?.data as { currentFolderId: string })?.currentFolderId;
-        const fileName = useFileSystemItem(fileId).name || (process?.data as { name: string }).name || '';
+        const fileName = useFileSystemItem(fileId)?.name || (process?.data as { name: string }).name || '';
 
         const { setFocusWindow, closeWindow, toggleMaximizeWindow, minimizeWindow, setPosition, setSize } =
             useWindowActions();
@@ -119,7 +120,7 @@ export const Window = memo(
                             maxHeight={desktop.size.height}
                             minWidth={320}
                             minHeight={42}
-                            enableResizing={!myWindow.isMaximized}
+                            enableResizing={!myWindow.isMaximized && variant !== 'unresizable'}
                             disableDragging={myWindow.isMaximized}
                         >
                             <motion.div
@@ -146,24 +147,28 @@ export const Window = memo(
                                         </span>
                                     </div>
                                     <div className="flex items-center">
-                                        <Button
-                                            onPointerDown={(e) => e.stopPropagation()}
-                                            onMouseDown={(e) => e.stopPropagation()}
-                                            onClick={() => {
-                                                minimizeWindow(myWindow.id);
-                                                toggleActive('');
-                                            }}
-                                            className="no-drag size-6 bg-zinc-800 px-0 text-center text-white"
-                                        >
-                                            _
-                                        </Button>
-                                        <Button
-                                            onPointerDown={(e) => e.stopPropagation()}
-                                            onClick={() => toggleMaximizeWindow(myWindow.id)}
-                                            className="no-drag size-6 bg-zinc-800 px-0 text-center text-white"
-                                        >
-                                            {myWindow.isMaximized ? '🗗' : '🗖'}
-                                        </Button>
+                                        {variant === 'normal' && (
+                                            <>
+                                                <Button
+                                                    onPointerDown={(e) => e.stopPropagation()}
+                                                    onMouseDown={(e) => e.stopPropagation()}
+                                                    onClick={() => {
+                                                        minimizeWindow(myWindow.id);
+                                                        toggleActive('');
+                                                    }}
+                                                    className="no-drag size-6 bg-zinc-800 px-0 text-center text-white"
+                                                >
+                                                    _
+                                                </Button>
+                                                <Button
+                                                    onPointerDown={(e) => e.stopPropagation()}
+                                                    onClick={() => toggleMaximizeWindow(myWindow.id)}
+                                                    className="no-drag size-6 bg-zinc-800 px-0 text-center text-white"
+                                                >
+                                                    {myWindow.isMaximized ? '🗗' : '🗖'}
+                                                </Button>
+                                            </>
+                                        )}
                                         <Button
                                             onPointerDown={(e) => e.stopPropagation()}
                                             onMouseDown={(e) => e.stopPropagation()}

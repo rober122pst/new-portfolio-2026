@@ -1,7 +1,9 @@
+import errorAudio from '../assets/audios/error.mp3';
 import { appRegistry, type AppId } from '../core/appRegistry';
 import { useFileSystemActions, useFileSystemStore } from '../store/filesystem';
 import { useProcessActions, useProcessStore } from '../store/processes';
 import { useWindowActions } from '../store/windows';
+import { playAudio } from '../utils/playAudio';
 
 export function useOpenFile() {
     const { openProcess } = useProcessActions();
@@ -24,7 +26,8 @@ export function useOpenFile() {
                     name: name,
                     message: message,
                 });
-                openWindow(pid, { width: 400, height: 180 });
+                playAudio(errorAudio, 0.2);
+                openWindow(pid, { width: 400, height: 180 }, 'unresizable');
             }
 
             return;
