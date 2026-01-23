@@ -14,8 +14,6 @@ export default function FileItem({ item, isSelected, ...props }: FileItemProps) 
 
     const openFile = useOpenFile();
 
-    console.log(icon);
-
     return (
         <button
             data-selected={isSelected}

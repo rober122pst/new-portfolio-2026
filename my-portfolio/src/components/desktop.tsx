@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { ErrorBoundary } from 'react-error-boundary';
-import wallpaper from '../assets/red_gotham.png';
 import { SYSTEM_IDS } from '../core/files';
 import { useDesktopStore } from '../store/desktop';
 import { useFolderItems } from '../store/filesystem';
@@ -50,8 +49,8 @@ export default function Desktop() {
     return (
         <main
             ref={desktopRef}
-            className="relative grid h-full w-full auto-cols-[96px] grid-flow-col grid-rows-[repeat(auto-fill,96px)] content-start gap-2 bg-cover bg-center p-4 select-none"
-            style={{ backgroundImage: `url(${wallpaper})` }}
+            className="relative grid h-full w-full auto-cols-[96px] grid-flow-col grid-rows-[repeat(auto-fill,96px)] content-start gap-2 bg-rose-700 bg-cover bg-center p-4 select-none"
+            // style={{ backgroundImage: `url(${wallpaper})` }}
             onClick={handleDesktopClick}
         >
             <WindowManager />
