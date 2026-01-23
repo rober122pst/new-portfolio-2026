@@ -7,6 +7,7 @@ import BlueScreen from './components/blueScreen';
 import OSKernel from './components/kernel';
 import RetroMonitor from './components/retroMonitor';
 import { useKeydown } from './hooks/useKeydown';
+import { playAudio } from './utils/playAudio';
 
 // import Desktop from './components/desktop';
 
@@ -35,9 +36,8 @@ function App() {
             if (key) {
                 setInitialBoot(false);
                 setStartupSystem(true);
-                const audio = new Audio(startupAudio);
-                audio.volume = 0.2;
-                audio.play();
+                playAudio(startupAudio, 0.2);
+                sessionStorage.setItem('ligado', 'true');
             }
         },
         [startupSystem, wakeUp]

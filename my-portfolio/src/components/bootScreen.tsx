@@ -4,6 +4,7 @@ import beep from '../assets/audios/beep.mp3';
 import pcFans from '../assets/audios/pc_fans.mp3';
 import { useKernelStore } from '../store/kernel';
 import { useUserStore } from '../store/user';
+import { playAudio } from '../utils/playAudio';
 import BiosStartupScreen from './biosStartupScreen';
 import LoadingStartupScreen from './loadingStartupScreen';
 
@@ -13,16 +14,11 @@ export default function BootScreen() {
 
     const [biosScreen, setBiosScreen] = useState(true);
     const playBeep = () => {
-        const audio = new Audio(beep);
-        audio.volume = 0.5;
-        audio.play();
+        playAudio(beep, 0.5);
     };
 
     const playFansLoop = () => {
-        const audio = new Audio(pcFans);
-        audio.volume = 0.02;
-        audio.loop = true;
-        audio.play();
+        playAudio(pcFans, 0.02, true);
     };
 
     useEffect(() => {
