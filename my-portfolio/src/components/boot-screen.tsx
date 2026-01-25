@@ -5,8 +5,8 @@ import pcFans from '../assets/audios/pc_fans.mp3';
 import { useKernelStore } from '../store/kernel';
 import { useUserStore } from '../store/user';
 import { playAudio } from '../utils/playAudio';
-import BiosStartupScreen from './biosStartupScreen';
-import LoadingStartupScreen from './loadingStartupScreen';
+import BiosStartupScreen from './bios-startup-screen';
+import LoadingStartupScreen from './loading-startup-screen';
 
 export default function BootScreen() {
     const setScreen = useKernelStore((s) => s.setScreen);

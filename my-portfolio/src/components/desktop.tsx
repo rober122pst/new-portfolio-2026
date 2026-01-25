@@ -4,8 +4,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { SYSTEM_IDS } from '../core/files';
 import { useDesktopStore } from '../store/desktop';
 import { useFolderItems } from '../store/filesystem';
-import FileItem from './ui/fileItem';
-import WindowManager from './windowManager';
+import FileItem from './ui/file-item';
+import WindowManager from './window-manager';
 
 export default function Desktop() {
     const [selected, setSelected] = useState<string[]>([]);

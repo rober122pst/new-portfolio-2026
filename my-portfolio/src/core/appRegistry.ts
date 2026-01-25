@@ -1,8 +1,8 @@
 import { errorIcon, explorerIcon, notepadIcon, txtIcon } from '../utils/iconsSrc';
 
 import type { JSX } from 'react';
-import DialogBox from '../components/apps/error-window/dialogBox';
-import FileExplorer from '../components/apps/file-explorer/fileExplorer';
+import DialogBox from '../components/apps/error-window/dialog-box';
+import FileExplorer from '../components/apps/file-explorer/file-explorer';
 import Notepad from '../components/apps/notepad/notepad';
 
 interface App {

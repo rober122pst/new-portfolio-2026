@@ -3,9 +3,9 @@ import { useCallback, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from 'react-i18next';
 import startupAudio from './assets/audios/button_startup.mp3';
-import BlueScreen from './components/blueScreen';
+import BlueScreen from './components/blue-screen';
 import OSKernel from './components/kernel';
-import RetroMonitor from './components/retroMonitor';
+import RetroMonitor from './components/retro-monitor';
 import { useKeydown } from './hooks/useKeydown';
 import { playAudio } from './utils/playAudio';
 

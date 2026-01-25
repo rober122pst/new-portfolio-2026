@@ -1,9 +1,9 @@
-import BootScreen from './bootScreen';
-import Desktop from './desktop';
-import LookScreen from './lookScreen';
-import Taskbar from './taskbar';
 import { motion } from 'motion/react';
 import { useKernelStore } from '../store/kernel';
+import BootScreen from './boot-screen';
+import Desktop from './desktop';
+import LookScreen from './look-screen';
+import Taskbar from './taskbar';
 
 export default function OSKernel() {
     const currentState = useKernelStore((s) => s.currentState);
