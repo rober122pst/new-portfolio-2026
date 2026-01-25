@@ -1,4 +1,4 @@
-import { desktopIcon, diskCIcon, documentsIcon, myComputerIcon, recycleBinIcon } from '../utils/iconsSrc';
+import { desktopIcon, diskCIcon, documentsIcon, myComputerIcon, recycleBinIcon } from '../utils/icons-src';
 
 import desktopContent from '../components/desktop.tsx?raw';
 import windowManagerContent from '../components/window-manager.tsx?raw';

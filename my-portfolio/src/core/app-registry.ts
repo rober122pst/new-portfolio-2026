@@ -1,4 +1,4 @@
-import { errorIcon, explorerIcon, notepadIcon, txtIcon } from '../utils/iconsSrc';
+import { errorIcon, explorerIcon, notepadIcon, txtIcon } from '../utils/icons-src';
 
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
 const DialogBox = lazy(() => import('../components/apps/error-window/dialog-box'));
