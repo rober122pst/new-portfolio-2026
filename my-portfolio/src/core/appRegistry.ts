@@ -21,7 +21,7 @@ export const appRegistry: Record<string, App> = {
         icon: notepadIcon,
         component: Notepad,
         singleInstance: false,
-        supportedExtensions: ['txt', 'md', 'json', 'js', 'java'],
+        supportedExtensions: ['txt', 'md', 'json', 'js', 'java', 'sys'],
     },
     fileExplorer: {
         name: 'Explorador de Arquivos',

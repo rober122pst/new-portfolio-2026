@@ -11,13 +11,11 @@ export default function Notepad({ pid }: NotepadProps) {
     const { updateData } = useProcessActions();
     const process = useProcess(pid);
     const { updateFileContent } = useFileSystemActions();
-    const getItem = useFileSystemItem;
-
     const fileId = (process?.data as { fileId: string })?.fileId;
+    const file = useFileSystemItem(fileId);
 
     const getInitialState = () => {
         if (fileId) {
-            const file = getItem(fileId);
             if (file?.content) {
                 return (file.content as { text: string }).text;
             }
@@ -46,7 +44,7 @@ export default function Notepad({ pid }: NotepadProps) {
     return (
         <div className="relative h-full w-full bg-white">
             <textarea
-                className="absolute h-full min-h-0 w-full resize-none border-0 p-2 outline-none"
+                className="custom-scrollbar absolute h-full min-h-0 w-full resize-none border-0 p-2 outline-none"
                 value={text}
                 onChange={handleChange}
             />

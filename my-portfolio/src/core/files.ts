@@ -1,5 +1,7 @@
 import { desktopIcon, diskCIcon, documentsIcon, myComputerIcon, recycleBinIcon } from '../utils/iconsSrc';
 
+import desktopContent from '../components/desktop.tsx?raw';
+import windowManagerContent from '../components/windowManager.tsx?raw';
 import type { FileSystemItem } from '../store/filesystem';
 
 export const SYSTEM_IDS = {
@@ -93,6 +95,7 @@ export const initialItems: Record<string, FileSystemItem> = {
         name: 'WindowManager',
         extension: 'sys',
         type: 'file',
+        content: { text: windowManagerContent },
         createdAt: Date.now(),
     },
     'shell32-dll': {
@@ -110,6 +113,7 @@ export const initialItems: Record<string, FileSystemItem> = {
         id: 'desktop-sys',
         name: 'desktop',
         extension: 'sys',
+        content: { text: desktopContent },
     },
 
     // drivers folder
