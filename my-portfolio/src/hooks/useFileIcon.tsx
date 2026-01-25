@@ -1,4 +1,4 @@
-import { appRegistry } from '../core/appRegistry';
+import { appRegistry } from '../core/app-registry';
 import { useFileSystemItem, type FileSystemItem } from '../store/filesystem';
 import { fileIcon, folderIcon } from '../utils/iconsSrc';
 

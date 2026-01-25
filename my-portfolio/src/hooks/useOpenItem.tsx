@@ -1,5 +1,5 @@
 import errorAudio from '../assets/audios/error.mp3';
-import { appRegistry, type AppId } from '../core/appRegistry';
+import { appRegistry, type AppId } from '../core/app-registry';
 import { useFileSystemActions, useFileSystemStore } from '../store/filesystem';
 import { useProcessActions, useProcessStore } from '../store/processes';
 import { useWindowActions } from '../store/windows';

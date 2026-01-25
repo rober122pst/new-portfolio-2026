@@ -1,15 +1,15 @@
 import { errorIcon, explorerIcon, notepadIcon, txtIcon } from '../utils/iconsSrc';
 
-import type { JSX } from 'react';
-import DialogBox from '../components/apps/error-window/dialog-box';
-import FileExplorer from '../components/apps/file-explorer/file-explorer';
-import Notepad from '../components/apps/notepad/notepad';
+import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
+const DialogBox = lazy(() => import('../components/apps/error-window/dialog-box'));
+const FileExplorer = lazy(() => import('../components/apps/file-explorer/file-explorer'));
+const Notepad = lazy(() => import('../components/apps/notepad/notepad'));
 
 interface App {
     name: string;
     fileIcon?: string;
     icon: string;
-    component: ({ pid }: { pid: string }) => JSX.Element;
+    component: LazyExoticComponent<ComponentType<{ pid: string }>> | ComponentType<{ pid: string }>;
     singleInstance: boolean;
     supportedExtensions?: string[];
 }

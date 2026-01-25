@@ -2,7 +2,7 @@ import { SYSTEM_IDS, initialItems } from '../core/files';
 
 import { create } from 'zustand';
 import { useShallow } from 'zustand/shallow';
-import type { AppId } from '../core/appRegistry';
+import type { AppId } from '../core/app-registry';
 
 export type FileType = 'file' | 'folder' | 'shortcut';
 
