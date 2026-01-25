@@ -14,7 +14,7 @@ function FileExplorerOptions() {
                 <div className="h-full w-0.75 border-r border-b border-r-zinc-900 border-b-zinc-900 bg-zinc-700" />
                 <div className="mx-5 w-full space-x-4 text-[10px] text-white">
                     {options.map((o) => (
-                        <button>{o.name}</button>
+                        <button key={o.name}>{o.name}</button>
                     ))}
                 </div>
             </div>

@@ -31,8 +31,8 @@ function File({ item, open, isLast, onNavigate }: FileProps) {
             <div className="relative flex h-5 items-center" onClick={() => onNavigate(item.id, item.type)}>
                 <button
                     onClick={handleClick}
-                    data-hasChildren={contentFolder.filter((i) => i.type === 'folder').length > 0}
-                    className="absolute -left-2.75 z-10 flex size-2.75 -translate-x-1/2 cursor-pointer items-center justify-center border border-zinc-800 bg-zinc-700 px-0 text-[8px] data-[hasChildren=false]:invisible"
+                    data-haschildren={contentFolder.filter((i) => i.type === 'folder').length > 0}
+                    className="absolute -left-2.75 z-10 flex size-2.75 -translate-x-1/2 cursor-pointer items-center justify-center border border-zinc-800 bg-zinc-700 px-0 text-[8px] data-[haschildren=false]:invisible"
                 >
                     {isOpen ? '-' : '+'}
                 </button>
