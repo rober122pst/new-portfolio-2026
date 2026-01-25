@@ -1,12 +1,12 @@
-import { useFileSystemActions, useFolderItems } from '../../../store/filesystem';
-import { useProcess, useProcessActions } from '../../../store/processes';
+import { useFileSystemActions, useFolderItems } from '@store/filesystem';
+import { useProcess, useProcessActions } from '@store/processes';
 import { AppContent, AppHeader } from '../app-content';
 
+import { SYSTEM_IDS } from '@/core/files';
+import FileItem from '@components/ui/file-item';
+import { useOpenFile } from '@hooks/useOpenItem';
 import { useState } from 'react';
 import Split from 'react-split';
-import { SYSTEM_IDS } from '../../../core/files';
-import { useOpenFile } from '../../../hooks/useOpenItem';
-import FileItem from '../../ui/file-item';
 import FileExplorerHeader from './header';
 import FileExplorerSidebar from './sidebar';
 

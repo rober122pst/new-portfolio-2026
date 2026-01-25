@@ -1,8 +1,8 @@
-import { desktopIcon, diskCIcon, documentsIcon, myComputerIcon, recycleBinIcon } from '../utils/icons-src';
+import { desktopIcon, diskCIcon, documentsIcon, myComputerIcon, recycleBinIcon } from '@utils/icons-src';
 
-import desktopContent from '../components/desktop.tsx?raw';
-import windowManagerContent from '../components/window-manager.tsx?raw';
-import type { FileSystemItem } from '../store/filesystem';
+import desktopContent from '@components/desktop.tsx?raw';
+import windowManagerContent from '@components/window-manager.tsx?raw';
+import type { FileSystemItem } from '@store/filesystem';
 
 export const SYSTEM_IDS = {
     ROOT: 'root',

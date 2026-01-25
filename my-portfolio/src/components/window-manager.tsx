@@ -1,9 +1,9 @@
+import { appRegistry } from '@/core/app-registry';
+import errorAudio from '@assets/audios/error.mp3';
+import { useProcess, useProcessActions, useProcessStore } from '@store/processes';
+import { useWindowActions, useWindows, type Window as WindowType } from '@store/windows';
+import { playAudio } from '@utils/playAudio';
 import { ErrorBoundary } from 'react-error-boundary';
-import errorAudio from '../assets/audios/error.mp3';
-import { appRegistry } from '../core/app-registry';
-import { useProcess, useProcessActions, useProcessStore } from '../store/processes';
-import { useWindowActions, useWindows, type Window as WindowType } from '../store/windows';
-import { playAudio } from '../utils/playAudio';
 import { Window } from './ui/window';
 
 function WindowInstance({ myWindow }: { myWindow: WindowType }) {

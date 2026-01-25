@@ -1,5 +1,5 @@
+import { useScale } from '@store/monitor';
 import { type ReactNode } from 'react';
-import { useScale } from '../store/monitor';
 import CRTOverlays from './crt-overlays';
 
 interface RetroMonitorProps {

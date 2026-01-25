@@ -1,4 +1,4 @@
-import { useMonitorStore } from '../store/monitor';
+import { useMonitorStore } from '@store/monitor';
 
 export default function CRTOverlays() {
     const scale = useMonitorStore((s) => s.scale);

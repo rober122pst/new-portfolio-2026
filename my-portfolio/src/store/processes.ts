@@ -1,5 +1,5 @@
+import type { AppId } from '@/core/app-registry';
 import { create } from 'zustand';
-import type { AppId } from '../core/app-registry';
 
 export type Process = {
     pid: string;

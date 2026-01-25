@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import beep from '../assets/audios/beep.mp3';
-import pcFans from '../assets/audios/pc_fans.mp3';
-import { useKernelStore } from '../store/kernel';
-import { useUserStore } from '../store/user';
-import { playAudio } from '../utils/playAudio';
+import beep from '@assets/audios/beep.mp3';
+import pcFans from '@assets/audios/pc_fans.mp3';
+import { useKernelStore } from '@store/kernel';
+import { useUserStore } from '@store/user';
+import { playAudio } from '@utils/playAudio';
 import BiosStartupScreen from './bios-startup-screen';
 import LoadingStartupScreen from './loading-startup-screen';
 

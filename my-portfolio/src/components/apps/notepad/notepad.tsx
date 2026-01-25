@@ -1,5 +1,5 @@
-import { useFileSystemActions, useFileSystemItem } from '../../../store/filesystem';
-import { useProcess, useProcessActions } from '../../../store/processes';
+import { useFileSystemActions, useFileSystemItem } from '@store/filesystem';
+import { useProcess, useProcessActions } from '@store/processes';
 
 import { useState } from 'react';
 

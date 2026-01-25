@@ -1,4 +1,4 @@
-import rbxLogo from '../../../assets/logos/logo_16x.webp';
+import rbxLogo from '@assets/logos/logo_16x.webp';
 
 function FileExplorerOptions() {
     const options = [

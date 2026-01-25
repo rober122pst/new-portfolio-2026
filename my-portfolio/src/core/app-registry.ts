@@ -1,9 +1,9 @@
-import { errorIcon, explorerIcon, notepadIcon, txtIcon } from '../utils/icons-src';
+import { errorIcon, explorerIcon, notepadIcon, txtIcon } from '@utils/icons-src';
 
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
-const DialogBox = lazy(() => import('../components/apps/error-window/dialog-box'));
-const FileExplorer = lazy(() => import('../components/apps/file-explorer/file-explorer'));
-const Notepad = lazy(() => import('../components/apps/notepad/notepad'));
+const DialogBox = lazy(() => import('@components/apps/error-window/dialog-box'));
+const FileExplorer = lazy(() => import('@components/apps/file-explorer/file-explorer'));
+const Notepad = lazy(() => import('@components/apps/notepad/notepad'));
 
 interface App {
     name: string;

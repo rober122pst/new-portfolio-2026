@@ -1,7 +1,7 @@
+import { BaseIcon } from '@components/ui/icons';
+import { useFileIcon } from '@hooks/useFileIcon';
+import { useFolderItems, useItems, type FileSystemItem } from '@store/filesystem';
 import { useState } from 'react';
-import { useFileIcon } from '../../../hooks/useFileIcon';
-import { useFolderItems, useItems, type FileSystemItem } from '../../../store/filesystem';
-import { BaseIcon } from '../../ui/icons';
 
 interface FileProps {
     item: FileSystemItem;

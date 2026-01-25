@@ -1,6 +1,6 @@
+import errorIcon from '@assets/icons/error.webp';
+import shortcutIcon from '@assets/shortcut.webp';
 import { type ImgHTMLAttributes } from 'react';
-import errorIcon from '../../assets/icons/error.webp';
-import shortcutIcon from '../../assets/shortcut.webp';
 
 interface BaseIconProps extends ImgHTMLAttributes<HTMLImageElement> {
     size?: number;

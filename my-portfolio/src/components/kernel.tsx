@@ -1,5 +1,5 @@
+import { useKernelStore } from '@store/kernel';
 import { motion } from 'motion/react';
-import { useKernelStore } from '../store/kernel';
 import BootScreen from './boot-screen';
 import Desktop from './desktop';
 import LookScreen from './look-screen';

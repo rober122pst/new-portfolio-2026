@@ -1,6 +1,6 @@
+import loadingBar from '@assets/loading.webp';
+import logo from '@assets/logos/horizontal_96x.webp';
 import { motion } from 'motion/react';
-import loadingBar from '../assets/loading.webp';
-import logo from '../assets/logos/horizontal_96x.webp';
 
 export default function LoadingStartupScreen() {
     return (

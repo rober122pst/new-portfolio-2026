@@ -1,11 +1,11 @@
+import { useFileSystemItem } from '@store/filesystem';
+import { useProcessActions, useProcesses, type Process } from '@store/processes';
+import { useWindow, useWindowActions } from '@store/windows';
 import { useEffect, useState } from 'react';
-import { useFileSystemItem } from '../store/filesystem';
-import { useProcessActions, useProcesses, type Process } from '../store/processes';
-import { useWindow, useWindowActions } from '../store/windows';
 
-import volumeIcon from '../assets/icons_taskbar/volume.webp';
-import soLogo from '../assets/logos/logo_16x.webp';
-import { appRegistry } from '../core/app-registry';
+import { appRegistry } from '@/core/app-registry';
+import volumeIcon from '@assets/icons_taskbar/volume.webp';
+import soLogo from '@assets/logos/logo_16x.webp';
 import { Button } from './ui/buttons';
 import { BaseIcon } from './ui/icons';
 

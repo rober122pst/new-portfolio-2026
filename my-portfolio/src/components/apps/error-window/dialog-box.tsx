@@ -1,8 +1,8 @@
-import { useProcess, useProcessActions } from '../../../store/processes';
+import { useProcess, useProcessActions } from '@store/processes';
 
-import { useWindowActions } from '../../../store/windows';
-import { Button } from '../../ui/buttons';
-import { ErrorIcon } from '../../ui/icons';
+import { Button } from '@components/ui/buttons';
+import { ErrorIcon } from '@components/ui/icons';
+import { useWindowActions } from '@store/windows';
 
 export default function DialogBox({ pid }: { pid: string }) {
     const { closeProcess } = useProcessActions();

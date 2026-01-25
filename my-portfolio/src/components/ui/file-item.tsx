@@ -1,7 +1,7 @@
+import { useFileIcon } from '@hooks/useFileIcon';
+import { useOpenFile } from '@hooks/useOpenItem';
+import type { FileSystemItem } from '@store/filesystem';
 import type { ButtonHTMLAttributes } from 'react';
-import { useFileIcon } from '../../hooks/useFileIcon';
-import { useOpenFile } from '../../hooks/useOpenItem';
-import type { FileSystemItem } from '../../store/filesystem';
 import { BaseIcon } from './icons';
 
 interface FileItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {

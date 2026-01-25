@@ -1,6 +1,6 @@
-import { appRegistry } from '../core/app-registry';
-import { useFileSystemItem, type FileSystemItem } from '../store/filesystem';
-import { fileIcon, folderIcon } from '../utils/icons-src';
+import { appRegistry } from '@/core/app-registry';
+import { useFileSystemItem, type FileSystemItem } from '@store/filesystem';
+import { fileIcon, folderIcon } from '@utils/icons-src';
 
 const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'svg', 'ico', 'webp'];
 

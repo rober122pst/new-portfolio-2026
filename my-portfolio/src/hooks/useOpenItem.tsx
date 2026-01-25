@@ -1,9 +1,9 @@
-import errorAudio from '../assets/audios/error.mp3';
-import { appRegistry, type AppId } from '../core/app-registry';
-import { useFileSystemActions, useFileSystemStore } from '../store/filesystem';
-import { useProcessActions, useProcessStore } from '../store/processes';
-import { useWindowActions } from '../store/windows';
-import { playAudio } from '../utils/playAudio';
+import { appRegistry, type AppId } from '@/core/app-registry';
+import errorAudio from '@assets/audios/error.mp3';
+import { useFileSystemActions, useFileSystemStore } from '@store/filesystem';
+import { useProcessActions, useProcessStore } from '@store/processes';
+import { useWindowActions } from '@store/windows';
+import { playAudio } from '@utils/playAudio';
 
 export function useOpenFile() {
     const { openProcess } = useProcessActions();

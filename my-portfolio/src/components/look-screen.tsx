@@ -1,10 +1,10 @@
-import { Button } from './ui/buttons';
-import avatar from '../assets/profile.webp';
-import { useKernelStore } from '../store/kernel';
+import avatar from '@assets/profile.webp';
+import wallpaper from '@assets/red_gotham.png';
+import { useKernelStore } from '@store/kernel';
+import { useUserStore } from '@store/user';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUserStore } from '../store/user';
-import wallpaper from '../assets/red_gotham.png';
+import { Button } from './ui/buttons';
 
 export default function LookScreen() {
     const { t } = useTranslation();

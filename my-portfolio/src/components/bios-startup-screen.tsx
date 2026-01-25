@@ -1,8 +1,8 @@
 import { useCallback, version } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
+import rbr from '@/assets/logos/rbr_logo.webp';
 import { motion } from 'motion/react';
-import rbr from '../assets/logos/rbr_logo.webp';
 
 interface NavigatorWithDeviceMemory extends Navigator {
     deviceMemory?: number;

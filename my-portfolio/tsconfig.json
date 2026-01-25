@@ -7,9 +7,5 @@
   "compilerOptions": {
     "types": ["@react-three/fiber", "three"],
     "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
   }
 }

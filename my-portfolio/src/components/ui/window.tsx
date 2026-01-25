@@ -1,14 +1,14 @@
 import { AnimatePresence, motion } from 'motion/react';
 
+import { appRegistry } from '@/core/app-registry';
+import { useDesktopPosition, useDesktopScale } from '@store/desktop';
+import { useFileSystemItem } from '@store/filesystem';
+import { useScale } from '@store/monitor';
+import { useProcess, useProcessActions } from '@store/processes';
+import { useWindowActions, type Window as WindowType } from '@store/windows';
 import { memo, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
 import { twMerge } from 'tailwind-merge';
-import { appRegistry } from '../../core/app-registry';
-import { useDesktopPosition, useDesktopScale } from '../../store/desktop';
-import { useFileSystemItem } from '../../store/filesystem';
-import { useScale } from '../../store/monitor';
-import { useProcess, useProcessActions } from '../../store/processes';
-import { useWindowActions, type Window as WindowType } from '../../store/windows';
 import { Button } from './buttons';
 import { BaseIcon } from './icons';
 

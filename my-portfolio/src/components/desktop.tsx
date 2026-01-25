@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { SYSTEM_IDS } from '@/core/files';
+import { useDesktopStore } from '@store/desktop';
+import { useFolderItems } from '@store/filesystem';
 import { ErrorBoundary } from 'react-error-boundary';
-import { SYSTEM_IDS } from '../core/files';
-import { useDesktopStore } from '../store/desktop';
-import { useFolderItems } from '../store/filesystem';
 import FileItem from './ui/file-item';
 import WindowManager from './window-manager';
 
@@ -59,10 +59,7 @@ export default function Desktop() {
                     const isSelected = selected.includes(item.id);
 
                     return (
-                        <ErrorBoundary
-                            key={item.id}
-                            fallbackRender={({ error }) => <div>Error loading item: {error.message}</div>}
-                        >
+                        <ErrorBoundary key={item.id} fallback={null}>
                             <FileItem item={item} isSelected={isSelected} onClick={(e) => handleSelected(e, item.id)} />
                         </ErrorBoundary>
                     );
