@@ -37,7 +37,7 @@ type WindowStore = {
     actions: WindowActions;
 };
 
-export const useWindowStore = create<WindowStore>((set) => ({
+export const useWindowStore = create<WindowStore>((set, get) => ({
     windows: [],
     topZIndex: 1,
     actions: {
@@ -93,6 +93,10 @@ export const useWindowStore = create<WindowStore>((set) => ({
                 toggleActive(pid);
                 return true;
             } else {
+                const currentWindow = get().windows.find((w) => w.pid === pid);
+
+                if (!currentWindow?.isFocused) return false;
+
                 set((state) => ({
                     windows: state.windows.map((w) => (w.pid === pid ? { ...w, isFocused: false } : w)),
                 }));
@@ -102,6 +106,9 @@ export const useWindowStore = create<WindowStore>((set) => ({
         },
 
         minimizeWindow: (id) => {
+            const toggleActive = useProcessStore.getState().actions.toggleActive;
+            toggleActive('');
+
             set((state) => ({
                 windows: state.windows.map((w) => (w.id === id ? { ...w, isMinimized: true } : w)),
             }));
