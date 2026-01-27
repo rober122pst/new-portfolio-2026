@@ -48,7 +48,14 @@ function WindowInstance({ myWindow }: { myWindow: WindowType }) {
     };
 
     return (
-        <ErrorBoundary fallback={null} onError={(error) => launchErrorDialog(error.name, error.message)}>
+        <ErrorBoundary
+            fallback={null}
+            onError={(error) => {
+                const errorName = error instanceof Error ? error.name : 'Unknown Error';
+                const errorMessage = error instanceof Error ? error.message : String(error);
+                launchErrorDialog(errorName, errorMessage);
+            }}
+        >
             <Window myWindow={myWindow} variant={myWindow.variant}>
                 <AppComponent pid={myWindow.pid} />
             </Window>

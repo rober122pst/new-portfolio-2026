@@ -55,7 +55,13 @@ function App() {
 
     return (
         <RetroMonitor>
-            <ErrorBoundary fallbackRender={({ error }) => <BlueScreen message={`${error.name}: ${error.message}`} />}>
+            <ErrorBoundary
+                fallbackRender={({ error }) => {
+                    const errorName = error instanceof Error ? error.name : 'Unknown Error';
+                    const errorMessage = error instanceof Error ? error.message : String(error);
+                    return <BlueScreen message={`${errorName}: ${errorMessage}`} />;
+                }}
+            >
                 <OSKernel />
             </ErrorBoundary>
         </RetroMonitor>
