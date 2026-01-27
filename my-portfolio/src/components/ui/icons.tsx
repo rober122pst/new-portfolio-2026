@@ -21,6 +21,7 @@ export function BaseIcon({ src, className, size = 48, style, alt = '', isShortcu
                     flexShrink: 0,
                     objectFit: 'contain',
                     imageRendering: 'pixelated',
+                    pointerEvents: 'none',
                 }}
                 {...props}
             />

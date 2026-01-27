@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import BootScreen from './boot-screen';
 import Desktop from './desktop';
 import LookScreen from './look-screen';
-import Taskbar from './taskbar';
+import Taskbar from './taskbar/taskbar';
 
 export default function OSKernel() {
     const currentState = useKernelStore((s) => s.currentState);
