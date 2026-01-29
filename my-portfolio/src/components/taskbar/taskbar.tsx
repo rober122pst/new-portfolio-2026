@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useKeyup, type KeyState } from '@/hooks/useKeyup';
 import volumeIcon from '@assets/icons_taskbar/volume.webp';
 import soLogo from '@assets/logos/logo_16x.webp';
 import { useProcesses } from '@store/processes';
@@ -33,30 +34,43 @@ function Clock() {
 export default function Taskbar() {
     const processes = useProcesses();
     const [startMenu, setStartMenu] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
             const target = e.target as HTMLElement;
-            if (!startMenu) return;
-            if (target.closest('#start-menu')) return;
+            if (!menuRef.current) return;
+            if (menuRef.current.contains(target)) return;
+            if (buttonRef.current && buttonRef.current.contains(target)) return;
             setStartMenu(false);
         }
 
-        document.addEventListener('click', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [startMenu]);
+
+    const handleKeyUp = useCallback((keyState: KeyState) => {
+        if (keyState.key === 'Shift') {
+            setStartMenu((prev) => !prev);
+        }
+    }, []);
+
+    useKeyup(handleKeyUp);
 
     return (
         <footer className="relative z-50 flex w-full items-center justify-between bg-zinc-800 p-1 text-[12px] text-white select-none">
             {/* Botão iniciar */}
-            <Button id="start-menu" onClick={() => setStartMenu(!startMenu)} className="flex items-center gap-1">
+            <Button ref={buttonRef} onClick={() => setStartMenu(!startMenu)} className="flex items-center gap-1">
                 <img className="size-4" src={soLogo} alt="Logo do SO" />
                 Iniciar
             </Button>
-            <AnimatePresence>{startMenu && <StartMenu />}</AnimatePresence>
+            <AnimatePresence>
+                {startMenu && <StartMenu ref={menuRef} onClose={() => setStartMenu(false)} />}
+            </AnimatePresence>
 
             {/* Programas e janelas abertas */}
             <div className="flex h-full w-155.75 min-w-0 gap-1 px-2">

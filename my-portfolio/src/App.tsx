@@ -1,12 +1,11 @@
-import { useCallback, useState } from 'react';
-
+import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from 'react-i18next';
 import startupAudio from './assets/audios/button_startup.mp3';
 import BlueScreen from './components/blue-screen';
 import OSKernel from './components/kernel';
 import RetroMonitor from './components/retro-monitor';
-import { useKeydown } from './hooks/useKeydown';
+import { useKeyup } from './hooks/useKeyup';
 import { playAudio } from './utils/playAudio';
 
 // import Desktop from './components/desktop';
@@ -30,20 +29,15 @@ function App() {
 
     const wakeUp = !initialBoot && !startupSystem;
 
-    const handleKeyPress = useCallback(
-        (key: string) => {
-            if (startupSystem || wakeUp) return;
-            if (key) {
-                setInitialBoot(false);
-                setStartupSystem(true);
-                playAudio(startupAudio, 0.2);
-                sessionStorage.setItem('ligado', 'true');
-            }
-        },
-        [startupSystem, wakeUp]
-    );
-
-    useKeydown({ onKeyPressed: handleKeyPress });
+    useKeyup((keyState) => {
+        if (startupSystem || wakeUp) return;
+        if (keyState.key) {
+            setInitialBoot(false);
+            setStartupSystem(true);
+            playAudio(startupAudio, 0.2);
+            sessionStorage.setItem('ligado', 'true');
+        }
+    });
 
     if (initialBoot) {
         return (
