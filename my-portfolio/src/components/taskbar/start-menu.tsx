@@ -1,10 +1,11 @@
+import { documentsIcon, joystickIcon, programsIcon, settingsIcon } from '@/utils/icons-src';
+
+import { BaseIcon } from '../ui/icons';
 import { SYSTEM_IDS } from '@/core/files';
-import { useOpenFile } from '@/hooks/useOpenItem';
-import { useUserStore } from '@/store/user';
-import { documentsIcon } from '@/utils/icons-src';
 import logo from '@assets/logos/start_name.webp';
 import { motion } from 'motion/react';
-import { BaseIcon } from '../ui/icons';
+import { useOpenFile } from '@/hooks/useOpenItem';
+import { useUserStore } from '@/store/user';
 
 function Option({ item, onClose }: { item: { name: string; icon: string; action: () => void }; onClose: () => void }) {
     return (
@@ -26,8 +27,8 @@ export default function StartMenu({ ref, onClose }: { ref?: React.Ref<HTMLDivEle
     const openFile = useOpenFile();
     const user = useUserStore((s) => s.user);
     const items = [
-        { name: 'Programas', icon: '', action: () => {} },
-        { name: 'Jogos', icon: '', action: () => {} },
+        { name: 'Programas', icon: programsIcon, action: () => {} },
+        { name: 'Jogos', icon: joystickIcon, action: () => {} },
         {
             name: 'Documentos',
             icon: documentsIcon,
@@ -35,7 +36,7 @@ export default function StartMenu({ ref, onClose }: { ref?: React.Ref<HTMLDivEle
                 openFile(SYSTEM_IDS.DOCUMENTS);
             },
         },
-        { name: 'Ajustes', icon: '', action: () => {} },
+        { name: 'Ajustes', icon: settingsIcon, action: () => {} },
         { name: 'Links', icon: '', action: () => {} },
     ];
 
