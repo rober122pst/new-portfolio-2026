@@ -1,4 +1,4 @@
-import { documentsIcon, joystickIcon, programsIcon, settingsIcon } from '@/utils/icons-src';
+import { documentsIcon, joystickIcon, linksIcon, powerIcon, profileIcon, programsIcon, settingsIcon } from '@/utils/icons-src';
 
 import { BaseIcon } from '../ui/icons';
 import { SYSTEM_IDS } from '@/core/files';
@@ -37,7 +37,7 @@ export default function StartMenu({ ref, onClose }: { ref?: React.Ref<HTMLDivEle
             },
         },
         { name: 'Ajustes', icon: settingsIcon, action: () => {} },
-        { name: 'Links', icon: '', action: () => {} },
+        { name: 'Links', icon: linksIcon, action: () => {} },
     ];
 
     return (
@@ -55,7 +55,7 @@ export default function StartMenu({ ref, onClose }: { ref?: React.Ref<HTMLDivEle
             <div className="flex h-full min-h-0 w-full flex-col pr-px">
                 <div className="py-2">
                     <div className="flex items-center gap-2">
-                        <BaseIcon className="ml-1" src="" size={24} />
+                        <BaseIcon className="ml-1" src={profileIcon} size={24} />
                         <span>{user}</span>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ export default function StartMenu({ ref, onClose }: { ref?: React.Ref<HTMLDivEle
                 </div>
                 <div className="ml-1 w-full border-t border-b border-t-zinc-900 border-b-zinc-700" />
                 <div className="py-2">
-                    <Option onClose={onClose} item={{ name: 'Desligar', icon: '', action: () => {} }} />
+                    <Option onClose={onClose} item={{ name: 'Desligar', icon: powerIcon, action: () => {} }} />
                 </div>
             </div>
         </motion.div>

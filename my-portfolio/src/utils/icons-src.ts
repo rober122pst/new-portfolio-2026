@@ -16,6 +16,9 @@ import recycleBinIcon from '@/assets/icons/recycle-bin.webp';
 import settingsIcon from '@/assets/icons/settings.webp';
 import shortcutIcon from '@/assets/shortcut.webp';
 import txtIcon from '@/assets/icons/txt_icon.ico';
+import linksIcon from '@/assets/icons/links.webp';
+import powerIcon from '@/assets/icons/power.webp';
+import profileIcon from '@assets/icons/profile.webp';
 
 export {
     desktopIcon,
@@ -34,5 +37,8 @@ export {
     programsIcon,
     joystickIcon,
     settingsIcon,
+    linksIcon,
+    powerIcon,
+    profileIcon,
 };
 
