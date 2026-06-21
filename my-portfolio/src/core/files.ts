@@ -1,8 +1,17 @@
-import { desktopIcon, diskCIcon, documentsIcon, myComputerIcon, recycleBinIcon } from '@utils/icons-src';
+import {
+    desktopIcon,
+    diskCIcon,
+    documentsIcon,
+    joystickIcon,
+    linksIcon,
+    myComputerIcon,
+    programsIcon,
+    recycleBinIcon,
+} from '@utils/icons-src';
 
+import type { FileSystemItem } from '@store/filesystem';
 import desktopContent from '@components/desktop.tsx?raw';
 import windowManagerContent from '@components/window-manager.tsx?raw';
-import type { FileSystemItem } from '@store/filesystem';
 
 export const SYSTEM_IDS = {
     ROOT: 'root',
@@ -14,6 +23,9 @@ export const SYSTEM_IDS = {
     USER: 'user-id',
     SYSTEM: 'rbxOS-id',
     RECYCLE: 'recycle-bin',
+    GAMES: 'games-id',
+    LINKS: 'links-id',
+    PROGRAMS: 'programs-id',
 };
 
 export const initialItems: Record<string, FileSystemItem> = {
@@ -41,9 +53,16 @@ export const initialItems: Record<string, FileSystemItem> = {
         type: 'folder',
         createdAt: Date.now(),
     },
+    [SYSTEM_IDS.USERS]: {
+        id: SYSTEM_IDS.USERS,
+        parentId: SYSTEM_IDS.C_DRIVE,
+        name: 'Usuários',
+        type: 'folder',
+        createdAt: Date.now(),
+    },
     [SYSTEM_IDS.USER]: {
         id: SYSTEM_IDS.USER,
-        parentId: SYSTEM_IDS.C_DRIVE,
+        parentId: SYSTEM_IDS.USERS,
         name: localStorage.getItem('user') ?? 'User',
         type: 'folder',
         createdAt: Date.now(),
@@ -68,6 +87,30 @@ export const initialItems: Record<string, FileSystemItem> = {
         parentId: SYSTEM_IDS.DESKTOP,
         name: 'Lixeira',
         icon: recycleBinIcon,
+        type: 'folder',
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.PROGRAMS]: {
+        id: SYSTEM_IDS.PROGRAMS,
+        parentId: SYSTEM_IDS.USER,
+        name: 'Arquivos de Programa',
+        icon: programsIcon,
+        type: 'folder',
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.GAMES]: {
+        id: SYSTEM_IDS.GAMES,
+        parentId: SYSTEM_IDS.DOCUMENTS,
+        name: 'Jogos',
+        icon: joystickIcon,
+        type: 'folder',
+        createdAt: Date.now(),
+    },
+    [SYSTEM_IDS.LINKS]: {
+        id: SYSTEM_IDS.LINKS,
+        parentId: SYSTEM_IDS.DOCUMENTS,
+        name: 'Links',
+        icon: linksIcon,
         type: 'folder',
         createdAt: Date.now(),
     },
