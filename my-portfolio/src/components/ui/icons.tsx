@@ -10,7 +10,7 @@ interface BaseIconProps extends ImgHTMLAttributes<HTMLImageElement> {
 
 export function BaseIcon({ src, className, size = 48, style, alt = '', isShortcut = false, ...props }: BaseIconProps) {
     return (
-        <div style={{ width: size, height: size, flexShrink: 0, ...style }}>
+        <div className="relative" style={{ width: size, height: size, flexShrink: 0, ...style }}>
             <img
                 src={src}
                 className={className}

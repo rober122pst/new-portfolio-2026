@@ -54,7 +54,7 @@ export default function FileExplorer({ pid }: { pid: string }) {
                     <div className="custom-scrollbar h-full min-w-24 overflow-auto border-t border-t-zinc-950">
                         <FileExplorerSidebar onNavigate={handleNavigate} />
                     </div>
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap content-start">
                         {items.length > 0 &&
                             items.map((item) => {
                                 const isSelected = selected.includes(item.id);
