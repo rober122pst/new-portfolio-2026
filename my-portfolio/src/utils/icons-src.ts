@@ -9,36 +9,33 @@ import explorerIcon from '@/assets/icons/explorer.webp';
 import fileIcon from '@/assets/icons/file.webp';
 import folderIcon from '@/assets/icons/folder.webp';
 import joystickIcon from '@/assets/icons/joystick.webp';
+import linksIcon from '@/assets/icons/links.webp';
 import myComputerIcon from '@/assets/icons/my-computer.webp';
 import notepadIcon from '@/assets/icons/notepad_icon.ico';
+import powerIcon from '@/assets/icons/power.webp';
 import programsIcon from '@/assets/icons/programs.webp';
 import recycleBinIcon from '@/assets/icons/recycle-bin.webp';
 import settingsIcon from '@/assets/icons/settings.webp';
-import shortcutIcon from '@/assets/shortcut.webp';
 import txtIcon from '@/assets/icons/txt_icon.ico';
-import linksIcon from '@/assets/icons/links.webp';
-import powerIcon from '@/assets/icons/power.webp';
+import shortcutIcon from '@/assets/shortcut.webp';
+import artstationIcon from '@assets/icons/artstation.webp';
+import githubIcon from '@assets/icons/github.webp';
+import gxGamesIcon from '@assets/icons/gx-games.webp';
+import instagramIcon from '@assets/icons/instagram.webp';
+import linkedInIcon from '@assets/icons/linkedin.webp';
 import profileIcon from '@assets/icons/profile.webp';
+import spotifyIcon from '@assets/icons/spotify.webp';
 
 export {
-    desktopIcon,
+    artstationIcon, desktopIcon,
     diskCIcon,
     diskIcon,
     documentsIcon,
     errorIcon,
     explorerIcon,
     fileIcon,
-    folderIcon,
-    myComputerIcon,
-    notepadIcon,
-    recycleBinIcon,
-    shortcutIcon,
-    txtIcon,
-    programsIcon,
-    joystickIcon,
-    settingsIcon,
-    linksIcon,
-    powerIcon,
-    profileIcon,
+    folderIcon, githubIcon, gxGamesIcon, instagramIcon, joystickIcon, linkedInIcon, linksIcon, myComputerIcon,
+    notepadIcon, powerIcon,
+    profileIcon, programsIcon, recycleBinIcon, settingsIcon, shortcutIcon, spotifyIcon, txtIcon
 };
 

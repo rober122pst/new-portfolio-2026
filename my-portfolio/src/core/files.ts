@@ -1,17 +1,23 @@
 import {
+    artstationIcon,
     desktopIcon,
     diskCIcon,
     documentsIcon,
+    githubIcon,
+    gxGamesIcon,
+    instagramIcon,
     joystickIcon,
+    linkedInIcon,
     linksIcon,
     myComputerIcon,
     programsIcon,
     recycleBinIcon,
+    spotifyIcon,
 } from '@utils/icons-src';
 
-import type { FileSystemItem } from '@store/filesystem';
 import desktopContent from '@components/desktop.tsx?raw';
 import windowManagerContent from '@components/window-manager.tsx?raw';
+import type { FileSystemItem } from '@store/filesystem';
 
 export const SYSTEM_IDS = {
     ROOT: 'root',
@@ -28,7 +34,60 @@ export const SYSTEM_IDS = {
     PROGRAMS: 'programs-id',
 };
 
-export const initialItems: Record<string, FileSystemItem> = {
+type Items = Record<string, FileSystemItem>;
+
+const linksFiles: Items = {
+    'github-id': {
+        id: 'github-id',
+        parentId: SYSTEM_IDS.LINKS,
+        name: 'Meu GitHub',
+        type: 'shortcut',
+        icon: githubIcon,
+        createdAt: Date.now(),
+    },
+    'linkedin-id': {
+        id: 'linkedin-id',
+        parentId: SYSTEM_IDS.LINKS,
+        name: 'Meu LinkedIn',
+        type: 'shortcut',
+        icon: linkedInIcon,
+        createdAt: Date.now(),
+    },
+    'artstation-id': {
+        id: 'artstation-id',
+        parentId: SYSTEM_IDS.LINKS,
+        name: 'Meu ArtStation',
+        type: 'shortcut',
+        icon: artstationIcon,
+        createdAt: Date.now(),
+    },
+    'gxgames-id': {
+        id: 'gxgames-id',
+        parentId: SYSTEM_IDS.LINKS,
+        name: 'Meus Jogos - GX Games',
+        type: 'shortcut',
+        icon: gxGamesIcon,
+        createdAt: Date.now(),
+    },
+    'instagram-id': {
+        id: 'instagram-id',
+        parentId: SYSTEM_IDS.LINKS,
+        name: 'Meu Instagram',
+        type: 'shortcut',
+        icon: instagramIcon,
+        createdAt: Date.now(),
+    },
+    'spotify-id': {
+        id: 'spotify-id',
+        parentId: SYSTEM_IDS.LINKS,
+        name: 'Meu Spotify',
+        type: 'shortcut',
+        icon: spotifyIcon,
+        createdAt: Date.now(),
+    },
+};
+
+export const initialItems: Items = {
     [SYSTEM_IDS.DESKTOP]: {
         id: SYSTEM_IDS.DESKTOP,
         parentId: null,
@@ -312,4 +371,6 @@ export const initialItems: Record<string, FileSystemItem> = {
         createdAt: Date.now(),
         content: 'src/assets/red_gotham.png',
     },
+
+    ...linksFiles,
 };
